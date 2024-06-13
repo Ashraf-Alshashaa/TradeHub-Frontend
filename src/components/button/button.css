@@ -1,0 +1,29 @@
+.custom-button {
+    padding: var(--spacing-small);
+    font-size: var(--font-size-medium);
+    border-radius: var(--border-radius-small);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-duration) var(--transition-easing),
+                box-shadow var(--transition-duration) var(--transition-easing);
+  }
+  
+  .custom-button.primary {
+    background-color: var(--primary-color);
+    color: var(--secondary-text-color);
+  }
+  
+  .custom-button.primary:hover {
+    background-color: #2980b9; /* Slightly darker shade of primary color */
+    box-shadow: var(--box-shadow-medium);
+  }
+  
+  .custom-button.secondary {
+    background-color: var(--secondary-color);
+    color: var(--secondary-text-color);
+  }
+  
+  .custom-button.secondary:hover {
+    background-color: #27ae60; /* Slightly darker shade of secondary color */
+    box-shadow: var(--box-shadow-medium);
+  }
