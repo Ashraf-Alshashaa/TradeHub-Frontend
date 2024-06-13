@@ -1,0 +1,17 @@
+.custom-input {
+    padding: var(--spacing-medium);
+    font-size: var(--font-size-medium);
+    color: var(--primary-text-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-small);
+    box-shadow: var(--box-shadow-light);
+    transition: background-color var(--transition-duration) var(--transition-easing);
+    width: 100%;
+  }
+  
+  .custom-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+  }
