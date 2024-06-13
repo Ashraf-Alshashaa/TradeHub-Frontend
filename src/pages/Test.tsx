@@ -1,10 +1,19 @@
-import {FC} from "react"
+import { FC } from 'react';
+import Image from '../components/image/Image'
 
+const Test: FC = () => {
+  return(
+    <div>
+    <h1>Test Page</h1>
+    <Image
+      src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+      alt = ""
+      width={400}
+      height={400}
+      className="responsive-image"
+    />
+    </div>
+  ) 
+};
 
-const Test:FC = () => {
-    return(
-        <h1>Test page</h1>
-    )
-}
-
-export default Test
+export default Test;
