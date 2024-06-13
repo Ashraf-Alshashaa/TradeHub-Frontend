@@ -10,7 +10,7 @@ const TextInput: React.FC<TextInputProps> = ({ value, onChange, placeholder, typ
   return (
     <input
       type={type}
-      className={`custom-text-input ${className}`}
+      className={`custom-input ${className}`}
       value={value}
       onChange={handleChange}
       placeholder={placeholder}
