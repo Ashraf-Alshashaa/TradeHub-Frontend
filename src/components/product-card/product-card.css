@@ -1,0 +1,28 @@
+
+.product-card-frame {
+    border: 1px solid #b7b5b558;
+    border-radius: 10px;
+    padding-bottom: 10px;
+    max-width: 200px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
+  .product-card-name {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
+  .product-card-price {
+    font-size: 1em;
+    color: #15872f;
+    font-weight: bold;
+  }
+  
+  .product-card-location {
+    color: #555;
+  }
+  
