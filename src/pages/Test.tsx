@@ -13,9 +13,11 @@ const Test:FC = () => {
   };
 
   return (
-    <div className="App">
-      <h1>Custom Buttons with React Bootstrap</h1>
+    <div className="Test">
+      <h1>Test Page</h1>
       <CustomButton text="Primary Button" onClick={handlePrimaryClick} buttonType="primary" />
+      <br></br>
+      <br></br>
       <CustomButton text="Secondary Button" onClick={handleSecondaryClick} buttonType="secondary" />
     </div>
   );
