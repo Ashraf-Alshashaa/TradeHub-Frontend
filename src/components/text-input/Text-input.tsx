@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './text-input.css';
 import { TextInputProps } from './types';
 import { Form, Button , Alert} from 'react-bootstrap';
 
@@ -45,7 +44,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
       {type === 'password' && (
         <Form.Text>
           <br></br>
-          <Button variant="outline-primary" onClick={togglePasswordVisibility}>
+          <Button variant="outline-success" onClick={togglePasswordVisibility}>
             {showPassword ? 'Hide' : 'Show'}
           </Button>
         </Form.Text>
