@@ -1,40 +1,63 @@
 .filter-by {
-    width: 250px;
-    background-color: var(--background-color);
-    padding: var(--spacing-medium);
-    border-radius: var(--border-radius-medium);
-    box-shadow: var(--box-shadow-light);
-  }
-  
-  .price-filter {
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  .price-filter label {
-    display: block;
-    margin-bottom: var(--spacing-small);
-  }
-  
-  .horizontal-slider {
-    width: 100%;
-    margin-top: var(--spacing-small);
-    margin-bottom: var(--spacing-small);
-  }
-  
-  .slider-values {
-    display: flex;
-    justify-content: space-between;
-    font-size: var(--font-size-small);
-  }
-  
-  .category-filter {
-    margin-top: var(--spacing-medium);
-  }
-  
-  .category-filter label {
-    margin-left: var(--spacing-small);
-  }
-  
-  .category-filter div {
-    margin-bottom: var(--spacing-small);
-  }
+  width: 250px;
+  background-color: var(--background-color);
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius-medium);
+  box-shadow: var(--box-shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-large); /* Adds spacing between sections */
+}
+
+.filter-by h2 {
+  margin-top: var(--spacing-large); 
+  margin-bottom: var(--spacing-large); 
+  font-size: var(--font-size-xlarge);
+}
+
+.price-filter {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius-small);
+  background-color: var(--secondary-color); /* Optional: for better visual separation */
+}
+
+.price-heading {
+  margin-bottom: var(--spacing-medium); /* Add margin bottom to Price heading */
+  font-size: var(--font-size-large);
+}
+
+.price-slider {
+  width: 100%;
+  margin-top: var(--spacing-large);
+  margin-bottom: var(--spacing-small);
+}
+
+.slider-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-small);
+  margin-top: var(--spacing-small); /* Add margin above the price values */
+}
+
+.category-filter {
+  margin-top: var(--spacing-large);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius-small);
+}
+
+.category-filter h3 {
+  margin-bottom: var(--spacing-medium);
+  font-size: var(--font-size-large);
+}
+
+.category-filter div {
+  margin-bottom: var(--spacing-small); /* Adds space between checkboxes */
+  padding: var(--spacing-xsmall); /* Adds padding around each checkbox item */
+  display: flex;
+  align-items: center; /* Aligns checkbox and label vertically */
+}
+
+.category-filter div:last-child {
+  margin-bottom: 0; /* Removes margin from the last item */
+}
