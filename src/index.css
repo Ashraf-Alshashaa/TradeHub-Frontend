@@ -1,15 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 *{
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2ecc71;
-  --background-color: #ecf0f1;
-  --primary-text-color: #2c3e50;
+  --primary-color: #379237;
+  --secondary-color: #F6F6F6;
+  --background-color: #EEEEEE;
+  --primary-text-color: #000000;
   --secondary-text-color: #ffffff;
+  --primary-text-colour-light:#828282;
   --border-color: #bdc3c7;
 
   --font-size-small: 14px;
@@ -17,6 +21,7 @@
   --font-size-large: 20px;
   --font-size-xlarge: 24px;
 
+  --spacing-xsmall: 4px;
   --spacing-small: 8px;
   --spacing-medium: 16px;
   --spacing-large: 24px;
