@@ -1,11 +1,13 @@
 import { FC, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './routes';
+import Header from './components/Header';
 
 const App: FC = () => {
   return (
     <Router>
       <Suspense fallback={<div>Loading...</div>}>
+        <Header/>
         <Routes>
           {routes.map((route, index) => (
             <Route key={index} path={route.path} element={route.element} />
