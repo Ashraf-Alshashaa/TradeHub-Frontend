@@ -1,29 +1,32 @@
-import {FC} from "react"
-import { useState } from "react"
+import {FC, useState} from "react"
 import TextInput from "../components/text-input/Text-input"
 
 
 const Test:FC = () => {
-    const [inputValue, setInputValue] = useState('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    const handleInputChange = (value: string) => {
-        setInputValue(value);
-    };
-    return(
-    <div>
+  const handleNameChange = (value: string) => {
+    setName(value);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+  };
+
+  return (
+    <div className="container mt-5">
       <h1>Test Page</h1>
-      <br></br>
-      <TextInput
-        value={inputValue}
-        onChange={handleInputChange}
-        placeholder="Enter something..."
-        className="my-custom-input" // Additional class if needed
-      />
-      <br></br>
-      <br></br>
-      <p>Input value: {inputValue}</p>
+      <TextInput label="Name" value={name} onChange={handleNameChange} />
+      <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>
+      <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
     </div>
-    )
-}
+  );
+};
 
 export default Test

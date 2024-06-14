@@ -1,7 +1,7 @@
 export interface TextInputProps {
-    value: string;
-    onChange: (value: string) => void;
-    placeholder?: string;
-    type?: string;
-    className?: string;
-  }
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: 'text' | 'password' | 'email'; 
+  className?: string;
+}
