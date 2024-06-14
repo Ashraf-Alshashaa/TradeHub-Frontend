@@ -1,20 +1,21 @@
 import React from 'react';
-import './button.css'; // Import the CSS file
+import { Button } from 'react-bootstrap';
+import './button.css';
 import { ButtonProps } from './types';
 
-const Button: React.FC<ButtonProps> = ({ text, onClick, variant = 'primary', className = '' }) => {
-  const handleClick = () => {
-    onClick(); // Call the provided onClick function
-  };
+const CustomButton: React.FC<ButtonProps> = ({
+  text,
+  onClick,
+  variant = 'primary',
+  className,
+}) => {
+  const buttonClass = `custom-btn ${variant}`;
 
   return (
-    <button
-      className={`custom-button ${variant} ${className}`}
-      onClick={handleClick}
-    >
+    <Button variant={variant} className={buttonClass} onClick={onClick}>
       {text}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default CustomButton;

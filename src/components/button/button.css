@@ -1,28 +1,30 @@
-.custom-button {
-    padding: var(--spacing-small);
-    font-size: var(--font-size-medium);
-    border-radius: var(--border-radius-small);
-    border: none;
-    cursor: pointer;
-    transition: background-color var(--transition-duration) var(--transition-easing),
-                box-shadow var(--transition-duration) var(--transition-easing);
-  }
-  
-  .custom-button.primary {
-    background-color: var(--primary-color);
-    color: var(--secondary-text-color);
-  }
-  
-  .custom-button.primary:hover {
-  background-color: #2f7e2f;/* Slightly darker shade of primary color */
-    box-shadow: var(--box-shadow-dark);
-  }
-  
-  .custom-button.secondary {
-    background-color: var(--secondary-color);
-    color: var(--primary-text-color);
-  }
-  
-  .custom-button.secondary:hover {
-    box-shadow: var(--box-shadow-medium);
-  }
+.custom-btn.primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-text-color);
+  border: none;
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-medium) var(--spacing-large);
+  font-size: var(--font-size-medium);
+  transition: background-color var(--transition-duration) var(--transition-easing);
+}
+
+.custom-btn.primary:hover {
+  background-color: #2e7b2e;
+  box-shadow: var(--box-shadow-dark);
+}
+
+.custom-btn.secondary {
+  background-color: var(--secondary-color);
+  color: var(--primary-text-color);
+  border: none;
+  border-radius: var(--border-radius-medium);
+  padding: var(--spacing-medium) var(--spacing-large);
+  font-size: var(--font-size-medium);
+  transition: background-color var(--transition-duration) var(--transition-easing);
+}
+
+.custom-btn.secondary:hover {
+  background-color: var(--secondary-color);
+  box-shadow: var(--box-shadow-medium);
+
+}
