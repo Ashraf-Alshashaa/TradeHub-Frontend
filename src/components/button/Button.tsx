@@ -1,18 +1,25 @@
+// CustomButton.tsx
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import './button.css';
-import { ButtonProps } from './types';
+import { Button, ButtonProps } from 'react-bootstrap';
 
-const CustomButton: React.FC<ButtonProps> = ({
+interface CustomButtonProps extends ButtonProps {
+  text: string;
+  onClick: () => void;
+  buttonType: 'primary' | 'secondary'; // Specify button type
+}
+
+const CustomButton: React.FC<CustomButtonProps> = ({
   text,
   onClick,
-  variant = 'primary',
-  className,
+  buttonType,
+  className = '',
+  ...rest
 }) => {
-  const buttonClass = `custom-btn ${variant}`;
+  // Map buttonType to specific Bootstrap variants
+  const variant = buttonType === 'primary' ? 'success' : 'light';
 
   return (
-    <Button variant={variant} className={buttonClass} onClick={onClick}>
+    <Button onClick={onClick} variant={variant} className={className} {...rest}>
       {text}
     </Button>
   );
