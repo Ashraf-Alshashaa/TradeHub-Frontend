@@ -1,16 +1,15 @@
 import { FC } from 'react';
-import Image from '../components/image/Image'
+import CustomImage from '../components/image/Image';
 
 const Test: FC = () => {
   return(
     <div>
     <h1>Test Page</h1>
-    <Image
+    <CustomImage
       src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
       alt = ""
-      width={400}
-      height={400}
-      className="responsive-image"
+      width={300}
+      height={300}
     />
     </div>
   ) 
