@@ -1,29 +1,27 @@
 import React from 'react';
 import './product-card.css';
 import {ProductCardProps} from './types'
-import Image from '../image/Image'
+import Card from 'react-bootstrap/Card';
+import { CardImg, CardTitle } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 
 
 const ProductCard: React.FC<ProductCardProps> = ({ photo, name, price, location }) => {
-    const defaultWidth = 267;
-    const defaultHeight = 95;
-    const className='responsive-image';
 
-    const photoProps = {
-      ...photo,
-      width: photo.width || defaultWidth,
-      height: photo.height || defaultHeight,
-      className: photo.className || className
-    };
-
-
+const CardClick = () => {
+  console.log('Card clicked!');
+};
     return (
-        <div className="product-card-frame">
-          <Image {...photoProps} />
-          <h2 className="product-card-name">{name}</h2>
-          <p className="product-card-price">${price.toFixed(2)}</p>
-          <p className="product-card-location">{location}</p>
-        </div>
+    <div onClick={CardClick}>
+    <Card style={{ width: '16rem', height: '18rem' }}>
+      <CardImg variant= 'top' src={photo}/>
+      <Card.Body>
+        <CardTitle> {name} </CardTitle>
+        <ListGroup.Item className='text-success font-weight-bold'>{price}€</ListGroup.Item>
+        <ListGroup.Item>{location}</ListGroup.Item>
+      </Card.Body>
+      </Card>
+      </div>
       );
     };
 
