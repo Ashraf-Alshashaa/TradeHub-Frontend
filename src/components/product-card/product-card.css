@@ -9,7 +9,12 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 16px;
   }
-  
+
+.product-card-frame:hover {
+  background-color: rgba(128, 128, 128, 0.1); /* Darker green background */
+  transform: scale(1.01);
+}
+
   .product-card-name {
     font-size: 1.2em;
     margin: 10px 0;
