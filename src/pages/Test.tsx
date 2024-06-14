@@ -1,10 +1,15 @@
 import {FC} from "react"
+import RadioButton from "../components/radio-button/Radio-button.tsx";
+
 
 
 const Test:FC = () => {
-    return(
-        <h1>Test page</h1>
-    )
-}
+  return (
+    <div>
+      <RadioButton 
+      value="true"/>
+    </div>
+  );
+};
 
 export default Test

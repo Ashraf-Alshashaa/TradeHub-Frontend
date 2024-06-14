@@ -1,0 +1,7 @@
+.custom-radio .form-check-input:checked {
+    background-color: green;
+    border-color: green;
+  }
+  .custom-radio .form-check-input {
+    border-color: green;
+  }
