@@ -1,5 +1,5 @@
 
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import './filter-by.css';
 import { FilterByProps } from './types';
