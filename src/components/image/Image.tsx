@@ -1,11 +1,21 @@
 import React from 'react';
 import './image.css';
 import { ImageComponentProps } from './types';
+import { Image } from 'react-bootstrap';
 
-const Image: React.FC<ImageComponentProps> = ({ src, alt, width = 'auto', height = 'auto', className = '' }) => {
+
+const CustomImage: React.FC<ImageComponentProps> = ({ src, alt, width = 'auto', height = 'auto'}) => {
   return (
-    <img src={src} alt={alt} width={width} height={height} className={className} />
+  <Image
+    src={src} 
+    alt={alt} 
+    width={width} 
+    height={height} 
+    fluid 
+    className="custom-img"
+    rounded
+    />
   );
 };
 
-export default Image;
+export default CustomImage;

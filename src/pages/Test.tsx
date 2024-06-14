@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import Image from '../components/image/Image'
 import ProductCard from '../components/product-card/Product-card';
+import CustomImage from '../components/image/Image';
 
 const Test: FC = () => {  
   return(
@@ -17,13 +17,12 @@ const Test: FC = () => {
             location='Nijmegen'
           />
       </div>
-    <div> <Image
+    <CustomImage
       src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
       alt = ""
-      width={400}
-      height={400}
-      className="responsive-image"
-    /> </div>
+      width={300}
+      height={300}
+    />
     </div>
   ) 
 };
