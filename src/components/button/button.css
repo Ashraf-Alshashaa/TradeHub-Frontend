@@ -14,16 +14,15 @@
   }
   
   .custom-button.primary:hover {
-    background-color: #2980b9; /* Slightly darker shade of primary color */
-    box-shadow: var(--box-shadow-medium);
+  background-color: #2f7e2f;/* Slightly darker shade of primary color */
+    box-shadow: var(--box-shadow-dark);
   }
   
   .custom-button.secondary {
     background-color: var(--secondary-color);
-    color: var(--secondary-text-color);
+    color: var(--primary-text-color);
   }
   
   .custom-button.secondary:hover {
-    background-color: #27ae60; /* Slightly darker shade of secondary color */
     box-shadow: var(--box-shadow-medium);
   }
