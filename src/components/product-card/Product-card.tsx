@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <Card.Body>
           <CardTitle> {name} </CardTitle>
           <ListGroup.Item className="text-success font-weight-bold">
-            {price}€
+            €{price}
           </ListGroup.Item>
           <ListGroup.Item>{location}</ListGroup.Item>
         </Card.Body>
