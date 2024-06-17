@@ -1,12 +1,8 @@
 // CustomButton.tsx
 import React from 'react';
-import { Button, ButtonProps } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { CustomButtonProps } from './types';
 
-interface CustomButtonProps extends ButtonProps {
-  text: string;
-  onClick: () => void;
-  buttonType: 'primary' | 'secondary'; // Specify button type
-}
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   text,
