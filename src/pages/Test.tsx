@@ -1,3 +1,7 @@
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Footer from '../components/Footer';
+
 
 import {FC} from "react"
 import CustomButton from '../components/button/Button.tsx';
@@ -32,6 +36,7 @@ const Test: FC = () => {
       <br></br>
       <br></br>
       <CustomButton text="Secondary Button" onClick={handleSecondaryClick} buttonType="secondary" />
+      <Footer githubUrl="https://github.com/yourprofile" email="your.email@example.com" />
     </div>
   );
 };
