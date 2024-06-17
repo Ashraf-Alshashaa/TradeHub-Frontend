@@ -20,3 +20,10 @@
     max-height: 100%;
     object-fit: contain;
   }
+
+  .form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+    border: var(--bs-border-width) solid #198754;
+    --bs-focus-ring-color: rgba(19, 217, 25, 0.25);
+}

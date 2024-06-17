@@ -10,7 +10,7 @@ interface ProductListingProps {
     return (
       <div className="card mb-3">
         <div className="row g-0">
-            <div className="col-md-4 image-container">
+            <div className="col-md-3 image-container">
                 <img src={product.image} className="image img-fluid rounded-start" alt={product.name} />
             </div>
             <div className="col-md-4">
@@ -22,6 +22,19 @@ interface ProductListingProps {
                 <div className="card-body justify-content-center">
                     <p className="card-text my-2">{product.price}</p>
                 </div>
+            </div>
+            <div className="col-md-1">
+            <div className="col-md-1 form-check my-4">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={`flexCheckDefault-${product.id}`}
+          />
+          <label
+            className="form-check-label"
+            htmlFor={`flexCheckDefault-${product.id}`}
+          ></label>
+        </div>
             </div>
         </div>
         </div>
