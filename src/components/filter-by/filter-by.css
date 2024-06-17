@@ -1,5 +1,6 @@
 .filter-by {
-  width: 250px;
+  width:100%;
+  height: 100%;
   background-color: var(--background-color);
   padding: var(--spacing-medium);
   border-radius: var(--border-radius-medium);
