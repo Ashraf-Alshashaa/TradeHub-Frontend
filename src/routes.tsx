@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
+import UserProfile from './pages/user-profile/User-profile';
 
 const Test = lazy(() => import('./pages/Test'));
 const Home = lazy(() => import('./pages/Home'));
@@ -12,6 +13,10 @@ const routes: RouteObject[] = [
   {
     path: '/test',
     element: <Test />,
+  },
+  {
+    path: '/user-profile',
+    element: <UserProfile />,
   },
 ];
 

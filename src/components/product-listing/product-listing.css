@@ -1,3 +1,7 @@
+.card{
+  --bs-card-border-color: rgb(255 255 255 / 0%);
+  --bs-border-color-translucent:rgb(255 255 255 / 0%);
+}
 .card-text {
     font-weight: 700;
   }
@@ -8,7 +12,7 @@
   }
 
   .image-container {
-    height: 7rem;
+    height: 5rem;
     display: flex;
     align-items: start;
     justify-content: center;
