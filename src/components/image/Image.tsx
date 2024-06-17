@@ -1,5 +1,4 @@
 import React from "react";
-import "./image.css";
 import { ImageComponentProps } from "./types";
 import { Image } from "react-bootstrap";
 

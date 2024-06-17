@@ -1,9 +1,7 @@
 import React from "react";
 import "./product-card.css";
 import { ProductCardProps } from "./types";
-import Card from "react-bootstrap/Card";
-import { CardImg, CardTitle } from "react-bootstrap";
-import { ListGroup } from "react-bootstrap";
+import { CardImg, CardTitle, ListGroup, Card } from "react-bootstrap";
 
 const ProductCard: React.FC<ProductCardProps> = ({
   photo,
