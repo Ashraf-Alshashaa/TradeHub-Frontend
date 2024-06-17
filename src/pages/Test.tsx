@@ -1,8 +1,17 @@
-import { FC } from "react";
+
+import {FC} from "react"
+import CustomButton from '../components/button/Button.tsx';
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 
 const Test: FC = () => {
+   const handlePrimaryClick = () => {
+    alert('Primary Button Clicked!');
+  };
+
+  const handleSecondaryClick = () => {
+    alert('Secondary Button Clicked!');
+  };
   return (
     <div>
       <h1>Test Page</h1>
@@ -18,8 +27,13 @@ const Test: FC = () => {
         src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
         alt=""
       />
+      <h1>Test Page</h1>
+      <CustomButton text="Primary Button" onClick={handlePrimaryClick} buttonType="primary" />
+      <br></br>
+      <br></br>
+      <CustomButton text="Secondary Button" onClick={handleSecondaryClick} buttonType="secondary" />
     </div>
   );
 };
 
-export default Test;
+export default Test
