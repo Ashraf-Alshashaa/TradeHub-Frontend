@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import {FC, useState} from "react"
+import TextInput from "../components/text-input/Text-input"
 import FilterBy from '../components/filter-by/Filter-by';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from '../components/footer/Footer';
@@ -8,14 +9,31 @@ import CustomButton from '../components/button/Button';
 import ProductCard from '../components/product-card/Product-card';
 import CustomImage from '../components/image/Image';
 
-const Test: FC = () => {
+
+const Test:FC = () => {
   const handlePrimaryClick = () => {
     alert('Primary Button Clicked!');
+  };
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleNameChange = (value: string) => {
+    setName(value);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
   };
 
   const handleSecondaryClick = () => {
     alert('Secondary Button Clicked!');
   };
+
 
   const navigate = useNavigate();
   const dropdownTestData = [
@@ -45,6 +63,9 @@ const Test: FC = () => {
   return (
     <div>
       <h1>Test Page</h1>
+      <TextInput label="Name" value={name} onChange={handleNameChange} />
+      <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>
+      <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
       <div style={{ width: '200px' }}>
         <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
       </div>
