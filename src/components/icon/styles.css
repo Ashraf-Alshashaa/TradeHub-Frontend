@@ -1,0 +1,15 @@
+.icon-s{
+    font-size: var(--font-size-small)
+}
+
+.icon-m{
+    font-size: var(--font-size-medium)
+}
+
+.icon-l{
+    font-size: var(  --font-size-large)
+}
+
+.icon-pointer{
+    cursor: pointer;
+}
