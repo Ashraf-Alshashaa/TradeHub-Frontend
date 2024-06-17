@@ -10,8 +10,8 @@ interface ProductListingProps {
     return (
       <div className="card mb-3">
         <div className="row g-0">
-            <div className="col-md-4">
-                <img src={product.image} className="img-fluid rounded-start" alt={product.name} />
+            <div className="col-md-4 image-container">
+                <img src={product.image} className="image img-fluid rounded-start" alt={product.name} />
             </div>
             <div className="col-md-4">
                 <div className="card-body justify-content-center">
