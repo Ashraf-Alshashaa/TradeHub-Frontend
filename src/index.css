@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-@import 'bootstrap/dist/css/bootstrap.min.css';
 
 *{
   padding: 0;
@@ -8,7 +7,7 @@
   font-family: "Inter", sans-serif;
 } 
 
-/*
+
 :root {
   --primary-color: #379237;
   --secondary-color: #F6F6F6;
@@ -39,4 +38,4 @@
 
   --transition-duration: 0.3s;
   --transition-easing: ease-in-out;
-} */
+}
