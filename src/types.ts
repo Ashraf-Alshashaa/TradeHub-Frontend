@@ -1,0 +1,1 @@
+export type VariantType =  "light" | "primary" | "secondary" | "success" | "danger" | "warning" | "info" | "dark"

@@ -1,0 +1,8 @@
+.dropdown-title{
+    margin-right: var(--spacing-small);
+}
+
+.dropdown-item:active {
+    background-color: #ffffff !important;
+    color: var( --primary-text-color);
+}
