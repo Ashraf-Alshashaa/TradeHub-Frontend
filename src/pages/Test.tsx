@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import FilterBy from '../components/filter-by/Filter-by';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Footer from '../components/Footer';
+import Footer from '../components/footer/Footer';
 import DropdownMenu from '../components/dropdown/Dropdown';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../components/button/Button';
