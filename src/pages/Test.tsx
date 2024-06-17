@@ -1,4 +1,5 @@
-import React from 'react';
+import { FC } from 'react';
+import FilterBy from '../components/filter-by/Filter-by.tsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from '../components/Footer';
 import DropdownMenu from "../components/dropdown/Dropdown";
@@ -37,6 +38,11 @@ const Test: FC = () => {
       content: <div>Navigate Home</div>,
     },
   ];
+  
+  const handlePriceChange = (value: [number, number]) => {
+    console.log('Price range changed:', value);
+  
+  const categories = ['Electronics', 'Furniture', 'Toys', 'Clothes']; 
         
   return (
     <div>
@@ -62,10 +68,12 @@ const Test: FC = () => {
       <br></br>
       <CustomButton text="Secondary Button" onClick={handleSecondaryClick} buttonType="secondary" />
       <Footer githubUrl="https://github.com/yourprofile" email="your.email@example.com" />
+      
+      <br></br>
+      <FilterBy onPriceChange={handlePriceChange} categories={categories} />
     </div>
   );
 };
 
-
 export default Test
-
+  
