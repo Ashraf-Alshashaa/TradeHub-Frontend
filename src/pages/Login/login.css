@@ -1,0 +1,13 @@
+.login-form  {
+    background-color: var(--background-color);
+    padding: var(--spacing-medium);
+    border-radius: var(--border-radius-medium);
+    box-shadow: var(--box-shadow-light);
+    gap: var(--spacing-large); /* Adds spacing between sections */
+    margin-top: 160px;
+  }
+
+.text-input-container {
+  width: 80%;
+  margin-top: 40px; /* Added margin-top for username input */
+}

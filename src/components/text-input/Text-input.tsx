@@ -35,7 +35,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
         type={type === 'password' && showPassword ? 'text' : type}
         value={value}
         onChange={handleChange}
-        placeholder={type === 'password' ? 'Enter password' : ''}
+        placeholder={label}
         isInvalid={type === 'email' && !!emailError} // Mark input as invalid if there's an email error
       />
       {type === 'email' && emailError && (
