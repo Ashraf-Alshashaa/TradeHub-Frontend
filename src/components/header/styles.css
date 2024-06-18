@@ -1,0 +1,61 @@
+.header{
+    padding: var(--spacing-large) var(--spacing-xlarge);
+    background-color: var(--background-color);
+}
+
+.header-top-container, .header-bottom-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-search-container{
+    width: 50%;
+}
+
+.header-sell-now-btn{
+    font-weight: 600 !important;
+}
+
+.header-login-link{
+    background-color: var(--primary-color);
+    color: var(--secondary-text-color);
+    padding: var(--spacing-xsmall) var(--spacing-large);
+    border-radius: var(--spacing-xsmall);
+    text-decoration: none;
+}
+
+.header-dropdown-item{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary-text-color);
+}
+.header-dropdown-item-text{
+    margin-left: var(--spacing-small);
+}
+
+.header-bottom-container{
+    margin-top: var(--spacing-large);
+}
+
+.header-catygory-btn{
+    background-color: #ffffff !important;
+}
+
+.header-catygory-btn-active{
+    background-color: var(--background-color) !important;
+    color: var(--primary-text-color) !important;
+    font-weight: 500 !important;
+}
+
+.header-cart-notifications-cont{
+    width: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-cart-notifications-cont > span:hover{
+    color: var(--bs-success) !important
+}
