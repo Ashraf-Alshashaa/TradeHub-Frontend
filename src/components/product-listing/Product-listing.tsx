@@ -1,10 +1,8 @@
 import React from 'react';
 import './product-listing.css';
 import { Product } from './types';
+import { ProductListingProps } from './types';
 
-interface ProductListingProps {
-    product: Product;
-  }
   
   const ProductListing: React.FC<ProductListingProps> = ({ product }) => {
     return (

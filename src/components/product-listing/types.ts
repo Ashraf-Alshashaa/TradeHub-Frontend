@@ -5,3 +5,7 @@ export interface Product {
     price: string;
   }
   
+
+  export interface ProductListingProps {
+    product: Product;
+  }
