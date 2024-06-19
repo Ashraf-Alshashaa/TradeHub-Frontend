@@ -132,7 +132,7 @@ return (
                 </div>
               </>
             )}
-            <div className="my-3 text-center">
+            <div className="mt-3 text-center">
               <CustomButton text={isRegistering ? "Register" : "Login"} buttonType="primary" onClick={isRegistering ? handleRegisterClick : handleLoginClick} />
             </div>
             {loading && <div>Loading...</div>}
