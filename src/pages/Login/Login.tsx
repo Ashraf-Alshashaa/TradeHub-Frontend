@@ -48,7 +48,7 @@ return (
         <img src={LoginImage} alt="Login" className="img-fluid" />
       </div>
       <div className="col-md-5 d-flex flex-column align-items-center justify-content-center login-form">
-        <form onSubmit={handleLoginClick} className="w-100">
+        <form onSubmit={handleLoginClick} className="w-100 d-flex flex-column align-items-center">
           <div className="mb-3 text-input-container ">
             <TextInput label="Username" value={name} onChange={handleNameChange} />
             {errors.name && <div className="text-danger">{errors.name}</div>}
