@@ -1,9 +1,11 @@
 import { FC } from 'react';
 import FilterBy from '../../components/filter-by/Filter-by';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from '../../components/header/Header';
 import Footer from '../../components/footer/Footer';
 import ProductCard from '../../components/product-card/Product-card';
 import './products.css';
+import { ProductCardProps } from '../../components/product-card/types';
 
 const Test: FC = () => {
   const handlePriceChange = (value: [number, number]) => {
@@ -38,18 +40,18 @@ const Test: FC = () => {
 
   return (
     <div className='Products'>
-      <h1>Test Page</h1>
+      <Header />
       <div className='row'>
-        <div className='col-sm-3'>
+        <div className='col-3'>
           <FilterBy onPriceChange={handlePriceChange} categories={categories} />
         </div>
 
-        <div className='col-sm-9 overflow-auto scrollable-products'>
+        <div className='col-9 my-4 overflow-auto scrollable-products'>
 
-          {chunkedProducts.map((row, rowIndex) => (
+          {chunkedProducts.map((row: any, rowIndex: number) => (
             <div key={rowIndex} className='row mb-5'>
               {row.map(product => (
-                <div key={product.id} className='col-sm-4 mb-4'>
+                <div key={product.id} className='col-4 mb-4'>
                   <ProductCard
                     photo={product.photo}
                     name={product.name}
