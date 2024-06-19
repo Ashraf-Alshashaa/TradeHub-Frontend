@@ -8,4 +8,5 @@ export interface Product {
 
   export interface ProductListingProps {
     product: Product;
+    is_cart: boolean;
   }

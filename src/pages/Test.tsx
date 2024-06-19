@@ -12,8 +12,11 @@ const Test: React.FC = () => {
   return (
     <div className="App">
 
-      <div className='col-sm-4'> 
-      <ProductListing product={product} />
+      <div className='col-md-12'> 
+      <ProductListing product={product} is_cart={true} />
+      </div>
+      <div className='col-md-12'> 
+      <ProductListing product={product} is_cart={false} />
       </div>
     </div>
   );
