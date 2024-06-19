@@ -8,16 +8,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   name,
   price,
   location,
-}) => {
-  const CardClick = () => {
-    console.log("Card clicked!");
-  };
+  onClick
+}
+  ) => {
   return (
-    <div onClick={CardClick}>
-      <Card>
-      <div className="product-card-image-container">
-        <CardImg variant="top" src={photo} className="product-image" />
-      </div>
+    <div>
+      <Card onClick={onClick}>
+        <CardImg variant="top" src={photo} />
         <Card.Body>
           <CardTitle> {name} </CardTitle>
           <ListGroup.Item className="text-success font-weight-bold">
