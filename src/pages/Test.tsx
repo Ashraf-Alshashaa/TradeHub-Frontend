@@ -62,8 +62,13 @@ const Test: FC = () => {
   return (
     <div>
       <Header />
+      <div className='row'>
       <h1>Test Page</h1>
-      <TextInput label="Name" value={name} onChange={handleNameChange} />
+      <div className='col-6'>
+        <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+      </div>
+      <div className='col-6'>
+        <div className='row my-4'> 
       <TextInput
         label="Email"
         value={email}
@@ -76,10 +81,17 @@ const Test: FC = () => {
         onChange={handlePasswordChange}
         type="password"
       />
-      <div style={{ width: "200px" }}>
+      </div>
+      <div className='row my-4'>
+        <CustomImage
+          src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+          alt="Sample Image"
+        />
+      </div>
+      <div className='row my-4' style={{ width: "200px" }}>
         <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
       </div>
-      <div style={{ width: "16rem", height: "18rem" }}>
+      <div  className='row my-4' style={{ width: "16rem", height: "18rem" }}>
         <ProductCard
           photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
           name="Hair Oil"
@@ -87,13 +99,7 @@ const Test: FC = () => {
           location="Nijmegen"
         />
       </div>
-      <div>
-        <FilterBy onPriceChange={handlePriceChange} categories={categories} />
-        <CustomImage
-          src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
-          alt="Sample Image"
-        />
-        <br />
+      <div className='row my-4'>
         <CustomButton
           text="Primary Button"
           onClick={handlePrimaryClick}
@@ -104,12 +110,12 @@ const Test: FC = () => {
           onClick={handleSecondaryClick}
           buttonType="secondary"
         />
-        <br />
-        <Footer
+      </div>
+    </div></div>
+    <Footer
           githubUrl="https://github.com/yourprofile"
           email="your.email@example.com"
         />
-      </div>
     </div>
   );
 };
