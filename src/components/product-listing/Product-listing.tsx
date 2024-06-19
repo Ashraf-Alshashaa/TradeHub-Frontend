@@ -8,8 +8,12 @@ import Form from 'react-bootstrap/Form';
   
 const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
 {
+  const CardClick = () => {
+    console.log("Card clicked!");
+  };
 const type = 'checkbox'
   return (
+    <div onClick={CardClick}>
     <Card style={{height: '6rem'}}>
     <div className='g-1 row d-flex'>
       <Card.Img className='col-4 card-img' src={product.image} />
@@ -27,6 +31,7 @@ const type = 'checkbox'
       </Card.Body>
     </div>
     </Card>
+  </div>
   );
 }
 
