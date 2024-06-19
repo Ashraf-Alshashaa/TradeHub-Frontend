@@ -8,7 +8,7 @@ import './login.css'
 const Login: React.FC = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState<{ name?: string; password?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; password?: string; form?: string }>({});
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -43,8 +43,8 @@ const handleLoginClick = (event: React.FormEvent) => {
 
 return (
   <div className="container">
-    <div className="row">
-      <div className="col-md-6 mt-auto">
+    <div className="row justify-content-center">
+      <div className="col-md-6 mt-auto text-center">
         <img src={LoginImage} alt="Login" className="img-fluid" />
       </div>
       <div className="col-md-6 d-flex flex-column align-items-center justify-content-center login-form">
@@ -57,10 +57,11 @@ return (
             <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
             {errors.password && <div className="text-danger">{errors.password}</div>}
           </div>
-          <div className="mb-3">
-            <CustomButton text="Login" onClick={handleLoginClick} buttonType="primary" />
+          <div className="mb-3 text-center">
+            <CustomButton text="Login" buttonType="primary" onClick={handleLoginClick} />
           </div>
-          <div className="mb-3">
+          {errors.form && <div className="text-danger text-center">{errors.form}</div>}
+          <div className="mb-3 text-center">
             Don't have an account yet? <a href="/register">Register here!</a>
           </div>
         </form>
