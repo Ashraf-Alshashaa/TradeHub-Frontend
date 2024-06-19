@@ -4,6 +4,7 @@ import Footer from '../../components/footer/Footer';
 import CustomImage from '../../components/image/Image';
 import CustomButton from '../../components/button/Button';
 import ProfileTab from './Tab';
+import Header from '../../components/header/Header';
 
 
 const product: Product = {
@@ -21,7 +22,7 @@ const UserProfile: React.FC = () => {
     
   return (
     <div className="UserProfile">
-        <h1> Header goes here </h1>
+        <Header/>
       <div className='row py-5'>
           <div className='col-3 pt-5 px-2'>
                <CustomImage src='https://images.snapwi.re/65b9/5e8869d63f5c6c4063b87ccf.w800.jpg'/>
