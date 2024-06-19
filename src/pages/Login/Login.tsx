@@ -8,40 +8,62 @@ import './login.css'
 const Login: React.FC = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<{ name?: string; password?: string }>({});
 
   const handleNameChange = (value: string) => {
     setName(value);
+    if (value) {
+      setErrors((prevErrors) => ({ ...prevErrors, name: undefined }));
+    }
   };
 
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
+    if (value) {
+      setErrors((prevErrors) => ({ ...prevErrors, password: undefined }));
+    }
   };
 
-  const handleLoginClick = () => {
-    alert('??');
-  };
+;
+const handleLoginClick = (event: React.FormEvent) => {
+  event.preventDefault();
+  const newErrors: { name?: string; password?: string } = {};
+  if (!name) newErrors.name = "Username is required";
+  if (!password) newErrors.password = "Password is required";
+  
+  if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+  }
+  
+  alert('Form submitted');
+  // Add your form submission logic here
+};
 
-
-  return (
+return (
   <div className="container">
     <div className="row">
       <div className="col-md-6 mt-auto">
-        <img src={LoginImage} alt="Image" className="img-fluid" />
+        <img src={LoginImage} alt="Login" className="img-fluid" />
       </div>
       <div className="col-md-6 d-flex flex-column align-items-center justify-content-center login-form">
-        <div className="mb-1 text-input-container">
-          <TextInput label="Username" value={name} onChange={handleNameChange} />
-        </div>
-        <div className="mb-4 text-input-container">
-          <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
-        </div>
-        <div className="mb-4">
-          <CustomButton text="Login" onClick={handleLoginClick} buttonType="primary" />
-        </div>
-        <div className="mb-4">
-          Don't have an account yet? <a href="/register">Register here!</a>
-        </div>
+        <form onSubmit={handleLoginClick} className="w-100">
+          <div className="mb-3 text-input-container">
+            <TextInput label="Username" value={name} onChange={handleNameChange} />
+            {errors.name && <div className="text-danger">{errors.name}</div>}
+          </div>
+          <div className="mb-3 text-input-container">
+            <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
+            {errors.password && <div className="text-danger">{errors.password}</div>}
+          </div>
+          <div className="mb-3">
+            <CustomButton text="Login" onClick={handleLoginClick} buttonType="primary" />
+          </div>
+          <div className="mb-3">
+            Don't have an account yet? <a href="/register">Register here!</a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
