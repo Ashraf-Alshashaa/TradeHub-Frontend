@@ -32,10 +32,15 @@ function ProfileTab() {
       const boughtItemsProducts: ProductCount[] = [
         { id: 4, item: <ProductListing product={product} is_cart ={false} /> },
         { id: 5, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 6, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 7, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 8, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 9, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 10, item: <ProductListing product={product} is_cart ={false} /> },
       ];
     
       const soldItemsProducts: ProductCount[] = [
-        { id: 6, item: <ProductListing product={product} is_cart ={false} /> },
+        { id: 11, item: <ProductListing product={product} is_cart ={false} /> },
       ];
     
       // Map each tab to its content
