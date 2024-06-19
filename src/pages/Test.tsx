@@ -14,36 +14,31 @@ const Test: FC = () => {
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
   };
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleNameChange = (value: string) => {
-    setName(value);
+  const handleSecondaryClick = () => {
+    alert("Secondary Button Clicked!");
   };
 
+  const [email, setEmail] = useState("");
   const handleEmailChange = (value: string) => {
     setEmail(value);
   };
 
+  const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-  };
-
-  const handleSecondaryClick = () => {
-    alert("Secondary Button Clicked!");
   };
 
   const navigate = useNavigate();
   const dropdownTestData = [
     {
       id: "1",
-      onClick: () => console.log("id 1"),
+      onClick: () => alert("You chose the first item"),
       content: <div>Item 1</div>,
     },
     {
       id: "2",
-      onClick: () => console.log("id 2"),
+      onClick: () => alert("You chose the second item"),
       content: "Item 2",
     },
     {
@@ -58,6 +53,8 @@ const Test: FC = () => {
   };
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
+
+  const cardClicked = () => alert("Card Clicked");
 
   return (
     <div>
@@ -97,6 +94,7 @@ const Test: FC = () => {
           name="Hair Oil"
           price={11.4}
           location="Nijmegen"
+          onClick = {cardClicked}
         />
       </div>
       <div className='row my-4'>
