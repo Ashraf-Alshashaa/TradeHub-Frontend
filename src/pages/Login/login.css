@@ -4,11 +4,14 @@
     border-radius: var(--border-radius-medium);
     box-shadow: var(--box-shadow-light);
     gap: var(--spacing-large); /* Adds spacing between sections */
-    margin-top: 160px;
+    align-items: center; /* Centers the children horizontally */
+    justify-content: center; /* Centers the children vertically */
+    margin-top: 100px;
+    margin-bottom: 100px;
   }
 
 .text-input-container {
   width: 100%;
-  margin-top: 40px; /* Added margin-top for username input */
-  align-content: center;
+  margin-top: 40px;
+  align-items: center;
 }

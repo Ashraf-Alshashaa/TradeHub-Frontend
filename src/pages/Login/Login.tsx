@@ -2,7 +2,7 @@ import TextInput from "../../components/text-input/Text-input"
 import CustomButton from "../../components/button/Button";
 import React from 'react';
 import { useState } from "react";
-import LoginImage from '../../assets/login.png'
+import LoginImage from '../../assets/login.jpg'
 import './login.css'
 
 const Login: React.FC = () => {
