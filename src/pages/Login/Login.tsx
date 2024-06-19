@@ -4,18 +4,26 @@ import React from 'react';
 import { useState } from "react";
 import LoginImage from '../../assets/login.jpg'
 import './login.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../redux/store/store';
+import { loginUser, registerUser } from '../../redux/store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [errors, setErrors] = useState<{ name?: string; password?: string; email?: string; form?: string }>({});
+  const [errors, setErrors] = useState<{ username?: string; password?: string; email?: string; form?: string }>({});
+
+  const dispatch = useDispatch <AppDispatch>();
+  const navigate = useNavigate();
+  const { loading, error, isAuthenticated } = useSelector((state: RootState) => state.auth);
 
   const handleNameChange = (value: string) => {
-    setName(value);
+    setUsername(value);
     if (value) {
-      setErrors((prevErrors) => ({ ...prevErrors, name: undefined }));
+      setErrors((prevErrors) => ({ ...prevErrors, username: undefined }));
     }
   };
 
@@ -36,10 +44,10 @@ const Login: React.FC = () => {
   };
 
 ;
-const handleLoginClick = (event: React.FormEvent) => {
+const handleLoginClick = async (event: React.FormEvent) => {
   event.preventDefault();
-  const newErrors: { name?: string; password?: string } = {};
-  if (!name) newErrors.name = "Username is required";
+  const newErrors: { username?: string; password?: string } = {};
+  if (!username) newErrors.username = "Username is required";
   if (!password) newErrors.password = "Password is required";
   
   if (Object.keys(newErrors).length > 0) {
@@ -47,14 +55,23 @@ const handleLoginClick = (event: React.FormEvent) => {
     return;
   }
   
-  alert('Form submitted');
-  // Add your form submission logic here
+  try {
+    await dispatch(loginUser({ username, password })).unwrap();
+    navigate('/products');
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.detail) {
+      setErrors({ form: error.response.data.detail });
+    } else {
+      setErrors({ form: "An error occurred while logging in." });
+    }
+  }
 };
 
-const handleRegisterClick = (event: React.FormEvent) => {
+
+const handleRegisterClick = async (event: React.FormEvent) => {
   event.preventDefault();
-  const newErrors: { name?: string; email?: string; password?: string } = {};
-  if (!name) newErrors.name = "Username is required";
+  const newErrors: { username?: string; email?: string; password?: string } = {};
+  if (!username) newErrors.username = "Username is required";
   if (!email) newErrors.email = "Email is required";
   if (!password) newErrors.password = "Password is required";
 
@@ -63,8 +80,16 @@ const handleRegisterClick = (event: React.FormEvent) => {
     return;
   }
 
-  alert('Register form submitted');
-
+  try {
+    await dispatch(registerUser({ username: username, email, password })).unwrap();
+    navigate('/products');
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.detail) {
+      setErrors({ form: error.response.data.detail });
+    } else {
+      setErrors({ form: "An error occurred while registering." });
+    }
+  }
 };
 
 const toggleRegisterForm = () => {
@@ -83,8 +108,8 @@ return (
         {isRegistering ? (
               <>
                 <div className="mb-3 text-input-container">
-                  <TextInput label="Username" value={name} onChange={handleNameChange} />
-                  {errors.name && <div className="text-danger">{errors.name}</div>}
+                  <TextInput label="Username" value={username} onChange={handleNameChange} />
+                  {errors.username && <div className="text-danger">{errors.username}</div>}
                 </div>
                 <div className="mb-3 text-input-container">
                   <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>
@@ -98,8 +123,8 @@ return (
             ) : (
               <>
                 <div className="mb-3 text-input-container">
-                  <TextInput label="Username" value={name} onChange={handleNameChange} />
-                  {errors.name && <div className="text-danger">{errors.name}</div>}
+                  <TextInput label="Username" value={username} onChange={handleNameChange} />
+                  {errors.username && <div className="text-danger">{errors.username}</div>}
                 </div>
                 <div className="mb-3 text-input-container">
                   <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
@@ -110,7 +135,10 @@ return (
             <div className="my-3 text-center">
               <CustomButton text={isRegistering ? "Register" : "Login"} buttonType="primary" onClick={isRegistering ? handleRegisterClick : handleLoginClick} />
             </div>
-            {errors.form && <div className="text-danger text-center">{errors.form}</div>}
+            {loading && <div>Loading...</div>}
+            {error && <div className="text-danger">{error}</div>}
+            {isAuthenticated && <div className="text-success">Successfully authenticated!</div>}
+            {typeof errors.form === 'string' && <div className="text-danger text-center">{errors.form}</div>}
             <div className="mt-5 text-center">
               {isRegistering ? (
                 <p>Already have an account? <a href="#" onClick={toggleRegisterForm}>Login here!</a></p>
