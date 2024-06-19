@@ -61,7 +61,7 @@ return (
             <CustomButton text="Login" buttonType="primary" onClick={handleLoginClick} />
           </div>
           {errors.form && <div className="text-danger text-center">{errors.form}</div>}
-          <div className="mb-3 text-center">
+          <div className="mt-5 text-center">
             Don't have an account yet? <a href="/register">Register here!</a>
           </div>
         </form>
