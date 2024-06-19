@@ -44,12 +44,12 @@ const handleLoginClick = (event: React.FormEvent) => {
 return (
   <div className="container">
     <div className="row justify-content-center">
-      <div className="col-md-6 mt-auto text-center">
+      <div className="col-md-7 mt-auto text-center">
         <img src={LoginImage} alt="Login" className="img-fluid" />
       </div>
-      <div className="col-md-6 d-flex flex-column align-items-center justify-content-center login-form">
+      <div className="col-md-5 d-flex flex-column align-items-center justify-content-center login-form">
         <form onSubmit={handleLoginClick} className="w-100">
-          <div className="mb-3 text-input-container">
+          <div className="mb-3 text-input-container ">
             <TextInput label="Username" value={name} onChange={handleNameChange} />
             {errors.name && <div className="text-danger">{errors.name}</div>}
           </div>

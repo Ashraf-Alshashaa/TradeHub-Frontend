@@ -8,6 +8,7 @@
   }
 
 .text-input-container {
-  width: 80%;
+  width: 100%;
   margin-top: 40px; /* Added margin-top for username input */
+  align-content: center;
 }
