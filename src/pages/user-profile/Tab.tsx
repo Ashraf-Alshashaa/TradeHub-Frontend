@@ -9,6 +9,7 @@ const product: Product = {
     image: 'https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg',
     name: 'Product name',
     price: '$XX.YY',
+    onClick : () => console.log("Card clicked")
   };
 
 //   function fillProductsList(products: Product[]): ProductCount[] {
