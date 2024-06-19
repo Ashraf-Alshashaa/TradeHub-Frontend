@@ -107,7 +107,7 @@ return (
                 </div>
               </>
             )}
-            <div className="mb-3 text-center">
+            <div className="my-3 text-center">
               <CustomButton text={isRegistering ? "Register" : "Login"} buttonType="primary" onClick={isRegistering ? handleRegisterClick : handleLoginClick} />
             </div>
             {errors.form && <div className="text-danger text-center">{errors.form}</div>}
