@@ -13,10 +13,11 @@ const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
   };
 const type = 'checkbox'
   return (
-    <div onClick={CardClick}>
+    <div className='py-1' onClick={CardClick}>
     <Card style={{height: '6rem'}}>
-    <div className='g-1 row d-flex'>
-      <Card.Img className='col-4 card-img' src={product.image} />
+    <div className='row d-flex'>
+      <div className='product-card-list-container col-4 '>
+      <Card.Img className='product-list-image' src={product.image} /> </div>
       <Card.Body className='col-8'>
         <div className='row d-flex'>
         <Card.Title className='col-6'>{product.name}</Card.Title>
