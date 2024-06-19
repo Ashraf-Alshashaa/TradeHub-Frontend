@@ -1,14 +1,10 @@
 import React from 'react';
 import './product-listing.css';
-import { Product } from './types';
+import { ProductListingProps } from './types';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 
 
-interface ProductListingProps {
-    product: Product;
-    is_cart: boolean;
-  }
   
 const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
 {

@@ -5,3 +5,8 @@ export interface Product {
     price: string;
   }
   
+
+  export interface ProductListingProps {
+    product: Product;
+    is_cart: boolean;
+  }
