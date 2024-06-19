@@ -1,4 +1,5 @@
 export interface RadioButtonProps {
-    id: string;
-    value: string;
+    bidder_name : string;
+    group_name : string;
+    bid : number
   }

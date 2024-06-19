@@ -61,12 +61,14 @@ const Test:FC = () => {
   };
 
   const categories = ['Electronics', 'Furniture', 'Toys', 'Clothes'];
-
+const bidder_name = 'Ladan'
+const bid = '12.34'
   return (
     <div>
-      <RadioButton 
-      value="true"/>
       <h1>Test Page</h1>
+<br/>
+      <RadioButton bidder_name={bidder_name} group_name="group1" bid={12.3}/>
+
       <TextInput label="Name" value={name} onChange={handleNameChange} />
       <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>
       <TextInput label="Password" value={password} onChange={handlePasswordChange} type="password" />
