@@ -12,6 +12,11 @@ const product: Product = {
   price: '$XX.YY',
 };
 
+const Click = () => {
+  console.log("Edit button clicked!");
+};
+
+
 const UserProfile: React.FC = () => {
     
   return (
@@ -33,7 +38,7 @@ const UserProfile: React.FC = () => {
                 </div>
           </div>
           <div className='col-2 pt-5'>
-            <CustomButton text='Edit Profile'/>
+            <CustomButton onClick={Click} text='Edit Profile'/>
           </div>
       </div>
       <div className='row my-5'>
