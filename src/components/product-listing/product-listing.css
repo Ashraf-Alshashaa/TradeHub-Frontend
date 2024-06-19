@@ -1,19 +1,19 @@
-.card-text {
+.card-text, .card-title {
     font-weight: 700;
   }
-  
+
 .card:hover {
     background-color: rgb(225, 223, 223);
     cursor: pointer;
   }
 
-  .image-container {
+  /* .image-container {
     height: 7rem;
     display: flex;
     align-items: start;
     justify-content: center;
     margin: calc(var(--hz-space--xxs)* -1);
-  }
+  } */
   
   .image {
     max-width: 100%;
@@ -22,8 +22,13 @@
   }
 
   .form-check-input:checked {
-    background-color: #198754;
-    border-color: #198754;
-    border: var(--bs-border-width) solid #198754;
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+    border: var(--bs-border-width) solid var(--bs-success);
     --bs-focus-ring-color: rgba(19, 217, 25, 0.25);
+}
+
+.card-img-top {
+  width: ;
+  object-fit: cover;
 }
