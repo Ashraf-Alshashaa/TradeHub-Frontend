@@ -24,10 +24,10 @@ const Header: FC = () => {
       { id: 2, name: "Furniture" },
       { id: 3, name: "Clothing" },
       { id: 4, name: "Auto and Parts" },
-      { id: 5, name: "Electronics" },
-      { id: 6, name: "Furniture" },
-      { id: 7, name: "Clothing" },
-      { id: 8, name: "Auto and Parts" },
+      { id: 5, name: "Toys" },
+      { id: 6, name: "Books" },
+      { id: 7, name: "Sports Equipment" },
+      { id: 8, name: "Groceries" },
     ]);
   }, []);
 
