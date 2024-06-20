@@ -1,0 +1,4 @@
+.scrollable-products {
+    max-height: 85vh; 
+    overflow-y: auto;
+  }

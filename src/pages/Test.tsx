@@ -92,7 +92,7 @@ const Test: FC = () => {
       <div className='row my-4' style={{ width: "200px" }}>
         <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
       </div>
-      <div  className='row my-4' style={{ width: "16rem", height: "18rem" }}>
+      <div  className='row col-6 my-4'>
         <ProductCard
           photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
           name="Hair Oil"
@@ -121,5 +121,6 @@ const Test: FC = () => {
     </div>
   );
 };
+
 
 export default Test;

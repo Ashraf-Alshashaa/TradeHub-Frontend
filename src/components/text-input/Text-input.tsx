@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextInputProps } from './types';
-import { Form, Button , Alert} from 'react-bootstrap';
+import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 
 const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,23 +31,29 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
   return (
     <Form.Group controlId={`formBasic${label}`} className={className}>
       <Form.Label>{label}</Form.Label>
-      <Form.Control
-        type={type === 'password' && showPassword ? 'text' : type}
-        value={value}
-        onChange={handleChange}
-        placeholder={type === 'password' ? 'Enter password' : ''}
-        isInvalid={type === 'email' && !!emailError} // Mark input as invalid if there's an email error
-      />
-      {type === 'email' && emailError && (
-        <Alert variant="danger">{emailError}</Alert>
-      )}
-      {type === 'password' && (
-        <Form.Text>
-          <br></br>
+      {type === 'password' ? (
+        <InputGroup>
+          <Form.Control
+            type={showPassword ? 'text' : 'password'}
+            value={value}
+            onChange={handleChange}
+            placeholder={label}
+          />
           <Button variant="outline-success" onClick={togglePasswordVisibility}>
             {showPassword ? 'Hide' : 'Show'}
           </Button>
-        </Form.Text>
+        </InputGroup>
+      ) : (
+        <Form.Control
+          type={type}
+          value={value}
+          onChange={handleChange}
+          placeholder={label}
+          isInvalid={type === 'email' && !!emailError} // Mark input as invalid if there's an email error
+        />
+      )}
+      {type === 'email' && emailError && (
+        <Alert variant="danger">{emailError}</Alert>
       )}
     </Form.Group>
   );
