@@ -13,6 +13,9 @@ function ChooseWinner() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const isWinner = () => {alert('Winner!');
+  };
+
   return (
     <>
       <CustomButton text="Choose Winner" onClick={handleShow} buttonType='primary'>
@@ -29,8 +32,8 @@ function ChooseWinner() {
             Choose Winner
         </Modal.Header>
         <Modal.Body>
-           <RadioButton bidder_name='user1' bid={23.3} group_name='one'/>
-           <RadioButton bidder_name='user2' bid={28.3} group_name='one'/>
+           <RadioButton bidder_name='user1' bid={23.3} group_name='one' onClick={isWinner}/>
+           <RadioButton bidder_name='user2' bid={28.3} group_name='one' onClick={isWinner}/>
         </Modal.Body>
         <Modal.Footer>
           <CustomButton text="Save" onClick={handleClose} buttonType='primary'/>
