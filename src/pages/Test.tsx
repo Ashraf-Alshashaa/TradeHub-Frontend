@@ -57,9 +57,11 @@ const Test: FC = () => {
 
   const cardClicked = () => alert("Card Clicked");
 
-const bidder_name = 'Ladan'
-const bid = '12.34'
-
+  const bidders = [
+    ['user1', '12.4'],
+    ['user2', '11.0'],
+    ['user3', '10.5'],
+  ];
 const chooseWinnerHandle =  () => console.log("choosing the bid")
 
   return (
@@ -94,7 +96,8 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
       <div className='row my-4' style={{ width: "200px" }}>
         <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
       </div>
-      <div  className='row col-6 my-4'>
+      <div  className='row my-4'>
+        <div className="col-6">
         <ProductCard
           photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
           name="Hair Oil"
@@ -102,10 +105,18 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
           location="Nijmegen"
           onClick = {cardClicked}
         />
-      </div>
+        </div>
       <div className="col-6">
-      <RadioButton bidder_name={bidder_name} group_name="group1" bid={12.3} onClick={chooseWinnerHandle}/>
-      <RadioButton bidder_name='yeki' group_name="group1" bid={13.3} onClick={chooseWinnerHandle}/> 
+      {bidders.map(([bidder_name, bid]) => (
+        <RadioButton
+          key={bidder_name}
+          bidder_name={bidder_name}
+          group_name="group1"
+          bid={bid}
+          onClick={chooseWinnerHandle}
+        />
+      ))}
+      </div>
       </div>
       <div className='row my-4'>
         <CustomButton
