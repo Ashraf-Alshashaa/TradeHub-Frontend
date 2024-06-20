@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { login } from "../../features/auth/authSlice";
 import { registerUser } from "../../features/users/userSlice";
-
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
@@ -180,7 +179,13 @@ const Login: React.FC = () => {
               <CustomButton
                 text={isRegistering ? "Register" : "Login"}
                 buttonType="primary"
-                onClick={isRegistering ? handleRegisterClick : handleLoginClick}
+                onClick={(event) => {
+                  if (isRegistering) {
+                    handleRegisterClick(event as unknown as React.FormEvent);
+                  } else {
+                    handleLoginClick(event as unknown as React.FormEvent);
+                  }
+                }}
               />
             </div>
             {loading && <div>Loading...</div>}
