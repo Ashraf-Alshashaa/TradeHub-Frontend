@@ -24,7 +24,8 @@ const Test: FC = () => {
     console.log("Price range changed:", value);
   };
   const cardClicked = () => alert("Card clicked");
-  const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
+  const categories = ["Electronics", "Furniture", "Clothing", "Auto and Parts", "Toys", "Books", "Sports Equipment", "Groceries"];
+
 
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector(
