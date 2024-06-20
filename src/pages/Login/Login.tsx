@@ -90,7 +90,7 @@ const Login: React.FC = () => {
       await dispatch(
         registerUser({ username: username, email, password })
       ).unwrap();
-      navigate("/products");
+      setIsRegistering(false);
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.detail) {
         setErrors({ form: error.response.data.detail });
