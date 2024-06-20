@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import CustomButton from '../button/Button';
 import Modal from 'react-bootstrap/Modal';
+import RadioButton from '../radio-button/Radio-button';
+
+
+const names = ['user1', 'user2', 'user3', 'user4', ]
+const bids = [12.3 , 14, 23, 30]
 
 function ChooseWinner() {
   const [show, setShow] = useState(false);
@@ -21,11 +26,11 @@ function ChooseWinner() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Modal title</Modal.Title>
+            Choose Winner
         </Modal.Header>
         <Modal.Body>
-          I will not close if you click outside me. Do not even try to press
-          escape key.
+           <RadioButton bidder_name='user1' bid={23.3} group_name='one'/>
+           <RadioButton bidder_name='user2' bid={28.3} group_name='one'/>
         </Modal.Body>
         <Modal.Footer>
           <CustomButton text="Save" onClick={handleClose} buttonType='primary'/>
