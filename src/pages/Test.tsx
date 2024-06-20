@@ -9,6 +9,7 @@ import CustomButton from "../components/button/Button";
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
+import RadioButton from "../components/radio-button/Radio-button.tsx";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -56,6 +57,13 @@ const Test: FC = () => {
 
   const cardClicked = () => alert("Card Clicked");
 
+  const bidders = [
+    ['user1', '12.4'],
+    ['user2', '11.0'],
+    ['user3', '10.5'],
+  ];
+const chooseWinnerHandle =  () => console.log("choosing the bid")
+
   return (
     <div>
       <Header />
@@ -88,7 +96,8 @@ const Test: FC = () => {
       <div className='row my-4' style={{ width: "200px" }}>
         <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
       </div>
-      <div  className='row col-6 my-4'>
+      <div  className='row my-4'>
+        <div className="col-6">
         <ProductCard
           photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
           name="Hair Oil"
@@ -96,6 +105,18 @@ const Test: FC = () => {
           location="Nijmegen"
           onClick = {cardClicked}
         />
+        </div>
+      <div className="col-6">
+      {bidders.map(([bidder_name, bid]) => (
+        <RadioButton
+          key={bidder_name}
+          bidder_name={bidder_name}
+          group_name="group1"
+          bid={bid}
+          onClick={chooseWinnerHandle}
+        />
+      ))}
+      </div>
       </div>
       <div className='row my-4'>
         <CustomButton
