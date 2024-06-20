@@ -68,6 +68,7 @@ const bid = '12.34'
       <h1>Test Page</h1>
 <br/>
       <RadioButton bidder_name={bidder_name} group_name="group1" bid={12.3}/>
+      <RadioButton bidder_name='yeki' group_name="group1" bid={13.3}/>
 
       <TextInput label="Name" value={name} onChange={handleNameChange} />
       <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>

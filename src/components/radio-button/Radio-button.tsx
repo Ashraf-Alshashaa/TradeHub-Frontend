@@ -8,7 +8,6 @@ import './radio-button.css'
 const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid}) => {
   const type = 'radio'
     return (
-      <Form>
           <div key={`default-${type}`} className="my-2 ml-2">
             <Form.Check
               label= {
@@ -22,7 +21,6 @@ const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid})
               id={`default-${type}-1`}
             />
           </div>
-      </Form>
     );
   }
   
