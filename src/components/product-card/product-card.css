@@ -1,4 +1,8 @@
-.card:hover {
+.card:hover{
+  cursor: pointer;
+}
+
+.card-body:hover {
   background-color: rgb(225, 223, 223);
   cursor: pointer;
 }
@@ -14,5 +18,5 @@
 .product-image {
   max-width: 100%;
   max-height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
