@@ -7,7 +7,7 @@ import ProductCard from "../../components/product-card/Product-card";
 import "./products.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
-import { RootState } from "../../app/store";
+import { AppDispatch, RootState } from "../../app/store";
 
 const Test: FC = () => {
   interface ProductProps {
@@ -24,10 +24,18 @@ const Test: FC = () => {
     console.log("Price range changed:", value);
   };
   const cardClicked = () => alert("Card clicked");
-  const categories = ["Electronics", "Furniture", "Clothing", "Auto and Parts", "Toys", "Books", "Sports Equipment", "Groceries"];
+  const categories = [
+    "Electronics",
+    "Furniture",
+    "Clothing",
+    "Auto and Parts",
+    "Toys",
+    "Books",
+    "Sports Equipment",
+    "Groceries",
+  ];
 
-
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { products, loading, error } = useSelector(
     (state: RootState) => state.products
   );
