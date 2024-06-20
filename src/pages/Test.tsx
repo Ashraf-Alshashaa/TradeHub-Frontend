@@ -9,6 +9,7 @@ import CustomButton from "../components/button/Button";
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
+import ChooseWinner from "../components/modals/Radio-button";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -78,6 +79,9 @@ const Test: FC = () => {
         onChange={handlePasswordChange}
         type="password"
       />
+      </div>
+      <div className="row my-4">
+        <ChooseWinner/>
       </div>
       <div className='row my-4'>
         <CustomImage
