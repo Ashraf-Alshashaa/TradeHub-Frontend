@@ -4,8 +4,7 @@ import { RadioButtonProps } from './types';
 import './radio-button.css'
 
 
-
-const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid}) => {
+const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid, onClick}) => {
   const type = 'radio'
     return (
           <div key={`default-${type}`} className="my-2 ml-2">
@@ -19,6 +18,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid})
               name={group_name}
               type={type}
               id={`default-${type}-1`}
+              onClick={onClick}
             />
           </div>
     );

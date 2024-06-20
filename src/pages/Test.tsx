@@ -63,12 +63,16 @@ const Test:FC = () => {
   const categories = ['Electronics', 'Furniture', 'Toys', 'Clothes'];
 const bidder_name = 'Ladan'
 const bid = '12.34'
+
+const chooseWinnerHandle = () => {
+  alert('Winner!');
+};
   return (
     <div>
       <h1>Test Page</h1>
 <br/>
-      <RadioButton bidder_name={bidder_name} group_name="group1" bid={12.3}/>
-      <RadioButton bidder_name='yeki' group_name="group1" bid={13.3}/>
+      <RadioButton bidder_name={bidder_name} group_name="group1" bid={12.3} onClick={chooseWinnerHandle}/>
+      <RadioButton bidder_name='yeki' group_name="group1" bid={13.3} onClick={chooseWinnerHandle}/>
 
       <TextInput label="Name" value={name} onChange={handleNameChange} />
       <TextInput label="Email" value={email} onChange={handleEmailChange} type="email"/>
