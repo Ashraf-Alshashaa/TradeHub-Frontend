@@ -10,6 +10,7 @@ import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import ChooseWinner from "../components/modals/Radio-button";
+import RadioButton from "../components/radio-button/Radio-button.tsx";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -57,70 +58,87 @@ const Test: FC = () => {
 
   const cardClicked = () => alert("Card Clicked");
 
+  const bidders = [
+    ["user1", "12.4"],
+    ["user2", "11.0"],
+    ["user3", "10.5"],
+  ];
+  const chooseWinnerHandle = () => console.log("choosing the bid");
+
   return (
     <div>
       <Header />
-      <div className='row'>
-      <h1>Test Page</h1>
-      <div className='col-6'>
-        <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+      <div className="row">
+        <h1>Test Page</h1>
+        <div className="col-6">
+          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+        </div>
+        <div className="col-6">
+          <div className="row my-4">
+            <TextInput
+              label="Email"
+              value={email}
+              onChange={handleEmailChange}
+              type="email"
+            />
+            <TextInput
+              label="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              type="password"
+            />
+          </div>
+          <div className="row my-4">
+            <CustomImage
+              src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+              alt="Sample Image"
+            />
+          </div>
+          <div className="row my-4" style={{ width: "200px" }}>
+            <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
+          </div>
+          <div className="row my-4">
+            <div className="col-6">
+              <ProductCard
+                photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
+                name="Hair Oil"
+                price={11.4}
+                location="Nijmegen"
+                onClick={cardClicked}
+              />
+            </div>
+            <div className="col-6">
+              {bidders.map(([bidder_name, bid]) => (
+                <RadioButton
+                  key={bidder_name}
+                  bidder_name={bidder_name}
+                  group_name="group1"
+                  bid={bid}
+                  onClick={chooseWinnerHandle}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="row my-4">
+            <CustomButton
+              text="Primary Button"
+              onClick={handlePrimaryClick}
+              buttonType="primary"
+            />
+            <CustomButton
+              text="Secondary Button"
+              onClick={handleSecondaryClick}
+              buttonType="secondary"
+            />
+          </div>
+        </div>
       </div>
-      <div className='col-6'>
-        <div className='row my-4'> 
-      <TextInput
-        label="Email"
-        value={email}
-        onChange={handleEmailChange}
-        type="email"
+      <Footer
+        githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
+        email="your.email@example.com"
       />
-      <TextInput
-        label="Password"
-        value={password}
-        onChange={handlePasswordChange}
-        type="password"
-      />
-      </div>
-      <div className="row my-4">
-        <ChooseWinner/>
-      </div>
-      <div className='row my-4'>
-        <CustomImage
-          src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
-          alt="Sample Image"
-        />
-      </div>
-      <div className='row my-4' style={{ width: "200px" }}>
-        <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
-      </div>
-      <div  className='row col-6 my-4'>
-        <ProductCard
-          photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
-          name="Hair Oil"
-          price={11.4}
-          location="Nijmegen"
-          onClick = {cardClicked}
-        />
-      </div>
-      <div className='row my-4'>
-        <CustomButton
-          text="Primary Button"
-          onClick={handlePrimaryClick}
-          buttonType="primary"
-        />
-        <CustomButton
-          text="Secondary Button"
-          onClick={handleSecondaryClick}
-          buttonType="secondary"
-        />
-      </div>
-    </div></div>
-    <Footer
-          githubUrl="https://github.com/yourprofile"
-          email="your.email@example.com"
-        />
     </div>
   );
 };
-
 
 export default Test;

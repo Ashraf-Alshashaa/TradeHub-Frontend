@@ -6,17 +6,17 @@ import Icon from "../icon/Icon";
 import { Category } from "./types";
 import CustomButton from "../button/Button";
 import DropdownMenu from "../dropdown/Dropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
+import { AppDispatch, RootState } from "../../app/store";
 
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
-
-  const user = {
-    username: "Ashraf",
-  };
 
   useEffect(() => {
     setCategories([
@@ -24,10 +24,10 @@ const Header: FC = () => {
       { id: 2, name: "Furniture" },
       { id: 3, name: "Clothing" },
       { id: 4, name: "Auto and Parts" },
-      { id: 5, name: "Electronics" },
-      { id: 6, name: "Furniture" },
-      { id: 7, name: "Clothing" },
-      { id: 8, name: "Auto and Parts" },
+      { id: 5, name: "Toys" },
+      { id: 6, name: "Books" },
+      { id: 7, name: "Sports Equipment" },
+      { id: 8, name: "Groceries" },
     ]);
   }, []);
 
@@ -47,8 +47,9 @@ const Header: FC = () => {
   const handleLogin = () => {
     navigate("/login");
   };
-  const handleLogoutSelect = (srt: string) => {
-    alert(srt);
+  const handleLogoutSelect = () => {
+    dispatch(logout());
+    navigate("/login");
   };
 
   const handleCategorySelect = (categoryId: number) => {
@@ -77,7 +78,7 @@ const Header: FC = () => {
     },
     {
       id: "3",
-      onClick: () => handleLogoutSelect("loged out"),
+      onClick: () => handleLogoutSelect(),
       content: (
         <div className="header-dropdown-item">
           <Icon name="logout" />
