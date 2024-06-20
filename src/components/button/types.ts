@@ -1,8 +1,8 @@
 import { ButtonProps } from 'react-bootstrap'
-import { ReactNode } from 'react';
+import { ReactNode, MouseEventHandler } from 'react';
 
 export interface CustomButtonProps extends ButtonProps {
     text: string | ReactNode;
-    onClick: () => void;
+    onClick: MouseEventHandler<HTMLButtonElement>;
     buttonType: 'primary' | 'secondary'; // Specify button type
   }
