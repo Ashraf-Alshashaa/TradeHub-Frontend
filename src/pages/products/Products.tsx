@@ -23,7 +23,7 @@ const Test: FC = () => {
   const handlePriceChange = (value: [number, number]) => {
     console.log("Price range changed:", value);
   };
-  const cardClicked = () => alert("Card clicked");
+
   const categories = [
     "Electronics",
     "Furniture",
@@ -77,7 +77,6 @@ const Test: FC = () => {
                     name={product.name}
                     price={product.price}
                     location={"Amsterdam"}
-                    onClick={cardClicked}
                   />
                 </div>
               ))}
