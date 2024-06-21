@@ -9,8 +9,12 @@ import Form from 'react-bootstrap/Form';
 const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
 {
 const type = 'checkbox'
+const handleClick = () => alert("card clicked!")
+// const handleClick = () => {
+//   navigate(`/product/${product.id}`);}
+
   return (
-    <div className='py-1' onClick={product.onClick}>
+    <div className='py-1' onClick={handleClick}>
     <Card style={{height: '6rem'}}>
     <div className='row d-flex'>
       <div className='product-card-list-container col-4 '>
