@@ -18,7 +18,7 @@ const type = 'checkbox'
       <Card.Body className='col-8'>
         <div className='row d-flex'>
         <Card.Title className='col-6'>{product.name}</Card.Title>
-        <Card.Text className='col-4'> {product.price} </Card.Text>
+        <Card.Text className='col-4'> €{product.price} </Card.Text>
         {is_cart && (
               <Form.Check className='col-2'
                 type={type}
