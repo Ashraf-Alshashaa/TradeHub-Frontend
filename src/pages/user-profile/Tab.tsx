@@ -3,6 +3,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { ProductCount, TabContentDictionary } from './types';
 import ProductListing from '../../components/product-listing/Product-listing';
 import { Product } from '../../components/product-listing/types';
+import './tab.css';
 
 const product: Product = {
     id: 1,
@@ -54,7 +55,7 @@ function ProfileTab() {
       };
   return (
     <Tabs
-      defaultActiveKey="profile"
+      defaultActiveKey="my-cart"
       id="profile-tab"
       className="mb-3"
       fill

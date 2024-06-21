@@ -1,10 +1,11 @@
 import React from 'react';
 import { Product } from '../../components/product-listing/types';
 import Footer from '../../components/footer/Footer';
-import CustomImage from '../../components/image/Image';
 import CustomButton from '../../components/button/Button';
 import ProfileTab from './Tab';
 import Header from '../../components/header/Header';
+import Avatar, { genConfig } from 'react-nice-avatar';
+
 
 
 const product: Product = {
@@ -19,13 +20,15 @@ const Click = () => {
 
 
 const UserProfile: React.FC = () => {
+
+  const config = genConfig() 
     
   return (
     <div className="UserProfile">
         <Header/>
       <div className='row py-5'>
-          <div className='col-3 pt-5 px-2'>
-               <CustomImage src='https://images.snapwi.re/65b9/5e8869d63f5c6c4063b87ccf.w800.jpg'/>
+          <div className='col-3 pt-5 px-5 ml-5'>
+          <Avatar style={{ width: '13rem', height: '10rem' }} shape='rounded' {...config} />
           </div>
           <div className='col-5 pt-5 text-start'>
                <div className='row'>
