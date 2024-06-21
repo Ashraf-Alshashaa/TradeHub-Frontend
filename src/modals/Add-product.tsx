@@ -18,13 +18,12 @@ function AddProduct() {
   const [productDescription, setProductDescription] = useState("");
   const [productCondition, setProductCondition] = useState<ProductCondition>(ProductCondition.New); // Initial state set to 'New'
   const [productPrice, setProductPrice] = useState("");
-  const [productCategory, setProductCategory] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleProductNameChange = (value) => setProductName(value);
   const handleProductImageChange = (value) => setProductImage(value);
   const handleProductDescriptionChange = (value) => setProductDescription(value);
   const handleProductPriceChange = (value) => setProductPrice(value);
-  const handleProductCategoryChange = (value) => setProductCategory(value);
 
   // Handler for changing product condition using enum
   const handleProductConditionChange = (condition: ProductCondition) => {
@@ -59,8 +58,7 @@ function AddProduct() {
       Image - ${productImage}, 
       Description - ${productDescription}, 
       Condition - ${productCondition}, 
-      Price - ${productPrice}, 
-      Category - ${productCategory}`);
+      Categories - ${selectedCategories.join(', ')}`);
     handleClose(); // Close modal after saving
     // Reset form fields if needed
     setProductName("");
@@ -68,8 +66,18 @@ function AddProduct() {
     setProductDescription("");
     setProductCondition(ProductCondition.New); // Reset condition to 'New'
     setProductPrice("");
-    setProductCategory("");
+    setSelectedCategories([]);
   };
+
+  const handleCategoryChange = (category: string) => {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
+    } else {
+      setSelectedCategories([...selectedCategories, category]);
+    }
+  };
+
+  const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
 
   return (
     <>
@@ -124,12 +132,19 @@ function AddProduct() {
               />
             </div>
             <div className='col-12 mt-2'>
-              <TextInput
-                label="Product Category"
-                value={productCategory}
-                onChange={handleProductCategoryChange}
-                type="text"
-              />
+              <h6>Product Categories</h6>
+              <div className="d-flex flex-wrap">
+                {categories.map((category, index) => (
+                  <label key={index} className="mx-4 mb-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedCategories.includes(category)}
+                      onChange={() => handleCategoryChange(category)}
+                    />
+                    &nbsp; {category}
+                  </label>
+                ))}
+              </div>
             </div>
           </div>
         </Modal.Body>
