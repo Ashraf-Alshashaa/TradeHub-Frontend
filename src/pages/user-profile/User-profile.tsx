@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../../components/product-listing/types';
 import Footer from '../../components/footer/Footer';
-import CustomButton from '../../components/button/Button';
+import EditProfile from '../../modals/Edit-profile';
 import ProfileTab from './Tab';
 import Header from '../../components/header/Header';
 import Avatar, { genConfig } from 'react-nice-avatar';
@@ -14,9 +14,6 @@ const product: Product = {
   price: '$XX.YY',
 };
 
-const Click = () => {
-  console.log("Edit button clicked!");
-};
 
 
 const UserProfile: React.FC = () => {
@@ -42,7 +39,7 @@ const UserProfile: React.FC = () => {
                 </div>
           </div>
           <div className='col-2 pt-5'>
-            <CustomButton onClick={Click} text='Edit Profile'/>
+            <EditProfile />
           </div>
       </div>
       <div className='row my-5'>
