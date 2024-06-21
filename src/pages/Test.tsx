@@ -10,6 +10,7 @@ import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import RadioButton from "../components/radio-button/Radio-button.tsx";
+import EditProduct from "../modals/Add-product.tsx";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -129,6 +130,7 @@ const Test: FC = () => {
               onClick={handleSecondaryClick}
               buttonType="secondary"
             />
+            <EditProduct/>
           </div>
         </div>
       </div>
