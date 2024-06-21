@@ -1,7 +1,7 @@
 import React from 'react';
 import { Product } from '../../components/product-listing/types';
 import Footer from '../../components/footer/Footer';
-import CustomButton from '../../components/button/Button';
+import EditProfile from '../../modals/Edit-profile';
 import ProfileTab from './Tab';
 import Header from '../../components/header/Header';
 import Avatar, { genConfig } from 'react-nice-avatar';
@@ -14,8 +14,16 @@ const product: Product = {
   price: '$XX.YY',
 };
 
-const Click = () => {
-  console.log("Edit button clicked!");
+
+const existingData = {
+  username: "user1",
+  email: "user1@example.com",
+  password: "password1",
+  street: "example street",
+  houseNumber: "123",
+  postcode: "1234AL",
+  city: "somewhere",
+  country: "The Netherlands"
 };
 
 
@@ -32,17 +40,18 @@ const UserProfile: React.FC = () => {
           </div>
           <div className='col-5 pt-5 text-start'>
                <div className='row'>
-                   <p> Username: user342 </p>
+                   <p> Username: {existingData.username} </p>
                </div>
                <div className='row'>
-                   <p> Email: useremail@example.com </p>
+                   <p> Email: {existingData.email} </p>
                 </div>
                 <div className='row'>
-                   <p> Address: Rosestraat 23, 4343AL Amsterdam </p>
+                   <p> Address: </p>
+                    <p>{existingData.street} {existingData.houseNumber}, {existingData.postcode}, {existingData.city}, {existingData.country} </p>
                 </div>
           </div>
           <div className='col-2 pt-5'>
-            <CustomButton onClick={Click} text='Edit Profile'/>
+            <EditProfile />
           </div>
       </div>
       <div className='row my-5'>
