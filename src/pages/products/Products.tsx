@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import FilterBy from "../../components/filter-by/Filter-by";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../../components/header/Header";
@@ -20,8 +20,11 @@ const Test: FC = () => {
     condition: string;
     category_id: number;
   }
+  const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
+
   const handlePriceChange = (value: [number, number]) => {
-    console.log("Price range changed:", value);
+    console.log("New price range:", value);
+    setPriceRange(value);
   };
   const cardClicked = () => alert("Card clicked");
   const categories = [
@@ -43,6 +46,17 @@ const Test: FC = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    const fetchFilteredProducts = () => {
+      dispatch(fetchProducts({
+        min_price: priceRange ? priceRange[0] : undefined,
+        max_price: priceRange ? priceRange[1] : undefined
+        }));
+      };
+
+    fetchFilteredProducts();
+  }, [dispatch, priceRange]);
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
