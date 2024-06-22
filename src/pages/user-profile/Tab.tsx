@@ -6,7 +6,7 @@ import { Product } from '../../components/product-listing/types';
 import './tab.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBoughtProducts } from '../../features/products/productsSlice';
+import { fetchBoughtProducts, fetchMyBids, fetchMyCart, fetchSoldItems } from '../../features/products/productsSlice';
 import { RootState } from '../../app/store';
 
 interface ProductProps {
@@ -30,20 +30,29 @@ function ProfileTab() {
   const { products, loading, error } = useSelector((state: RootState) => state.products);
 
   useEffect(() => {
+    dispatch(fetchMyCart(buyerId));
     dispatch(fetchBoughtProducts(buyerId));
+    dispatch(fetchMyBids(buyerId))
+    dispatch(fetchSoldItems({buyerId,'1'}))
+    dispatch(fetchSoldItems({buyerId, '0'}))
+    
   }, [dispatch]);
 
+  const myCartProducts: ProductCount[] = products.map((product: ProductProps) => ({
+    id: product.id,
+    item: <ProductListing key={product.id} product={product} is_cart={true} />
+  }));
 
-  const myCartProducts: ProductCount[] = [
-    { id: 1, item: <ProductListing product={product} is_cart={true} /> },
-    { id: 2, item: <ProductListing product={product} is_cart={true} /> },
-  ];
+  const myBidsProducts: ProductCount[] = products.map((product: ProductProps) => ({
+    id: product.id,
+    item: <ProductListing key={product.id} product={product} is_cart={false} />
+  }));
 
-  const myBidsProducts: ProductCount[] = [];
-
-  const myListingsProducts: ProductCount[] = [
-    { id: 3, item: <ProductListing product={product} is_cart={false} /> },
-  ];
+  const myListingsProducts: ProductCount[] = 
+  products.map((product: ProductProps) => ({
+    id: product.id,
+    item: <ProductListing key={product.id} product={product} is_cart={false} />
+  }));
 
   const boughtItemsProducts: ProductCount[] =
     products.map((product: ProductProps) => ({
@@ -51,9 +60,11 @@ function ProfileTab() {
       item: <ProductListing key={product.id} product={product} is_cart={false} />
     }));
 
-  const soldItemsProducts: ProductCount[] = [
-    { id: 11, item: <ProductListing product={product} is_cart={false} /> },
-  ];
+  const soldItemsProducts: ProductCount[] = 
+  products.map((product: ProductProps) => ({
+    id: product.id,
+    item: <ProductListing key={product.id} product={product} is_cart={false} />
+  }));
 
   // Map each tab to its content
   const tabContent: TabContentDictionary = {
@@ -72,19 +83,19 @@ function ProfileTab() {
       fill
     >
       <Tab eventKey="my-cart" title="My Cart">
-        {tabContent['my-cart']}
+        {loading ? 'Loading...' : error ? error : tabContent['my-cart']}
       </Tab>
       <Tab eventKey="my-bids" title="My Bids">
-        {tabContent['my-bids']}
+      {loading ? 'Loading...' : error ? error : tabContent['my-bids']}
       </Tab>
       <Tab eventKey="my-listings" title="My Listings">
-        {tabContent['my-listings']}
+      {loading ? 'Loading...' : error ? error : tabContent['my-listings']}
       </Tab>
       <Tab eventKey="bought-items" title="Bought Items">
         {loading ? 'Loading...' : error ? error : tabContent['bought-items']}
       </Tab>
       <Tab eventKey="sold-items" title="Sold Items">
-        {tabContent['sold-items']}
+      {loading ? 'Loading...' : error ? error : tabContent['sold-items']}
       </Tab>
     </Tabs>
   );
