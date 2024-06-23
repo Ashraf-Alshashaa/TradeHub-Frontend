@@ -1,8 +1,6 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { ProductCount, TabContentDictionary } from './types';
 import ProductListing from '../../components/product-listing/Product-listing';
-import { Product } from '../../components/product-listing/types';
 import './tab.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
