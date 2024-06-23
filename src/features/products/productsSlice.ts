@@ -30,9 +30,9 @@ export const fetchProducts = createAsyncThunk(
 
 export const fetchBoughtProducts = createAsyncThunk(
   'products/fetchBoughtProducts',
-  async (buyerId: string, { rejectWithValue }) => {
+  async (buyer_id: string, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/products?buyer_id=${buyerId}`);
+      const response = await axiosInstance.get(`/products?buyer_id=${buyer_id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -42,9 +42,9 @@ export const fetchBoughtProducts = createAsyncThunk(
 
 export const fetchMyCart = createAsyncThunk(
   'products/fetchMyCart',
-  async (userId: string, { rejectWithValue }) => {
+  async (user_id: string, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/products?products?cart%20of%20the%20user=${userId}`);
+      const response = await axiosInstance.get(`/products?user_id=${user_id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -54,9 +54,9 @@ export const fetchMyCart = createAsyncThunk(
 
 export const fetchMyBids = createAsyncThunk(
   'products/fetchMyBids',
-  async (bidderId: string, { rejectWithValue }) => {
+  async (bidder_id: string, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/products?bidder_id=${bidderId}`);
+      const response = await axiosInstance.get(`/products?bidder_id=${bidder_id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -67,10 +67,10 @@ export const fetchMyBids = createAsyncThunk(
 
 export const fetchSoldProducts = createAsyncThunk(
   'products/fetchSoldProducts',
-  async ({ sellerId, flag }: { sellerId: string; flag: boolean }, { rejectWithValue }) => {
+  async ({ seller_id, sold }: { seller_id: string; sold: boolean }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get('/products', {
-        params: { sellerId , flag }} );
+        params: { seller_id , sold }} );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

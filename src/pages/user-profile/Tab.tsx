@@ -8,7 +8,7 @@ import { fetchBoughtProducts, fetchMyBids, fetchMyCart, fetchSoldProducts } from
 import { RootState } from '../../app/store';
 
 
-const buyerId = '1';
+const buyerId = '3';
 
 function ProfileTab() {
   const dispatch = useDispatch();
@@ -18,8 +18,8 @@ function ProfileTab() {
     dispatch(fetchMyCart(buyerId));
     dispatch(fetchBoughtProducts(buyerId));
     dispatch(fetchMyBids(buyerId))
-    dispatch(fetchSoldProducts({sellerId: buyerId, flag: '1'}))
-    dispatch(fetchSoldProducts({sellerId: buyerId, flag: '0'}))
+    dispatch(fetchSoldProducts({seller_id: buyerId, sold: 'true'}))
+    dispatch(fetchSoldProducts({seller_id: buyerId, sold: 'false'}))
     
   }, [dispatch]);
 
