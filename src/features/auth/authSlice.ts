@@ -4,7 +4,6 @@ import {AuthState} from "./types"
 
 const initialState: AuthState = {
   user: null,
-  user_id: null,
   isAuthenticated: false,
   loading: false,
   error: null,
@@ -23,10 +22,7 @@ export const login = createAsyncThunk(
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      console.log(response.data);
-
       localStorage.setItem('access_token', response.data.access_token);
-      console.log(response.data.user_id);
 
       return response.data
     } catch (error: any) {
@@ -41,7 +37,6 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.user = null;
-      state.user_id = null;
       state.isAuthenticated = false;
       localStorage.removeItem('access_token');
     },
@@ -54,7 +49,6 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.user_id = action.payload.user_id.toString();
         state.isAuthenticated = true;
         state.loading = false;
       })

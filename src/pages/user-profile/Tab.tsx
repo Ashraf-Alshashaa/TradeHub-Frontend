@@ -11,16 +11,15 @@ import { RootState } from '../../app/store';
 function ProfileTab() {
   const dispatch = useDispatch();
   const { myCart, myBids, boughtProducts, soldProducts, myListings,loading, error } = useSelector((state: RootState) => state.products);
-  const buyerId = useSelector((state:RootState)=> console.log(state.auth.user_id))
-  console.log(buyerId)
+  const { user } = useSelector((state: RootState) => state.auth);
   
 
   useEffect(() => {
-    dispatch(fetchMyCart(buyerId));
-    dispatch(fetchBoughtProducts(buyerId));
-    dispatch(fetchMyBids(buyerId))
-    dispatch(fetchSoldProducts({seller_id: buyerId, sold: 'true'}))
-    dispatch(fetchSoldProducts({seller_id: buyerId, sold: 'false'}))
+    dispatch(fetchMyCart(user.user_id));
+    dispatch(fetchBoughtProducts(user.user_id));
+    dispatch(fetchMyBids(user.user_id))
+    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: 'true'}))
+    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: 'false'}))
     
   }, [dispatch]);
 

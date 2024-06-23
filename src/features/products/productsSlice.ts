@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../axiosConfig';
 import { ProductsState } from './types';
-import { FaFlagCheckered } from 'react-icons/fa';
 
 const initialState: ProductsState = {
   products: [],
@@ -27,7 +26,7 @@ export const fetchProducts = createAsyncThunk(
   }
 );
 
-
+  
 export const fetchBoughtProducts = createAsyncThunk(
   'products/fetchBoughtProducts',
   async (buyer_id: string, { rejectWithValue }) => {
@@ -139,7 +138,8 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchSoldProducts.fulfilled, (state, action) => {
-        state.soldProducts = action.payload;
+        state.soldProducts = action.payload.filter((product: any) => product.sold);
+        state.myListings = action.payload;
         state.loading = false;
       })
       .addCase(fetchSoldProducts.rejected, (state, action) => {
