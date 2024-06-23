@@ -8,11 +8,12 @@ import { fetchBoughtProducts, fetchMyBids, fetchMyCart, fetchSoldProducts } from
 import { RootState } from '../../app/store';
 
 
-const buyerId = '3';
-
 function ProfileTab() {
   const dispatch = useDispatch();
   const { myCart, myBids, boughtProducts, soldProducts, myListings,loading, error } = useSelector((state: RootState) => state.products);
+  const buyerId = useSelector((state:RootState)=> console.log(state.auth.user_id))
+  console.log(buyerId)
+  
 
   useEffect(() => {
     dispatch(fetchMyCart(buyerId));
