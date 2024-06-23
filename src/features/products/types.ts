@@ -11,6 +11,11 @@ export interface Product {
   
 export interface ProductsState {
   products: Product[];
+  myCart : Product[];
+  myBids : Product[];
+  boughtProducts : Product[];
+  soldProducts : Product[];
+  myListings: Product[];
   product: Product | null;
   loading: boolean;
   error: string | null;

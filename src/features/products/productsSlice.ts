@@ -5,6 +5,11 @@ import { FaFlagCheckered } from 'react-icons/fa';
 
 const initialState: ProductsState = {
   products: [],
+  myCart : [],
+  myBids : [],
+  boughtProducts : [],
+  soldProducts : [],
+  myListings: [],
   product: null,
   loading: false,
   error: null,
@@ -60,11 +65,12 @@ export const fetchMyBids = createAsyncThunk(
 );
 
 
-export const fetchSoldItems = createAsyncThunk(
-  'products/fetchSoldItems',
-  async ({ sellerId, flag }: { sellerId: string; flag: string }, { rejectWithValue }) => {
+export const fetchSoldProducts = createAsyncThunk(
+  'products/fetchSoldProducts',
+  async ({ sellerId, flag }: { sellerId: string; flag: boolean }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get(`/products?seller_id=${sellerId}&sold=${flag}`);
+      const response = await axiosInstance.get('/products', {
+        params: { sellerId , flag }} );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -97,7 +103,7 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchBoughtProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.boughtProducts = action.payload;
         state.loading = false;
       })
       .addCase(fetchBoughtProducts.rejected, (state, action) => {
@@ -109,7 +115,7 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMyBids.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.myBids = action.payload;
         state.loading = false;
       })
       .addCase(fetchMyBids.rejected, (state, action) => {
@@ -121,22 +127,22 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMyCart.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.myCart = action.payload;
         state.loading = false;
       })
       .addCase(fetchMyCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(fetchSoldItems.pending, (state) => {
+      .addCase(fetchSoldProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchSoldItems.fulfilled, (state, action) => {
-        state.products = action.payload;
+      .addCase(fetchSoldProducts.fulfilled, (state, action) => {
+        state.soldProducts = action.payload;
         state.loading = false;
       })
-      .addCase(fetchSoldItems.rejected, (state, action) => {
+      .addCase(fetchSoldProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
