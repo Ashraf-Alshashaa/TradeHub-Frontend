@@ -13,6 +13,7 @@ import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../components/product-listing/types'
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
+import EditProduct from "../modals/Edit-product.tsx";
 
       
 const Test: FC = () => {
@@ -143,6 +144,9 @@ const product: Product = {
           </div>
           <div className="row my-4">
             <EditProfile />
+          </div>
+          <div className="row my-4">
+            <EditProduct />
           </div>
         </div>
       </div>
