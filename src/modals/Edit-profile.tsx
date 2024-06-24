@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
+import { useDispatch } from 'react-redux';
+import { useSelector} from 'react-redux';
+import { AppDispatch, RootState } from '../app/store';
+import { fetchUser } from '../features/users/userSlice';
+import { fetchDefaultAddress } from '../features/addresses/addressSlice';
 
 function EditProfile() {
   const [show, setShow] = useState(false);
@@ -15,15 +20,31 @@ function EditProfile() {
   const [country, setCountry] = useState("");
 
   // Fetch from backend
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { user: authUser } = useSelector((state: RootState) => state.auth);
+  console.log (authUser.user_id)
+  const { user, loading, error } = useSelector((state: RootState) => state.users);
+  const { address, loading, error} = userSelector((state: RootState) => state.addresses)
+
+  useEffect(() => {
+    if (authUser?.user_id) {
+      dispatch(fetchUser(authUser.user_id));
+      dispatch(fetchDefaultAddress({user_id : authUser.user_id, isDefault: true}))
+    }
+  }, [dispatch, authUser]);
+
+  const defaultAddress = address && address.length > 0 ? address[0] : null;
+
   const existingData = {
-    username: "user1",
-    email: "user1@example.com",
-    password: "password1",
-    street: "example street",
-    houseNumber: "123",
-    postcode: "1234AL",
-    city: "somewhere",
-    country: "The Netherlands"
+    username: user?.username,
+    email: user?.email,
+    password: 'password1',
+    street: defaultAddress?.street_name,
+    houseNumber: defaultAddress?.house_number,
+    postcode: defaultAddress?.postcode,
+    city: defaultAddress?.city,
+    country: defaultAddress?.country
   };
 
   useEffect(() => {
