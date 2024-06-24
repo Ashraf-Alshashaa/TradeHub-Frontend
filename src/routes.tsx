@@ -17,7 +17,7 @@ const routes: RouteObject[] = [
     element: <Test />,
   },
   {
-    path: '/user-profile',
+    path: '/profile',
     element: <UserProfile />,
     },
   {
