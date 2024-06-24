@@ -5,7 +5,7 @@ import TextInput from '../components/text-input/Text-input';
 import { useDispatch } from 'react-redux';
 import { useSelector} from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
-import { fetchUser } from '../features/users/userSlice';
+import { editUser, fetchUser } from '../features/users/userSlice';
 import { fetchDefaultAddress } from '../features/addresses/addressSlice';
 
 function EditProfile() {
@@ -23,41 +23,31 @@ function EditProfile() {
 
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
-  console.log (authUser.user_id)
   const { user, loading, error } = useSelector((state: RootState) => state.users);
-  const { address, loading, error} = userSelector((state: RootState) => state.addresses)
+  const { address } = useSelector((state: RootState) => state.addresses)
 
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
-      dispatch(fetchDefaultAddress({user_id : authUser.user_id, isDefault: true}))
+      dispatch(fetchDefaultAddress({user_id : authUser.user_id, isDefault: true}));
+      dispatch(editUser(authUser.user_id));
     }
   }, [dispatch, authUser]);
 
   const defaultAddress = address && address.length > 0 ? address[0] : null;
 
-  const existingData = {
-    username: user?.username,
-    email: user?.email,
-    password: 'password1',
-    street: defaultAddress?.street_name,
-    houseNumber: defaultAddress?.house_number,
-    postcode: defaultAddress?.postcode,
-    city: defaultAddress?.city,
-    country: defaultAddress?.country
-  };
-
   useEffect(() => {
-    // Set initial values when modal opens
-    setUsername(existingData.username);
-    setEmail(existingData.email);
-    setPassword(existingData.password);
-    setStreet(existingData.street);
-    setHouseNumber(existingData.houseNumber);
-    setPostcode(existingData.postcode);
-    setCity(existingData.city);
-    setCountry(existingData.country);
-  }, [show]);
+    if (user && defaultAddress) {
+      setUsername(user.username);
+      setEmail(user.email);
+      setPassword('password');  // Or you can set it to existing password or keep it blank for security
+      setStreet(defaultAddress.street_name);
+      setHouseNumber(defaultAddress.house_number);
+      setPostcode(defaultAddress.postcode);
+      setCity(defaultAddress.city);
+      setCountry(defaultAddress.country);
+    }
+  }, [user, defaultAddress, show]);
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
@@ -72,16 +62,15 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    // Logic to save changes (send to backend)
-    console.log(`Saving changes for: 
-      Username - ${username}, 
-      Email - ${email}, 
-      Password - ${password}, 
-      Street - ${street}, 
-      House Number - ${houseNumber}, 
-      Postcode - ${postcode}, 
-      City - ${city}, 
-      Country - ${country}`);
+    if (authUser?.user_id) {
+      const userData = {
+        id: authUser.user_id,
+        username,
+        email,
+        password,
+      };
+      dispatch(editUser(userData));
+    }
     handleClose();
   };
 
