@@ -15,7 +15,6 @@ function ProfileTab() {
   
 
   useEffect(() => {
-    dispatch(fetchMyCart(user.user_id));
     dispatch(fetchBoughtProducts(user.user_id));
     dispatch(fetchMyBids(user.user_id))
     dispatch(fetchSoldProducts({seller_id: user.user_id, sold: 'true'}))
@@ -35,14 +34,11 @@ function ProfileTab() {
 
   return (
     <Tabs
-      defaultActiveKey="my-cart"
+      defaultActiveKey="my-bids"
       id="profile-tab"
       className="mb-3"
       fill
     >
-      <Tab eventKey="my-cart" title="My Cart">
-        {loading ? 'Loading...' : error ? error : renderProducts(myCart, true)}
-      </Tab>
       <Tab eventKey="my-bids" title="My Bids">
       {loading ? 'Loading...' : error ? error : renderProducts(myBids)}
       </Tab>
