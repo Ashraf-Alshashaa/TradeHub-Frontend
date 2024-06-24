@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
@@ -14,7 +14,7 @@ function EditProfile() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
-  // Example of existing data (fetch this from your backend or context)
+  // Fetch from backend
   const existingData = {
     username: "user1",
     email: "user1@example.com",
@@ -36,7 +36,7 @@ function EditProfile() {
     setPostcode(existingData.postcode);
     setCity(existingData.city);
     setCountry(existingData.country);
-  }, [show]); // Only run when `show` changes (modal opens)
+  }, [show]);
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
@@ -51,7 +51,7 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    // Logic to save changes (e.g., send to backend)
+    // Logic to save changes (send to backend)
     console.log(`Saving changes for: 
       Username - ${username}, 
       Email - ${email}, 
