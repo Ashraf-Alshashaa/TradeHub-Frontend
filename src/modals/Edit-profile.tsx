@@ -6,15 +6,15 @@ import { useDispatch } from 'react-redux';
 import { useSelector} from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { editUser, fetchUser } from '../features/users/userSlice';
-import { fetchDefaultAddress } from '../features/addresses/addressSlice';
+import { editAddress, fetchDefaultAddress } from '../features/addresses/addressSlice';
 
 function EditProfile() {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [street, setStreet] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
+  const [street_name, setStreet] = useState("");
+  const [house_number, setHouseNumber] = useState("");
   const [postcode, setPostcode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
@@ -26,15 +26,17 @@ function EditProfile() {
   const { user, loading, error } = useSelector((state: RootState) => state.users);
   const { address } = useSelector((state: RootState) => state.addresses)
 
+  const defaultAddress = address && address.length > 0 ? address[0] : null;
+
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
       dispatch(fetchDefaultAddress({user_id : authUser.user_id, isDefault: true}));
       dispatch(editUser(authUser.user_id));
+      dispatch(editAddress(defaultAddress.id))
     }
   }, [dispatch, authUser]);
 
-  const defaultAddress = address && address.length > 0 ? address[0] : null;
 
   useEffect(() => {
     if (user && defaultAddress) {
@@ -62,17 +64,28 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    if (authUser?.user_id) {
+    if (authUser?.user_id && defaultAddress) {
       const userData = {
         id: authUser.user_id,
         username,
         email,
         password,
       };
+      const addressData = {
+        ...defaultAddress,
+        street_name: street_name,
+        house_number: house_number,
+        postcode,
+        city,
+        country,
+      };
+  
       dispatch(editUser(userData));
+      dispatch(editAddress(addressData));
     }
     handleClose();
   };
+  
 
   return (
     <>
@@ -126,7 +139,7 @@ function EditProfile() {
             <div className='col-6'>
               <TextInput
                 label="Street"
-                value={street}
+                value={street_name}
                 onChange={handleStreetChange}
                 type="text"
               />
@@ -134,7 +147,7 @@ function EditProfile() {
             <div className='col-6'>
               <TextInput
                 label="House Number"
-                value={houseNumber}
+                value={house_number}
                 onChange={handleHouseNumberChange}
                 type="text"
               />
