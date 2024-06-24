@@ -4,13 +4,13 @@ import ProductListing from '../../components/product-listing/Product-listing';
 import './tab.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBoughtProducts, fetchMyBids, fetchMyCart, fetchSoldProducts } from '../../features/products/productsSlice';
+import { fetchBoughtProducts, fetchMyBids, fetchSoldProducts } from '../../features/products/productsSlice';
 import { RootState } from '../../app/store';
 
 
 function ProfileTab() {
   const dispatch = useDispatch();
-  const { myCart, myBids, boughtProducts, soldProducts, myListings,loading, error } = useSelector((state: RootState) => state.products);
+  const { myBids, boughtProducts, soldProducts, myListings, loading, error } = useSelector((state: RootState) => state.products);
   const { user } = useSelector((state: RootState) => state.auth);
   
 
@@ -31,6 +31,9 @@ function ProfileTab() {
     }
     return 'No content';
   };
+
+  if (loading) return <h3>Loading</h3>;
+  if (error) return <h3>Error</h3>;
 
   return (
     <Tabs

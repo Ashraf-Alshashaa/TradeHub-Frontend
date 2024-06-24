@@ -28,9 +28,8 @@ const existingData = {
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { user: authUser } = useSelector((state: RootState) => state.auth);
-  console.log (authUser.user_id)
-  const { user, loading, error } = useSelector((state: RootState) => state.users);
+  const { user: authUser, loading, error } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
     if (authUser?.user_id) {
@@ -39,6 +38,8 @@ const UserProfile: React.FC = () => {
   }, [dispatch, authUser]);
 
   const config = user ? genConfig(user.username) : genConfig("default");
+  if (loading) return <h1>Loading</h1>;
+  if (error) return <h1>Error</h1>;
 
   return (
     <div className="UserProfile">
