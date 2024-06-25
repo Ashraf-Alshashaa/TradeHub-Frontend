@@ -11,6 +11,7 @@ import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import EditProduct from "../modals/Add-product.tsx";
+import Textarea from "../components/textarea/Textarea.tsx";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -86,6 +87,11 @@ const Test: FC = () => {
               value={password}
               onChange={handlePasswordChange}
               type="password"
+            />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
             />
           </div>
           <div className="row my-4">
