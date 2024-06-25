@@ -10,35 +10,19 @@ import Header from '../../components/header/Header';
 import Avatar, { genConfig } from 'react-nice-avatar';
 
 
-const existingData = {
-  username: "user1",
-  email: "user1@example.com",
-  password: "password1",
-  street: "example street",
-  houseNumber: "123",
-  postcode: "1234AL",
-  city: "somewhere",
-  country: "The Netherlands"
-};
-
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser, loading, error } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.users);
-  const { address } = useSelector((state: RootState) => state.addresses)
   
 
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
-      dispatch(fetchDefaultAddress({user_id: authUser.user_id, isDefault: true}))
     }
   }, [dispatch, authUser]);
 
-  console.log({address})
-
   const config = user ? genConfig(user.username) : genConfig("default");
-  const defaultAddress = address && address.length > 0 ? address[0] : null;
   if (loading) return <h1>Loading</h1>;
   if (error) return <h1>Error</h1>;
 
@@ -58,11 +42,11 @@ const UserProfile: React.FC = () => {
           </div>
           <div className='row'>
             <p> Address: &nbsp;&nbsp;
-              {defaultAddress?.street_name || 'Loading...'}&nbsp;&nbsp; 
-              {defaultAddress?.house_number || 'Loading...'}, &nbsp;&nbsp;
-              {defaultAddress?.postcode || 'Loading...'}, &nbsp;&nbsp;
-              {defaultAddress?.city || 'Loading...'}, &nbsp;&nbsp;
-              {defaultAddress?.country || 'Loading...'}</p>
+              {user?.address?.street_name || 'Loading...'}&nbsp;&nbsp; 
+              {user?.address?.house_number || 'Loading...'}, &nbsp;&nbsp;
+              {user?.address?.postcode || 'Loading...'}, &nbsp;&nbsp;
+              {user?.address?.city || 'Loading...'}, &nbsp;&nbsp;
+              {user?.address?.country || 'Loading...'}</p>
           </div>
         </div>
         <div className='col-2 pt-5'>
