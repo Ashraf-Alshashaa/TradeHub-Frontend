@@ -1,3 +1,5 @@
 export interface FilterByProps {
-    categories: string[]; 
-  }
+  categories: string[];
+  priceRange: [number, number];
+  onPriceChange: (values: number[]) => void;
+}

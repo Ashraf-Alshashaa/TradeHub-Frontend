@@ -7,11 +7,9 @@ import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 
 
-
-const FilterBy: FC<FilterByProps> = ({  categories }) => {
-
+const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { min_price, max_price ,loading, error } = useSelector(
+  const { min_price, max_price, loading, error } = useSelector(
     (state: RootState) => state.pricerange
   );
 
@@ -19,14 +17,7 @@ const FilterBy: FC<FilterByProps> = ({  categories }) => {
     dispatch(fetchPriceRange());
   }, [dispatch]);
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
-
-  const handlePriceChange = (values: number[]) => {
-    setPriceRange([values[0], values[1]]);
-    console.log('Price Range:', [values[0], values[1]]);
-  };
 
   const handleCategoryChange = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -43,29 +34,29 @@ const FilterBy: FC<FilterByProps> = ({  categories }) => {
         <div className="price-heading">
           <h3>Price</h3>
         </div>
-          <div className="price-slider">
-            <Range
-              values={priceRange}
-              step={1}
-              min={min_price}
-              max={max_price}
-              onChange={handlePriceChange}
-              renderTrack={({ props, children }) => (
-                <div
-                  {...props}
-                  style={{
-                    ...props.style,
-                    height: '6px',
-                    width: '100%',
-                    background: getTrackBackground({
-                      values: priceRange,
-                      colors: ['#ccc', 'var(--primary-color)', '#ccc'],
-                      min: 0,
-                      max: 100
-                    })
-                  }}
-                >
-                  {children}
+        <div className="price-slider">
+          <Range
+            values={priceRange}
+            step={50}
+            min={min_price}
+            max={max_price}
+            onChange={onPriceChange}
+            renderTrack={({ props, children }) => (
+              <div
+                {...props}
+                style={{
+                  ...props.style,
+                  height: '6px',
+                  width: '100%',
+                  background: getTrackBackground({
+                    values: priceRange,
+                    colors: ['#ccc', 'var(--primary-color)', '#ccc'],
+                    min: min_price,
+                    max: max_price
+                  })
+                }}
+              >
+                {children}
               </div>
             )}
             renderThumb={({ props }) => (
@@ -82,7 +73,7 @@ const FilterBy: FC<FilterByProps> = ({  categories }) => {
             )}
           />
           <div className="slider-values">
-            <span>€{priceRange[0]}</span>  <span>€{priceRange[1]}</span>
+            <span>€{priceRange[0]}</span> <span>€{priceRange[1]}</span>
           </div>
         </div>
       </div>
@@ -104,6 +95,5 @@ const FilterBy: FC<FilterByProps> = ({  categories }) => {
     </div>
   );
 };
-
 
 export default FilterBy;
