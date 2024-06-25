@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
@@ -18,14 +18,14 @@ function AddProduct() {
   const [productDescription, setProductDescription] = useState("");
   const [productCondition, setProductCondition] = useState<ProductCondition>(ProductCondition.New); // Initial state set to 'New'
   const [productPrice, setProductPrice] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   const handleProductNameChange = (value) => setProductName(value);
   const handleProductImageChange = (value) => setProductImage(value);
   const handleProductDescriptionChange = (value) => setProductDescription(value);
   const handleProductPriceChange = (value) => setProductPrice(value);
 
-  // Handler for changing product condition using enum
+  
   const handleProductConditionChange = (condition: ProductCondition) => {
     setProductCondition(condition);
   };
@@ -52,32 +52,39 @@ function AddProduct() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    // Logic to save the new product (e.g., send to backend)
+    // SEND TO BACKEND
     console.log(`Saving new product: 
       Name - ${productName}, 
       Image - ${productImage}, 
       Description - ${productDescription}, 
       Condition - ${productCondition}, 
-      Categories - ${selectedCategories.join(', ')}`);
-    handleClose(); // Close modal after saving
-    // Reset form fields if needed
+      Category - ${selectedCategory}`);
+    handleClose();
+    
     setProductName("");
     setProductImage("");
     setProductDescription("");
     setProductCondition(ProductCondition.New); // Reset condition to 'New'
     setProductPrice("");
-    setSelectedCategories([]);
+    setSelectedCategory(null);
   };
 
-  const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategory(categoryId);
   };
 
-  const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
+  const categories = [
+    { id: "1", name: "Electronics" },
+    { id: "2", name: "Furniture" },
+    { id: "3", name: "Toys" },
+    { id: "4", name: "Clothes" },
+  ];
+
+  const CategoryDropdownData = categories.map(category => ({
+    id: category.id,
+    onClick: () => handleCategoryChange(category.id),
+    content: category.name,
+  }));
 
   return (
     <>
@@ -95,11 +102,19 @@ function AddProduct() {
         </Modal.Header>
         <Modal.Body>
           <div className='row'>
-            <div className='col-12 mt-2'>
+            <div className='col-8 mt-2'>
               <TextInput
                 label="Product Name"
                 value={productName}
                 onChange={handleProductNameChange}
+                type="text"
+              />
+            </div>
+            <div className='col-4 mt-2'>
+              <TextInput
+                label="Product Price"
+                value={productPrice}
+                onChange={handleProductPriceChange}
                 type="text"
               />
             </div>
@@ -124,27 +139,8 @@ function AddProduct() {
               <DropdownMenu data={Conditions} title="Choose Condition" />
             </div>
             <div className='col-6 mt-2'>
-              <TextInput
-                label="Product Price"
-                value={productPrice}
-                onChange={handleProductPriceChange}
-                type="text"
-              />
-            </div>
-            <div className='col-12 mt-2'>
-              <h6>Product Categories</h6>
-              <div className="d-flex flex-wrap">
-                {categories.map((category, index) => (
-                  <label key={index} className="mx-4 mb-2">
-                    <input
-                      type="checkbox"
-                      checked={selectedCategories.includes(category)}
-                      onChange={() => handleCategoryChange(category)}
-                    />
-                    &nbsp; {category}
-                  </label>
-                ))}
-              </div>
+              <h6>Product Category</h6>
+              <DropdownMenu data={CategoryDropdownData} title="Choose Category" />
             </div>
           </div>
         </Modal.Body>
