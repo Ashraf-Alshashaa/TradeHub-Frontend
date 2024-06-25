@@ -81,6 +81,8 @@ const Test: FC = () => {
               onChange={handleEmailChange}
               type="email"
             />
+
+            < ChooseWinner />
             <TextInput
               label="Password"
               value={password}
