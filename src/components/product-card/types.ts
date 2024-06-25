@@ -3,5 +3,4 @@ export interface ProductCardProps {
   name: string;
   price: number;
   location: string;
-  onClick: () => void;
 }

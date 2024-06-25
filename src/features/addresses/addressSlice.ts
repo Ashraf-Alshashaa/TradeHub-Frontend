@@ -27,7 +27,7 @@ export const fetchDefaultAddress = createAsyncThunk(
   async ({ user_id, isDefault } : { user_id: string; isDefault: boolean }, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get('/addresses', {
-        params: { user_id , default: isDefault }} );
+        params: { user_id: user_id , default: isDefault }} );
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
