@@ -31,7 +31,6 @@ function EditProfile() {
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
-      dispatch(fetchDefaultAddress({user_id : authUser.user_id, isDefault: true}));
       dispatch(editUser(authUser.user_id));
       dispatch(editAddress(defaultAddress.id))
     }
@@ -43,13 +42,13 @@ function EditProfile() {
       setUsername(user.username);
       setEmail(user.email);
       setPassword('password');  // Or you can set it to existing password or keep it blank for security
-      setStreet(defaultAddress.street_name);
-      setHouseNumber(defaultAddress.house_number);
-      setPostcode(defaultAddress.postcode);
-      setCity(defaultAddress.city);
-      setCountry(defaultAddress.country);
+      setStreet(user.address?.street_name);
+      setHouseNumber(user.address?.house_number);
+      setPostcode(user.address?.postcode);
+      setCity(user.address?.city);
+      setCountry(user.address?.country);
     }
-  }, [user, defaultAddress, show]);
+  }, [user, show]);
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
@@ -64,24 +63,22 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    if (authUser?.user_id && defaultAddress) {
+    if (authUser?.user_id) {
       const userData = {
         id: authUser.user_id,
         username,
         email,
         password,
-      };
-      const addressData = {
-        ...defaultAddress,
-        street_name: street_name,
-        house_number: house_number,
-        postcode,
-        city,
-        country,
+        address: {
+        street_name: user?.address.street_name,
+        house_number: user?.address.house_number,
+        postcode: user?.address.postcode,
+        city: user?.address.city,
+        country: user?.address.country }
       };
   
       dispatch(editUser(userData));
-      dispatch(editAddress(addressData));
+      dispatch(editAddress(address));
     }
     handleClose();
   };
