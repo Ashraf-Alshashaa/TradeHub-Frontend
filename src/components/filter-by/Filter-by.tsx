@@ -8,7 +8,7 @@ import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice';
 
 
 
-const FilterBy: FC<FilterByProps> = ({ onPriceChange, categories }) => {
+const FilterBy: FC<FilterByProps> = ({  categories }) => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { min_price, max_price ,loading, error } = useSelector(
@@ -25,7 +25,7 @@ const FilterBy: FC<FilterByProps> = ({ onPriceChange, categories }) => {
 
   const handlePriceChange = (values: number[]) => {
     setPriceRange([values[0], values[1]]);
-    onPriceChange([values[0], values[1]]);
+    console.log('Price Range:', [values[0], values[1]]);
   };
 
   const handleCategoryChange = (category: string) => {

@@ -22,26 +22,13 @@ const Test: FC = () => {
 
   useEffect(() => {
     dispatch(fetchPriceRange());
+    dispatch(fetchProducts({
+      min_price:  min_price,
+      max_price:  max_price,
+      }))
   }, [dispatch]);
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
-
-  const handlePriceChange = (values: number[]) => {
-    setPriceRange([values[0], values[1]]);
-  };
-
-  useEffect(() => {
-    const fetchFilteredProducts = () => {
-      dispatch(fetchProducts({
-        min_price: priceRange ? min_price : undefined,
-        max_price: priceRange ? max_price : undefined
-        }));
-      };
-
-    fetchFilteredProducts();
-  }, [dispatch, priceRange]);
+console.log(products)
   interface ProductProps {
     id: number;
     name: string;
@@ -86,7 +73,7 @@ const Test: FC = () => {
       <Header />
       <div className="row">
         <div className="col-3">
-          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+          <FilterBy categories={categories} />
         </div>
 
         <div className="col-9 my-4 overflow-auto scrollable-products">
