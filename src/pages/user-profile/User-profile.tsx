@@ -26,6 +26,7 @@ const UserProfile: React.FC = () => {
   const { user: authUser, loading, error } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.users);
   const { address } = useSelector((state: RootState) => state.addresses)
+  
 
   useEffect(() => {
     if (authUser?.user_id) {

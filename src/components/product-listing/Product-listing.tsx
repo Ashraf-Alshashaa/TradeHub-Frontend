@@ -1,5 +1,6 @@
 import React from 'react';
 import './product-listing.css';
+import { useNavigate } from "react-router-dom";
 import { ProductListingProps } from './types';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -9,9 +10,8 @@ import Form from 'react-bootstrap/Form';
 const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
 {
 const type = 'checkbox'
-const handleClick = () => alert("card clicked!")
-// const handleClick = () => {
-//   navigate(`/product/${product.id}`);}
+const navigate = useNavigate();
+const handleClick = () => navigate('/product')
 
   return (
     <div className='py-1' onClick={handleClick}>
