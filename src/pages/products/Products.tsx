@@ -7,9 +7,41 @@ import ProductCard from "../../components/product-card/Product-card";
 import "./products.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
+import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { AppDispatch, RootState } from "../../app/store";
 
 const Test: FC = () => {
+
+  const dispatch = useDispatch<AppDispatch>();
+  const { products, loading, error } = useSelector(
+    (state: RootState) => state.products
+  );
+  const { min_price, max_price } = useSelector(
+    (state: RootState) => state.pricerange
+  );
+
+  useEffect(() => {
+    dispatch(fetchPriceRange());
+  }, [dispatch]);
+
+  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+
+  const handlePriceChange = (values: number[]) => {
+    setPriceRange([values[0], values[1]]);
+  };
+
+  useEffect(() => {
+    const fetchFilteredProducts = () => {
+      dispatch(fetchProducts({
+        min_price: priceRange ? min_price : undefined,
+        max_price: priceRange ? max_price : undefined
+        }));
+      };
+
+    fetchFilteredProducts();
+  }, [dispatch, priceRange]);
   interface ProductProps {
     id: number;
     name: string;
@@ -20,12 +52,7 @@ const Test: FC = () => {
     condition: string;
     category_id: number;
   }
-  const [priceRange, setPriceRange] = useState<[number, number] | null>(null);
 
-  const handlePriceChange = (value: [number, number]) => {
-    console.log("New price range:", value);
-    setPriceRange(value);
-  };
   const cardClicked = () => alert("Card clicked");
   const categories = [
     "Electronics",
@@ -38,25 +65,6 @@ const Test: FC = () => {
     "Groceries",
   ];
 
-  const dispatch = useDispatch<AppDispatch>();
-  const { products, loading, error } = useSelector(
-    (state: RootState) => state.products
-  );
-
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    const fetchFilteredProducts = () => {
-      dispatch(fetchProducts({
-        min_price: priceRange ? priceRange[0] : undefined,
-        max_price: priceRange ? priceRange[1] : undefined
-        }));
-      };
-
-    fetchFilteredProducts();
-  }, [dispatch, priceRange]);
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
