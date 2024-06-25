@@ -3,6 +3,7 @@ import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
 import DropdownMenu from '../components/dropdown/Dropdown';
+import Textarea from "../components/textarea/Textarea.tsx";
 
 // Define the enum for product conditions
 enum ProductCondition {
@@ -22,10 +23,9 @@ function AddProduct() {
 
   const handleProductNameChange = (value) => setProductName(value);
   const handleProductImageChange = (value) => setProductImage(value);
-  const handleProductDescriptionChange = (value) => setProductDescription(value);
+  const handleProductDescriptionChange = (event) => setProductDescription(event.target.value);
   const handleProductPriceChange = (value) => setProductPrice(value);
 
-  
   const handleProductConditionChange = (condition: ProductCondition) => {
     setProductCondition(condition);
   };
@@ -127,11 +127,10 @@ function AddProduct() {
               />
             </div>
             <div className='col-12 mt-2'>
-              <TextInput
-                label="Product Description"
-                value={productDescription}
+              <Textarea
+                label="Description"
+                required={false}
                 onChange={handleProductDescriptionChange}
-                type="text"
               />
             </div>
             <div className='col-6 mt-2'>
