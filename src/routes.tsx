@@ -5,6 +5,7 @@ const Test = lazy(() => import("./pages/Test"));
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login/Login"));
 const Products = lazy(() => import("./pages/products/Products"));
+const UserProfile = lazy(()=> import('./pages/user-profile/User-profile'));
 
 const routes: RouteObject[] = [
   {
@@ -15,6 +16,10 @@ const routes: RouteObject[] = [
     path: "/test",
     element: <Test />,
   },
+  {
+    path: '/user-profile',
+    element: <UserProfile />,
+    },
   {
     path: "/login",
     element: <Login />,

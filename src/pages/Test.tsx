@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import TextInput from "../components/text-input/Text-input";
 import FilterBy from "../components/filter-by/Filter-by";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -9,15 +9,32 @@ import CustomButton from "../components/button/Button";
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
+import ProductListing from '../components/product-listing/Product-listing';
+import { Product } from '../components/product-listing/types'
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import EditProduct from "../modals/Add-product.tsx";
 import Textarea from "../components/textarea/Textarea.tsx";
+import EditProfile from "../modals/Edit-profile.tsx";
+import EditProduct from "../modals/Edit-product.tsx";
+import { LuSofa } from "react-icons/lu";
+import { fetchProductById } from "../features/products/productsSlice.ts";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState} from "../app/store.ts";
 
 const Test: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  
+  useEffect(() => {dispatch(fetchProductById(1));
+  }, [dispatch])
+  
+  const { product: existingData } = useSelector(
+    (state: RootState) => state.products
+  );
+        
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
   };
-
+  
   const handleSecondaryClick = () => {
     alert("Secondary Button Clicked!");
   };
@@ -30,6 +47,10 @@ const Test: FC = () => {
   const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
+  };
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
   };
 
   const navigate = useNavigate();
@@ -57,6 +78,12 @@ const Test: FC = () => {
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
 
+const product: Product = {
+  image: 'https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg',
+  name: 'Product name',
+  price: '$XX.YY',
+  onClick: () => alert("Card clicked")
+};
   const cardClicked = () => alert("Card Clicked");
 
   const bidders = [
@@ -92,6 +119,12 @@ const Test: FC = () => {
               label="Text"
               required={true}
               onChange={(e) => console.log(e.target.value)}
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
             />
           </div>
           <div className="row my-4">
@@ -137,6 +170,14 @@ const Test: FC = () => {
               buttonType="secondary"
             />
             <EditProduct/>
+          </div>
+          <div className="row my-4">
+            <EditProfile />
+          </div>
+          <div className="row my-4">
+            {existingData && 
+            <EditProduct existingData={existingData}/>
+            }
           </div>
         </div>
       </div>
