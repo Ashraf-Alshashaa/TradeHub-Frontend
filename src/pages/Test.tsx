@@ -12,7 +12,7 @@ import Header from "../components/header/Header";
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../components/product-listing/types'
 import RadioButton from "../components/radio-button/Radio-button.tsx";
-import EditProduct from "../modals/Add-product.tsx";
+import AddProduct from "../modals/Add-product.tsx";
 import Textarea from "../components/textarea/Textarea.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
@@ -169,7 +169,7 @@ const product: Product = {
               onClick={handleSecondaryClick}
               buttonType="secondary"
             />
-            <EditProduct/>
+            <AddProduct/>
           </div>
           <div className="row my-4">
             <EditProfile />
