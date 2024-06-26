@@ -13,3 +13,9 @@ export type ProductTypes {
 export interface EditProductProps {
     existingData: ProductTypes
 }
+
+export interface AddProductProps {
+    show: boolean;
+    handleClose: () => void;
+    user: any;
+  }

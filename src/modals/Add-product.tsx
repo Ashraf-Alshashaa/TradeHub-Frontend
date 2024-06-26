@@ -4,22 +4,29 @@ import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
 import DropdownMenu from '../components/dropdown/Dropdown';
 import Textarea from "../components/textarea/Textarea.tsx";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../app/store.ts';
+import { createProduct } from '../features/products/productsSlice.ts';
+import { AddProductProps } from './types.ts';
+
 
 // Define the enum for product conditions
 enum ProductCondition {
-  New = 'New',
-  GoodAsNew = 'Good as new',
-  Used = 'Used',
+  New = 'new',
+  GoodAsNew = 'good as new',
+  Used = 'used',
 }
 
-function AddProduct() {
-  const [show, setShow] = useState(false);
+const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [productCondition, setProductCondition] = useState<ProductCondition>(ProductCondition.New); // Initial state set to 'New'
   const [productPrice, setProductPrice] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const dispatch = useDispatch<AppDispatch>();
+
 
   const handleProductNameChange = (value) => setProductName(value);
   const handleProductImageChange = (value) => setProductImage(value);
@@ -34,39 +41,56 @@ function AddProduct() {
     {
       id: "1",
       onClick: () => handleProductConditionChange(ProductCondition.New),
-      content: ProductCondition.New,
+      content: "New",
     },
     {
       id: "2",
       onClick: () => handleProductConditionChange(ProductCondition.GoodAsNew),
-      content: ProductCondition.GoodAsNew,
+      content:"Good as new",
     },
     {
       id: "3",
       onClick: () => handleProductConditionChange(ProductCondition.Used),
-      content: ProductCondition.Used,
+      content: "Used",
     },
   ];
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    // SEND TO BACKEND
-    console.log(`Saving new product: 
-      Name - ${productName}, 
-      Image - ${productImage}, 
-      Description - ${productDescription}, 
-      Condition - ${productCondition}, 
-      Category - ${selectedCategory}`);
-    handleClose();
+    if (!productName || !productPrice || !selectedCategory || !productCondition || !productImage || !productDescription) {
+      alert("Please fill all required fields.");
+      return;
+    }
+   
+    const newProduct = {
+      name: productName,
+      image: productImage,
+      description: productDescription,
+      seller_id: user?.user_id,
+      buyer_id: null,
+      date: new Date().toISOString(),
+      condition: productCondition,
+      price: parseFloat(productPrice), // Assuming the price is a number
+      category_id: selectedCategory,
+    };
+    console.log('Saving new product:', newProduct);
+
+    console.log('User before saving product:', user); // Add this line for debugging
+
+
+    if (user?.user_id) {
+      dispatch(createProduct(newProduct));
+      handleClose();
     
-    setProductName("");
-    setProductImage("");
-    setProductDescription("");
-    setProductCondition(ProductCondition.New); // Reset condition to 'New'
-    setProductPrice("");
-    setSelectedCategory(null);
+      setProductName("");
+      setProductImage("");
+      setProductDescription("");
+      setProductCondition(ProductCondition.New); // Reset condition to 'New'
+      setProductPrice("");
+      setSelectedCategory(null);
+    } else {
+      console.error('User is not defined. Cannot save product.');
+    }
   };
 
   const handleCategoryChange = (categoryId: string) => {
@@ -74,10 +98,10 @@ function AddProduct() {
   };
 
   const categories = [
-    { id: "1", name: "Electronics" },
-    { id: "2", name: "Furniture" },
-    { id: "3", name: "Toys" },
-    { id: "4", name: "Clothes" },
+    { id: 1, name: "Electronics" },
+    { id: 2, name: "Furniture" },
+    { id: 3, name: "Toys" },
+    { id: 4, name: "Clothes" },
   ];
 
   const CategoryDropdownData = categories.map(category => ({
@@ -88,8 +112,6 @@ function AddProduct() {
 
   return (
     <>
-      <CustomButton text="Add Product" onClick={handleShow} buttonType='secondary'/>
-
       <Modal
         size="lg"
         show={show}
@@ -112,10 +134,10 @@ function AddProduct() {
             </div>
             <div className='col-4 mt-2'>
               <TextInput
-                label="Product Price"
+                label="Price"
                 value={productPrice}
-                onChange={handleProductPriceChange}
-                type="text"
+                onChange={(n) => handleProductPriceChange(n)}
+                type="price"
               />
             </div>
             <div className='col-12 mt-2'>

@@ -95,6 +95,11 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
+    if (productPrice === undefined || productPrice === null) {
+      alert("Please enter a valid price.");
+
+    }
+  
 
     dispatch(updateProduct({id : existingData.id, productData: {
       name: productName,
@@ -135,7 +140,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
           </Modal.Header>
           <Modal.Body>
             <div className='row'>
-              <div className='col-12 mt-2'>
+              <div className='col-8 mt-2'>
                 <TextInput
                   label="Product Name"
                   value={productName}
@@ -143,7 +148,15 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   type="text"
                 />
               </div>
-              <div className='col-12 mt-3'>
+              <div className='col-4 mt-2'>
+                  <TextInput
+                    label="Price"
+                    value={productPrice}
+                    onChange={(n) => handleProductPriceChange(n)}
+                    type="price"
+                  />
+              </div>
+              <div className='col-12 mt-2'>
                 <TextInput
                   label="Product Image URL"
                   value={productImage}
@@ -151,32 +164,20 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   type="text"
                 />
               </div>
-              <div className='row'>
-                <div className='col-12 mt-4'>
-                  <Textarea
+              <div className='col-12 mt-2'>
+                <Textarea
                     label="Product Description"
                     required={false}
                     onChange={(e) => setProductDescription(e.target.value)}
-                  />
-                </div>
-                <div className='col-6 mt-4'>
+                />
+              </div>
+              <div className='col-6 mt-2'>
                   <h6>Product Condition</h6>
                   <DropdownMenu data={Conditions} title="Choose Condition" />
-                </div>
-                <div className='col-6 mt-4'>
-                  <TextInput
-                    label="Product Price"
-                    value={productPrice}
-                    onChange={(n) => handleProductPriceChange(n)}
-                    type="price"
-                  />
-                </div>
-                <div className='col-6 mt-4'>
-                  <h6>Product Categories</h6>
-                  <div className="d-flex flex-wrap">
-                  <DropdownMenu data={Categories} title="Choose Category" />
-                </div>
               </div>
+              <div className='col-6 mt-2'>
+                  <h6>Product Categories</h6>
+                  <DropdownMenu data={Categories} title="Choose Category" />
               </div>
             </div>
           </Modal.Body>

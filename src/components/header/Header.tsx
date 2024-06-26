@@ -9,6 +9,7 @@ import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import AddProduct from "../../modals/Add-product";
 
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -17,6 +18,7 @@ const Header: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
     setCategories([
@@ -31,6 +33,7 @@ const Header: FC = () => {
     ]);
   }, []);
 
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -41,7 +44,7 @@ const Header: FC = () => {
   };
 
   const handleSellNowOnclick = () => {
-    !user ? navigate("/login") : alert("Sell Now clicked");
+    !user ? navigate("/login") : setShowAddProductModal(true);
   };
 
   const handleLogin = () => {
@@ -115,6 +118,7 @@ const Header: FC = () => {
             onClick={handleSellNowOnclick}
             buttonType="primary"
           />
+          
         </div>
         {user?.username ? (
           <div className="profile-select">
@@ -154,8 +158,12 @@ const Header: FC = () => {
           <Icon name="shopping_cart" onclick={handleShoppingCart} />
         </div>
       </div>
+      {/* Render AddProductModal based on showAddProductModal state */}
+    <AddProduct  user={user} show={showAddProductModal} handleClose={() => setShowAddProductModal(false)}  />
     </header>
   );
 };
 
 export default Header;
+
+
