@@ -42,7 +42,7 @@ function EditProfile() {
         setCountry(user.address.country);
       }
     }
-  }, [user,  show]);
+  }, [user, user?.address,  show]);
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
