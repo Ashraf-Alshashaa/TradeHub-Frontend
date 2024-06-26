@@ -33,7 +33,7 @@ function EditProfile() {
     if (user) {
       setUsername(user.username);
       setEmail(user.email);
-      setPassword('password');  // Or you can set it to existing password or keep it blank for security
+      setPassword('');  // Or you can set it to existing password or keep it blank for security
       if (user.address) {
         setStreet(user.address.street_name);
         setHouseNumber(user.address.house_number);
@@ -108,12 +108,14 @@ function EditProfile() {
               <h5>Personal Information</h5>
             </div>
             <div className='col-6'>
-              <TextInput
+              {/* <TextInput
                 label="Username"
                 value={username}
                 onChange={handleUsernameChange}
                 type="text"
-              />
+              /> */}
+              <p className='py-1'> Username </p>
+              <p className='px-3'> {user?.username || 'Loading...'} </p>
             </div>
             <div className='col-6'>
               <TextInput
