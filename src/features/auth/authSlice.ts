@@ -2,8 +2,11 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../axiosConfig';
 import {AuthState} from "./types"
 
+const localStorageUser = localStorage.getItem("user");
+const user = localStorageUser ? JSON.parse(localStorageUser) : null;
+
 const initialState: AuthState = {
-  user: null,
+  user: user,
   isAuthenticated: false,
   loading: false,
   error: null,
@@ -51,6 +54,7 @@ const authSlice = createSlice({
         state.user = action.payload;
         state.isAuthenticated = true;
         state.loading = false;
+        localStorage.setItem('user', JSON.stringify(action.payload));
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
