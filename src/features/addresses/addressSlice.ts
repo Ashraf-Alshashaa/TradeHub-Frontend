@@ -51,9 +51,9 @@ export const fetchAddressById = createAsyncThunk(
 
 export const editAddress = createAsyncThunk(
   'addresses/editAddress',
-  async (addressData: any, { rejectWithValue }) => {
+  async ({addressData, id} : {addressData: any , id: number | undefined}, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(`/addresses/${addressData.id}`, addressData);
+      const response = await axiosInstance.put(`/addresses/${id}`, addressData);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

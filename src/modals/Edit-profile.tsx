@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
-import { useDispatch } from 'react-redux';
-import { useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { editUser, fetchUser } from '../features/users/userSlice';
-import { editAddress, fetchDefaultAddress } from '../features/addresses/addressSlice';
+import { editAddress } from '../features/addresses/addressSlice';
 
 function EditProfile() {
   const [show, setShow] = useState(false);
@@ -19,37 +18,31 @@ function EditProfile() {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
-  // Fetch from backend
 
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
   const { user, loading, error } = useSelector((state: RootState) => state.users);
-  const { address } = useSelector((state: RootState) => state.addresses)
-
-  const defaultAddress = address && address.length > 0 ? address[0] : null;
 
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
-      dispatch(editUser(authUser.user_id));
-      dispatch(fetchDefaultAddress({user_id: authUser.user_id, isDefault: true}))
-      dispatch(editAddress(user?.address));
     }
   }, [dispatch, authUser]);
 
-
   useEffect(() => {
-    if (user && defaultAddress) {
+    if (user) {
       setUsername(user.username);
       setEmail(user.email);
       setPassword('password');  // Or you can set it to existing password or keep it blank for security
-      setStreet(user.address?.street_name);
-      setHouseNumber(user.address?.house_number);
-      setPostcode(user.address?.postcode);
-      setCity(user.address?.city);
-      setCountry(user.address?.country);
+      if (user.address) {
+        setStreet(user.address.street_name);
+        setHouseNumber(user.address.house_number);
+        setPostcode(user.address.postcode);
+        setCity(user.address.city);
+        setCountry(user.address.country);
+      }
     }
-  }, [user, show]);
+  }, [user,  show]);
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
@@ -70,30 +63,26 @@ function EditProfile() {
         username,
         email,
         password,
-      }
-      const addressData = {
-          id: user?.address.id,
-          street_name: user?.address.street_name,
-          city: user?.address.city,
-          country: user?.address.country,
-          postcode: user?.address.postcode,
-          house_number: user?.address.house_number,
-          deault: user?.address.default
       };
-      console.log("HERE I AM")
-      console.log(userData)
-      console.log(addressData)
-  
+      const addressData = {
+        street_name,
+        city,
+        country,
+        postcode,
+        house_number,
+        user_id: user?.id,
+        default: true
+      };
+
       dispatch(editUser(userData));
-      dispatch(editAddress(addressData));
+      dispatch(editAddress({ addressData, id: user?.address.id }));
     }
     handleClose();
   };
-  
 
   return (
     <>
-      <CustomButton text="Edit Profile" onClick={handleShow} buttonType='secondary'/>
+      <CustomButton text="Edit Profile" onClick={handleShow} buttonType='secondary' />
 
       <Modal
         size="lg"
@@ -183,8 +172,8 @@ function EditProfile() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <CustomButton text='Save' buttonType="primary" onClick={handleSave}/>
-          <CustomButton text='Close' buttonType="secondary" onClick={handleClose}/>
+          <CustomButton text='Save' buttonType="primary" onClick={handleSave} />
+          <CustomButton text='Close' buttonType="secondary" onClick={handleClose} />
         </Modal.Footer>
       </Modal>
     </>

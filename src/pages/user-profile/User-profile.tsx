@@ -14,13 +14,14 @@ const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser, loading, error } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.users);
+  const { address } = useSelector((state: RootState) => state.addresses)
   
 
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
     }
-  }, [dispatch, authUser]);
+  }, [dispatch, address, authUser]);
 
   const config = user ? genConfig(user.username) : genConfig("default");
   if (loading) return <h1>Loading</h1>;
