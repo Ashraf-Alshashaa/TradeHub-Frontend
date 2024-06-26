@@ -5,17 +5,27 @@ import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState<string | null>(null); // State to track email format error
+ 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    const inputValue : string = event.target.value;
 
     // Validate email format if type is 'email'
     if (type === 'email') {
-      validateEmail(event.target.value);
+      onChange(inputValue);
+      validateEmail(inputValue);
+    } else if (type === 'price') {
+      // Remove non-numeric characters from input value
+      const numericValue = inputValue.replace(/[^0-9.]/g, '');
+
+      // Update parent component with numeric value (could be float or empty string)
+      onChange(numericValue !== '' ? parseFloat(numericValue) : '');
+    } else {
+      onChange(inputValue);
     }
   };
 
@@ -35,7 +45,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
         <InputGroup>
           <Form.Control
             type={showPassword ? 'text' : 'password'}
-            value={value}
+            value={value as string || ''}
             onChange={handleChange}
             placeholder={label}
           />
@@ -44,13 +54,20 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
           </Button>
         </InputGroup>
       ) : (
-        <Form.Control
-          type={type}
-          value={value}
-          onChange={handleChange}
-          placeholder={label}
-          isInvalid={type === 'email' && !!emailError} // Mark input as invalid if there's an email error
-        />
+        <InputGroup>
+          {type === 'price' && (
+            <InputGroup.Text>€</InputGroup.Text>
+          )}
+          <Form.Control
+            type={type === 'price' ? 'text' : type}
+            value={type === 'price' ? (value !== undefined && value !== null ? value.toString() : '') : value}
+            onChange={handleChange}
+            placeholder={label}
+            isInvalid={(type === 'email' && !!emailError)}
+            inputMode={type === 'price' ? 'decimal' : undefined}
+            pattern={type === 'price' ? '[0-9]*' : undefined}
+          />
+        </InputGroup>
       )}
       {type === 'email' && emailError && (
         <Alert variant="danger">{emailError}</Alert>

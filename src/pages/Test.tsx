@@ -14,6 +14,7 @@ import { Product } from '../components/product-listing/types'
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
+import { LuSofa } from "react-icons/lu";
 
       
 const Test: FC = () => {
@@ -33,6 +34,10 @@ const Test: FC = () => {
   const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
+  };
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
   };
 
   const navigate = useNavigate();
@@ -60,6 +65,17 @@ const Test: FC = () => {
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
 
+  const existingData = {
+    id: 1,
+    name: "LuSofa",
+    description: "asdffd",
+    price : 12345,
+    date : new Date().toISOString() ,
+    condition : "new",
+    category_id : 2,
+    image: ".png",
+    seller_id: 2
+  }
 
 const product: Product = {
   image: 'https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg',
@@ -97,6 +113,12 @@ const product: Product = {
               value={password}
               onChange={handlePasswordChange}
               type="password"
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
             />
           </div>
           <div className="row my-4">
@@ -146,7 +168,7 @@ const product: Product = {
             <EditProfile />
           </div>
           <div className="row my-4">
-            <EditProduct />
+            <EditProduct existingData={existingData}/>
           </div>
         </div>
       </div>
