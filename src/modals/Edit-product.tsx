@@ -1,44 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
 import DropdownMenu from '../components/dropdown/Dropdown';
+import { EditProductProps } from './types';
+import { updateProduct } from '../features/products/productsSlice';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from "../app/store";
+
 
 enum ProductCondition {
-    New = 'New',
-    GoodAsNew = 'Good as new',
-    Used = 'Used',
+    New = 'new',
+    GoodAsNew = 'good as new',
+    Used = 'used',
   }
 
 
-function EditProduct() {
+const EditProduct: FC<EditProductProps> = ({existingData}) => {
   const [show, setShow] = useState(false);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
-  const [productPrice, setProductPrice] = useState("");
+  const [productPrice, setProductPrice] = useState<number>();
   const [productImage, setProductImage] = useState("");
   const [productCondition, setProductCondition] = useState(""); // Initial state set to 'New'
-  const [selectedCategories, setSelectedCategories] =  useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] =  useState<number>();
 
 
-  // Fetch from backend
-  const existingData = {
-    productName: "sofa",
-    productDescription: "very modern",
-    productPrice: "677",
-    productImage: "sofa_for_life.jpg",
-    productCondition: "New",
-    selectedCategories: ["Furniture"],
-  };
+  const dispatch = useDispatch<AppDispatch>();
+
 
   useEffect(() => {
     // Set initial values when modal opens
-    setProductName(existingData.productName);
-    setProductDescription(existingData.productDescription);
-    setProductPrice(existingData.productPrice);
-    setProductImage(existingData.productImage);
-    setProductCondition(existingData.productCondition);
-    setSelectedCategories(existingData.selectedCategories);
+    setProductName(existingData.name);
+    setProductDescription(existingData.description);
+    setProductPrice(existingData.price);
+    setProductImage(existingData.image);
+    setProductCondition(existingData.condition);
+    setSelectedCategories(existingData.category_id);
   }, [show]);
 
 
@@ -55,17 +53,40 @@ function EditProduct() {
     {
       id: "1",
       onClick: () => handleProductConditionChange(ProductCondition.New),
-      content: ProductCondition.New,
+      content: "New",
     },
     {
       id: "2",
       onClick: () => handleProductConditionChange(ProductCondition.GoodAsNew),
-      content: ProductCondition.GoodAsNew,
+      content: "Good as new",
     },
     {
       id: "3",
       onClick: () => handleProductConditionChange(ProductCondition.Used),
-      content: ProductCondition.Used,
+      content: "Used"
+    },
+  ];
+
+  const Categories = [
+    {
+      id: "1",
+      onClick: () => setSelectedCategories(1),
+      content: "Electronics",
+    },
+    {
+      id: "2",
+      onClick: () => setSelectedCategories(2),
+      content: "Furniture",
+    },
+    {
+      id: "3",
+      onClick: () => setSelectedCategories(3),
+      content: "Toys",
+    },
+    {
+      id: "4",
+      onClick: () => setSelectedCategories(4),
+      content: "Clothes",
     },
   ];
 
@@ -73,26 +94,29 @@ function EditProduct() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    // Logic to save changes (send to backend)
-    console.log(`Saving changes for: 
-      Name - ${productName}, 
-      Description - ${productDescription}, 
-      Price - ${productPrice}, 
-      Image - ${productImage}, 
-      Condition - ${productCondition}, 
-      Category - ${selectedCategories}`); 
-    handleClose();
-  };
-  
-  const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+
+    dispatch(updateProduct({id : existingData.id, productData: {
+      name: productName,
+      image: productImage,
+      description: productDescription,
+      seller_id: existingData.seller_id,
+      buyer_id: null,
+      price: productPrice,
+      date: new Date(existingData.date),
+      condition: productCondition as string,
+      category_id: selectedCategories,  
+    }}))
+        .unwrap()
+        .then(() => {
+          console.log("Product updated successfully:");
+          handleClose();
+        })
+        .catch((error) => {
+          console.error("Failed to update product:", error);
+        });
   };
 
-    const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
+  
   
     return (
       <>
@@ -114,7 +138,7 @@ function EditProduct() {
                 <TextInput
                   label="Product Name"
                   value={productName}
-                  onChange={handleProductNameChange}
+                  onChange={(s) => handleProductNameChange(s)}
                   type="text"
                 />
               </div>
@@ -122,15 +146,15 @@ function EditProduct() {
                 <TextInput
                   label="Product Image URL"
                   value={productImage}
-                  onChange={handleProductImageChange}
+                  onChange={(s) => handleProductImageChange(s)}
                   type="text"
                 />
               </div>
-              <div className='col-12 mt-2'>
+              <div className='col-6 mt-2'>
                 <TextInput
                   label="Product Description"
                   value={productDescription}
-                  onChange={handleProductDescriptionChange}
+                  onChange={(s) => handleProductDescriptionChange(s)}
                   type="text"
                 />
               </div>
@@ -142,24 +166,15 @@ function EditProduct() {
                 <TextInput
                   label="Product Price"
                   value={productPrice}
-                  onChange={handleProductPriceChange}
-                  type="text"
+                  onChange={(n) => handleProductPriceChange(n)}
+                  type="price"
                 />
               </div>
-              <div className='col-12 mt-2'>
+              <div className='col-6 mt-2'>
                 <h6>Product Categories</h6>
                 <div className="d-flex flex-wrap">
-                  {categories.map((category, index) => (
-                    <label key={index} className="mx-4 mb-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(category)}
-                        onChange={() => handleCategoryChange(category)}
-                      />
-                      &nbsp; {category}
-                    </label>
-                  ))}
-                </div>
+                <DropdownMenu data={Categories} title="Choose Category" />
+              </div>
               </div>
             </div>
           </Modal.Body>

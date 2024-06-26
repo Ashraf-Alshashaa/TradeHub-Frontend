@@ -1,11 +1,13 @@
 export interface Product {
-  id: number;
+  id?: number;
   name: string;
   description: string;
   price : number;
-  date : Date;
+  date : string;
   condition : string;
   category_id : number;
+  seller_id: number;
+  image: string
 }
   
 export interface ProductsState {

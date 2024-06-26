@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import TextInput from "../components/text-input/Text-input";
 import FilterBy from "../components/filter-by/Filter-by";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,13 +15,24 @@ import RadioButton from "../components/radio-button/Radio-button.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
 import { LuSofa } from "react-icons/lu";
+import { fetchProductById } from "../features/products/productsSlice.ts";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState} from "../app/store.ts";
 
-      
 const Test: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  
+  useEffect(() => {dispatch(fetchProductById(1));
+  }, [dispatch])
+  
+  const { product: existingData } = useSelector(
+    (state: RootState) => state.products
+  );
+        
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
   };
-
+  
   const handleSecondaryClick = () => {
     alert("Secondary Button Clicked!");
   };
@@ -64,18 +75,6 @@ const Test: FC = () => {
   };
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
-
-  const existingData = {
-    id: 1,
-    name: "LuSofa",
-    description: "asdffd",
-    price : 12345,
-    date : new Date().toISOString() ,
-    condition : "new",
-    category_id : 2,
-    image: ".png",
-    seller_id: 2
-  }
 
 const product: Product = {
   image: 'https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg',
@@ -168,7 +167,9 @@ const product: Product = {
             <EditProfile />
           </div>
           <div className="row my-4">
+            {existingData && 
             <EditProduct existingData={existingData}/>
+            }
           </div>
         </div>
       </div>
