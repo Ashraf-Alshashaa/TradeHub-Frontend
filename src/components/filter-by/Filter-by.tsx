@@ -7,8 +7,10 @@ import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 
 
-const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange }) => {
+const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [109,300], onPriceChange }) => {
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { min_price, max_price, loading, error } = useSelector(
     (state: RootState) => state.pricerange
   );

@@ -20,7 +20,6 @@ const Test: FC = () => {
     (state: RootState) => state.pricerange
   );
 
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
 
   const handlePriceChange = (values: number[]) => {
     setPriceRange([values[0], values[1]]);
@@ -29,13 +28,16 @@ const Test: FC = () => {
   useEffect(() => {
     dispatch(fetchPriceRange());
   }, [dispatch]);
-
+  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
+  
   useEffect(() => {
     dispatch(fetchProducts({
       min_price: priceRange[0],
       max_price: priceRange[1]
     }));
   }, [dispatch, priceRange]);
+
+  
 console.log(products)
   interface ProductProps {
     id: number;
