@@ -7,6 +7,7 @@ import { EditProductProps } from './types';
 import { updateProduct } from '../features/products/productsSlice';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from "../app/store";
+import Textarea from '../components/textarea/Textarea';
 
 
 enum ProductCondition {
@@ -142,7 +143,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   type="text"
                 />
               </div>
-              <div className='col-12 mt-2'>
+              <div className='col-12 mt-3'>
                 <TextInput
                   label="Product Image URL"
                   value={productImage}
@@ -150,30 +151,31 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   type="text"
                 />
               </div>
-              <div className='col-6 mt-2'>
-                <TextInput
-                  label="Product Description"
-                  value={productDescription}
-                  onChange={(s) => handleProductDescriptionChange(s)}
-                  type="text"
-                />
-              </div>
-              <div className='col-6 mt-2'>
-                <h6>Product Condition</h6>
-                <DropdownMenu data={Conditions} title="Choose Condition" />
-              </div>
-              <div className='col-6 mt-2'>
-                <TextInput
-                  label="Product Price"
-                  value={productPrice}
-                  onChange={(n) => handleProductPriceChange(n)}
-                  type="price"
-                />
-              </div>
-              <div className='col-6 mt-2'>
-                <h6>Product Categories</h6>
-                <div className="d-flex flex-wrap">
-                <DropdownMenu data={Categories} title="Choose Category" />
+              <div className='row'>
+                <div className='col-12 mt-4'>
+                  <Textarea
+                    label="Product Description"
+                    required={false}
+                    onChange={(e) => setProductDescription(e.target.value)}
+                  />
+                </div>
+                <div className='col-6 mt-4'>
+                  <h6>Product Condition</h6>
+                  <DropdownMenu data={Conditions} title="Choose Condition" />
+                </div>
+                <div className='col-6 mt-4'>
+                  <TextInput
+                    label="Product Price"
+                    value={productPrice}
+                    onChange={(n) => handleProductPriceChange(n)}
+                    type="price"
+                  />
+                </div>
+                <div className='col-6 mt-4'>
+                  <h6>Product Categories</h6>
+                  <div className="d-flex flex-wrap">
+                  <DropdownMenu data={Categories} title="Choose Category" />
+                </div>
               </div>
               </div>
             </div>
