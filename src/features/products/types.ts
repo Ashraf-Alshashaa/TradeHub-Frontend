@@ -6,6 +6,8 @@ export interface Product {
   date : Date;
   condition : string;
   category_id : number;
+  image: string
+  seller_id: number
 }
   
 export interface ProductsState {
