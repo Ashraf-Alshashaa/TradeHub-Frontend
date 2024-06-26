@@ -9,13 +9,11 @@ import ProfileTab from './Tab';
 import Header from '../../components/header/Header';
 import Avatar, { genConfig } from 'react-nice-avatar';
 
-
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser, loading, error } = useSelector((state: RootState) => state.auth);
   const { user } = useSelector((state: RootState) => state.users);
-  const { address } = useSelector((state: RootState) => state.addresses)
-  
+  const { address } = useSelector((state: RootState) => state.addresses);
 
   useEffect(() => {
     if (authUser?.user_id) {
@@ -24,8 +22,8 @@ const UserProfile: React.FC = () => {
   }, [dispatch, address, authUser]);
 
   const config = user ? genConfig(user.username) : genConfig("default");
-  if (loading) return <h1>Loading</h1>;
-  if (error) return <h1>Error</h1>;
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error: {error}</h1>;
 
   return (
     <div className="UserProfile">
@@ -43,11 +41,11 @@ const UserProfile: React.FC = () => {
           </div>
           <div className='row'>
             <p> Address: &nbsp;&nbsp;
-              {user?.address?.street_name || 'Loading...'}&nbsp;&nbsp; 
-              {user?.address?.house_number || 'Loading...'}, &nbsp;&nbsp;
-              {user?.address?.postcode || 'Loading...'}, &nbsp;&nbsp;
-              {user?.address?.city || 'Loading...'}, &nbsp;&nbsp;
-              {user?.address?.country || 'Loading...'}</p>
+              {user?.address?.street_name}&nbsp;&nbsp; 
+              {user?.address?.house_number}, &nbsp;&nbsp;
+              {user?.address?.postcode}, &nbsp;&nbsp;
+              {user?.address?.city}, &nbsp;&nbsp;
+              {user?.address?.country}</p>
           </div>
         </div>
         <div className='col-2 pt-5'>

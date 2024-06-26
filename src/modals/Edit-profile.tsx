@@ -56,7 +56,7 @@ function EditProfile() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (!username || !email || !password) {
       alert("Username, email, and password fields are required.");
       return;
@@ -78,8 +78,11 @@ function EditProfile() {
         default: true
       };
 
-      dispatch(editUser(userData));
-      dispatch(editAddress({ addressData, id: user?.address.id }));
+      await dispatch(editUser(userData));
+      if (user?.address?.id) {
+        await dispatch(editAddress({ addressData, id: user.address.id }));
+      }
+      dispatch(fetchUser(authUser.user_id)); // Refetch user data to update the profile
     }
     handleClose();
   };
