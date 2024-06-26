@@ -32,7 +32,8 @@ function EditProfile() {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
       dispatch(editUser(authUser.user_id));
-      dispatch(editAddress(defaultAddress.id))
+      dispatch(fetchDefaultAddress({user_id: authUser.user_id, isDefault: true}))
+      dispatch(editAddress(user?.address));
     }
   }, [dispatch, authUser]);
 
@@ -69,16 +70,22 @@ function EditProfile() {
         username,
         email,
         password,
-        address: {
-        street_name: user?.address.street_name,
-        house_number: user?.address.house_number,
-        postcode: user?.address.postcode,
-        city: user?.address.city,
-        country: user?.address.country }
+      }
+      const addressData = {
+          id: user?.address.id,
+          street_name: user?.address.street_name,
+          city: user?.address.city,
+          country: user?.address.country,
+          postcode: user?.address.postcode,
+          house_number: user?.address.house_number,
+          deault: user?.address.default
       };
+      console.log("HERE I AM")
+      console.log(userData)
+      console.log(addressData)
   
       dispatch(editUser(userData));
-      dispatch(editAddress(address));
+      dispatch(editAddress(addressData));
     }
     handleClose();
   };
