@@ -12,6 +12,7 @@ import Header from "../components/header/Header";
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../components/product-listing/types'
 import RadioButton from "../components/radio-button/Radio-button.tsx";
+import Textarea from "../components/textarea/Textarea.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
 import { LuSofa } from "react-icons/lu";
@@ -112,6 +113,11 @@ const product: Product = {
               value={password}
               onChange={handlePasswordChange}
               type="password"
+            />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
             />
             <TextInput
               label="Price"
