@@ -57,6 +57,10 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
+    if (!username || !email || !password) {
+      alert("Username, email, and password fields are required.");
+      return;
+    }
     if (authUser?.user_id) {
       const userData = {
         id: authUser.user_id,
