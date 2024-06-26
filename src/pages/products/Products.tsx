@@ -8,6 +8,7 @@ import "./products.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import { useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
   interface ProductProps {
@@ -20,10 +21,11 @@ const Test: FC = () => {
     condition: string;
     category_id: number;
   }
+  const navigate = useNavigate();
   const handlePriceChange = (value: [number, number]) => {
     console.log("Price range changed:", value);
   };
-  const cardClicked = () => alert("Card clicked");
+  const cardClicked = (id: number) => navigate(`/product/${id}`);
   const categories = [
     "Electronics",
     "Furniture",
@@ -77,7 +79,7 @@ const Test: FC = () => {
                     name={product.name}
                     price={product.price}
                     location={"Amsterdam"}
-                    onClick={cardClicked}
+                    onClick={() => cardClicked(product.id)}
                   />
                 </div>
               ))}
