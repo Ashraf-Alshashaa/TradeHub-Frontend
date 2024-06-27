@@ -105,7 +105,7 @@ console.log(products)
         </div>
       </div>
       <Footer
-        githubUrl="https://github.com/yourprofile"
+        githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
         email="your.email@example.com"
       />
     </div>
