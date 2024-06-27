@@ -10,7 +10,7 @@ import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import ProductListing from '../components/product-listing/Product-listing';
-import { Product } from '../components/product-listing/types'
+import { Product } from '../components/product-listing/types';
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import AddProduct from "../modals/Add-product.tsx";
 import Textarea from "../components/textarea/Textarea.tsx";

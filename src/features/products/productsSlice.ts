@@ -4,6 +4,11 @@ import { ProductsState, Product } from './types';
 
 const initialState: ProductsState = {
   products: [],
+  myCart : [],
+  myBids : [],
+  boughtProducts : [],
+  soldProducts : [],
+  myListings: [],
   product: null,
   loading: false,
   error: null,
