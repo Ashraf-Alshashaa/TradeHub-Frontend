@@ -33,9 +33,9 @@ const ProductPage = () => {
     error: bidsError,
   } = useSelector((state: RootState) => state.bids);
 
-  const [bidPrice, setBidPrice] = useState<string>("");
+  const [bidPrice, setBidPrice] = useState<number>(0);
 
-  const handleBidPriceChange = (value: string) => {
+  const handleBidPriceChange = (value: number) => {
     setBidPrice(value);
   };
 
@@ -55,7 +55,7 @@ const ProductPage = () => {
     const bidData = {
       product_id: product.id,
       date: new Date().toISOString(),
-      price: parseFloat(bidPrice),
+      price: bidPrice,
       bidder_id: user.user_id,
       status: "pending" as "pending",
     };
@@ -110,7 +110,8 @@ const ProductPage = () => {
               <Form className="d-flex mt-3" onSubmit={handleSubmit}>
                 <TextInput
                   label=""
-                  onChange={(value) => handleBidPriceChange(value)}
+                  type="price"
+                  onChange={(value) => handleBidPriceChange(value as number)}
                   value={bidPrice}
                 />
                 <div className="submit-bid-btn">
