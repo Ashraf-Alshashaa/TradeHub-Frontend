@@ -3,12 +3,22 @@ import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../app/store';
+import { editUser } from '../features/users/userSlice';
 
 function ChangePassword() {
+
+  const dispatch = useDispatch<AppDispatch>();
+
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
+  const { user: authUser } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.users);
+
 
   const handleClose = () => {
     setShow(false);
@@ -19,17 +29,23 @@ function ChangePassword() {
 
   const handleShow = () => setShow(true);
 
-  const handleSave = () => {
+  const handleSave = async() => {
     if (password !== confirmPassword) {
       setError('Passwords do not match!');
       return;
     }
-
-    
+    if (authUser?.user_id) {
+      const userData = {
+        id: authUser.user_id,
+        username: user?.username,
+        email: user?.email,
+        password, // Use the updated password state
+      };
+      await dispatch(editUser(userData));
     console.log('Password saved to database:', password);
     handleClose();
-  };
-
+  }
+};
   return (
     <>
       <CustomButton text="Change Password" buttonType='primary' onClick={handleShow}/>
