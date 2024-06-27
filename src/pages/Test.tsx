@@ -10,9 +10,10 @@ import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import ProductListing from '../components/product-listing/Product-listing';
-import { Product } from '../components/product-listing/types'
+import { Product } from '../components/product-listing/types';
 import RadioButton from "../components/radio-button/Radio-button.tsx";
-import EditProfile from "../modals/Edit-profile.tsx";
+import Textarea from "../components/textarea/Textarea.tsx";
+
 
       
 const Test: FC = () => {
@@ -97,6 +98,11 @@ const product: Product = {
               onChange={handlePasswordChange}
               type="password"
             />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
+            />
           </div>
           <div className="row my-4">
             <CustomImage
@@ -140,9 +146,6 @@ const product: Product = {
               onClick={handleSecondaryClick}
               buttonType="secondary"
             />
-          </div>
-          <div className="row my-4">
-            <EditProfile />
           </div>
         </div>
       </div>
