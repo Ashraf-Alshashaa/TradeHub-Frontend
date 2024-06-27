@@ -50,7 +50,6 @@ console.log(products)
     category_id: number;
   }
 
-  const cardClicked = () => alert("Card clicked");
   const categories = [
     "Electronics",
     "Furniture",
@@ -96,7 +95,6 @@ console.log(products)
                     name={product.name}
                     price={product.price}
                     location={"Amsterdam"}
-                    onClick={cardClicked}
                   />
                 </div>
               ))}

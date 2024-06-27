@@ -11,4 +11,5 @@ export interface DropDownMenuProps{
     title: string
     data: DropdownItemProps[]
     variant?: VariantType
+    selector?: boolean
 }

@@ -3,6 +3,7 @@ import authReducer from '../features/auth/authSlice';
 import productReducer from '../features/products/productsSlice';
 import userReducer from '../features/users/userSlice';
 import priceRangeReducer from '../features/pricerange/priceRangeSlice'
+import addressReducer from '../features/addresses/addressSlice'
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     products: productReducer,
     users: userReducer,
     pricerange: priceRangeReducer,
+    addresses: addressReducer,
   },
 });
 
