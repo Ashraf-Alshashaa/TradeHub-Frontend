@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import { fetchCategories } from "../../features/categories/categorySlice";
 
 const Test: FC = () => {
 
@@ -19,6 +20,7 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
+  const { categories } = useSelector( (state: RootState) => state.categories)
 
 
   const handlePriceChange = (values: number[]) => {
@@ -27,6 +29,7 @@ const Test: FC = () => {
 
   useEffect(() => {
     dispatch(fetchPriceRange());
+    dispatch(fetchCategories())
   }, [dispatch]);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   
@@ -50,17 +53,6 @@ console.log(products)
     category_id: number;
   }
 
-  const categories = [
-    "Electronics",
-    "Furniture",
-    "Clothing",
-    "Auto and Parts",
-    "Toys",
-    "Books",
-    "Sports Equipment",
-    "Groceries",
-  ];
-
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
@@ -70,6 +62,8 @@ console.log(products)
       return acc;
     }, []);
   };
+
+  const category_names: string[] = categories.map(category => category.name);
 
   // Chunk products into rows of 3 columns each
   const chunkedProducts = chunkArray(products, 3);
@@ -82,7 +76,7 @@ console.log(products)
       <Header />
       <div className="row">
         <div className="col-3">
-        <FilterBy categories={categories} priceRange={priceRange} onPriceChange={handlePriceChange} />
+        <FilterBy categories={category_names} priceRange={priceRange} onPriceChange={handlePriceChange} />
         </div>
 
         <div className="col-9 my-4 overflow-auto scrollable-products">
