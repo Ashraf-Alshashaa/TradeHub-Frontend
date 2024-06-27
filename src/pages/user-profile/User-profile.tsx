@@ -8,6 +8,7 @@ import EditProfile from '../../modals/Edit-profile';
 import ProfileTab from './Tab';
 import Header from '../../components/header/Header';
 import Avatar, { genConfig } from 'react-nice-avatar';
+import ChangePassword from '../../modals/Change-password';
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -49,7 +50,12 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
         <div className='col-2 pt-5'>
-          <EditProfile />
+          <div className='row'>
+            <EditProfile />
+          </div>
+          <div className='row'>
+            <ChangePassword />
+          </div>
         </div>
       </div>
       <div className='row my-5'>

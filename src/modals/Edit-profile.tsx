@@ -8,7 +8,6 @@ import { editUser, fetchUser } from '../features/users/userSlice';
 import { editAddress } from '../features/addresses/addressSlice';
 import ChangePassword from './Change-password';
 
-
 function EditProfile() {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
@@ -19,7 +18,6 @@ function EditProfile() {
   const [postcode, setPostcode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
-
 
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
@@ -44,10 +42,10 @@ function EditProfile() {
         setCountry(user.address.country);
       }
     }
-  }, [user, user?.address,  show]);
+  }, [user, user?.address, show]);
 
   const handleEmailChange = (value) => setEmail(value);
-  const handlePasswordChange = (value) => setPassword(value);
+  const handlePasswordChange = (value) => setPassword(value); // Update password state
   const handleStreetChange = (value) => setStreet(value);
   const handleHouseNumberChange = (value) => setHouseNumber(value);
   const handlePostcodeChange = (value) => setPostcode(value);
@@ -57,9 +55,9 @@ function EditProfile() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSave = async() => {
-    if (!username || !email ) {
-      alert("Email is required.");
+  const handleSave = async () => {
+    if (!username || !email) {
+      alert("Username and Email are required.");
       return;
     }
     if (authUser?.user_id) {
@@ -67,7 +65,7 @@ function EditProfile() {
         id: authUser.user_id,
         username,
         email,
-        password,
+        password, // Use the updated password state
       };
       const addressData = {
         street_name,
@@ -78,10 +76,7 @@ function EditProfile() {
         user_id: user?.id,
         default: true
       };
-     
-console.log("IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-      console.log(userData)
-      console.log(addressData)
+
       await dispatch(editUser(userData));
       if (user?.address?.id) {
         await dispatch(editAddress({ addressData, id: user.address.id }));
@@ -122,11 +117,6 @@ console.log("IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
                 onChange={handleEmailChange}
                 type="email"
               />
-            </div>
-            <div className='col-6'>
-            </div>
-            <div className='col-6'>
-              < ChangePassword />
             </div>
 
             {/* Address Section */}
