@@ -5,7 +5,7 @@ export interface Category{
 
 
 export interface CategoryState {
-    categories: [];
+    categories: Category [];
     category: Category | null;
     loading: boolean;
     error: string | null;
