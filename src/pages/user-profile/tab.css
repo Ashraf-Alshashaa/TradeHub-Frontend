@@ -1,0 +1,5 @@
+.tab-content>.tab-pane {
+    max-height: 25rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

@@ -1,7 +1,9 @@
+import { Address } from "../addresses/types";
 export interface User {
   id: number;
   username: string;
   email: string;
+  address: Address;
 }
   
 export interface UserState {
