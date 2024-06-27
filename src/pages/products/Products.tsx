@@ -75,7 +75,7 @@ console.log(products)
   // Chunk products into rows of 3 columns each
   const chunkedProducts = chunkArray(products, 3);
 
-  if (loading) return <h1>Loading</h1>;
+  // if (loading) return <h1>Loading</h1>;
   if (error) return <h1>Error</h1>;
 
   return (

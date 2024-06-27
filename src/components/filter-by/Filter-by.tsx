@@ -7,11 +7,9 @@ import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 
 
-const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [109,300], onPriceChange }) => {
-
+const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange }) => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const { min_price, max_price, loading, error } = useSelector(
+  const { min_price, max_price} = useSelector(
     (state: RootState) => state.pricerange
   );
 
@@ -85,7 +83,7 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [109,300], onPri
           <div key={index}>
             <label>
               <input
-                type="checkbox"
+                type="check-box"
                 checked={selectedCategories.includes(category)}
                 onChange={() => handleCategoryChange(category)}
               /> &nbsp; &nbsp;
