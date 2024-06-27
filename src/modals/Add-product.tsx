@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
@@ -24,8 +24,21 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
   const [productCondition, setProductCondition] = useState<ProductCondition>(ProductCondition.New); // Initial state set to 'New'
   const [productPrice, setProductPrice] = useState<number>();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [productName, productPrice, productImage, selectedCategory]);
+
+  const checkFormValidity = () => {
+    if (productName && productPrice !== undefined && productImage && selectedCategory !== null) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  };
 
 
   const handleProductNameChange = (value) => setProductName(value);
@@ -57,7 +70,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
 
 
   const handleSave = () => {
-    if (!productName || !productPrice || !selectedCategory || !productCondition || !productImage || !productDescription) {
+    if (!isFormValid) {
       alert("Please fill all required fields.");
       return;
     }
@@ -80,6 +93,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
 
     if (user?.user_id) {
       dispatch(createProduct(newProduct));
+      alert("Product added successfully!");
       handleClose();
     
       setProductName("");
@@ -90,6 +104,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
       setSelectedCategory(null);
     } else {
       console.error('User is not defined. Cannot save product.');
+      alert("Please check all required fields.");
     }
   };
 
@@ -130,6 +145,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
                 value={productName}
                 onChange={handleProductNameChange}
                 type="text"
+                required={true}
               />
             </div>
             <div className='col-4 mt-2'>
@@ -138,6 +154,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
                 value={productPrice}
                 onChange={(n) => handleProductPriceChange(n)}
                 type="price"
+                required={true}
               />
             </div>
             <div className='col-12 mt-2'>
@@ -146,6 +163,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
                 value={productImage}
                 onChange={handleProductImageChange}
                 type="text"
+                required={true}
               />
             </div>
             <div className='col-12 mt-2'>
@@ -153,6 +171,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
                 label="Description"
                 required={false}
                 onChange={handleProductDescriptionChange}
+                defaultVlaue=' '
               />
             </div>
             <div className='col-6 mt-2'>

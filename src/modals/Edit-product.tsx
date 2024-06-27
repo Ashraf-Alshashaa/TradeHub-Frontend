@@ -188,6 +188,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                     label="Product Description"
                     required={false}
                     onChange={(e) => setProductDescription(e.target.value)}
+                    defaultVlaue= {existingData.description}
                 />
               </div>
               <div className='col-6 mt-2'>
