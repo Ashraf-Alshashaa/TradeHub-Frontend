@@ -44,6 +44,11 @@ const Test: FC = () => {
     setEmail(value);
   };
 
+  const [text, setText] = useState("");
+  const handleTextChange = (value: string) => {
+    setText(value);
+  };
+
   const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
@@ -129,6 +134,13 @@ const product: Product = {
               value={price}
               onChange={handleInputPriceChange}
               type="price"
+              required={true}
+            />
+             <TextInput
+              label="Text"
+              value={text}
+              onChange={handleTextChange}
+              type="text"
               required={true}
             />
             <Textarea
