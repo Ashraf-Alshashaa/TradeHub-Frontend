@@ -3,20 +3,25 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonGroup, Form, FormControl, Button } from "react-bootstrap";
 import Icon from "../icon/Icon";
-import { Category } from "./types";
+import { Category , HeaderProps} from "./types";
 import CustomButton from "../button/Button";
 import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import { fetchProducts } from "../../features/products/productsSlice";
 
-const Header: FC = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+
+const Header: FC<HeaderProps> = ({ onSearch, searchQuery}) => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
+  const {products,  loading, error } = useSelector((state: RootState) => state.products);
   const navigate = useNavigate();
+
+  
+
 
   useEffect(() => {
     setCategories([
@@ -32,14 +37,16 @@ const Header: FC = () => {
   }, []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
+    console.log(event.target.value); // Check what event object is received
+    const searchQuery = event.target.value.toString() // Ensure event.target is defined
+    onSearch(searchQuery);
   };
 
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    alert(searchQuery);
+  const handleSearchSubmit = () => {
+    onSearch(searchQuery);
   };
 
+  
   const handleSellNowOnclick = () => {
     !user ? navigate("/login") : alert("Sell Now clicked");
   };
@@ -105,7 +112,7 @@ const Header: FC = () => {
               text={<Icon name="search" />}
               type="submit"
               buttonType="secondary"
-              onClick={() => console.log("")}
+              onClick={handleSearchSubmit}
             />
           </Form>
         </div>

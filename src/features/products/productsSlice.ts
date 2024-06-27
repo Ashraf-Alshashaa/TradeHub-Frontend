@@ -16,13 +16,14 @@ const initialState: ProductsState = {
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async ({ min_price, max_price, category_id }: { min_price?: number; max_price?: number; category_id?: number;}, { rejectWithValue }) => {
+  async ({ min_price, max_price, category_id, search_str }: { min_price?: number; max_price?: number; category_id?: number; search_str?: string;}, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get('/products', {
         params: {
           min_price,
           max_price,
           category_id,
+          search_str,
         },
       });
       return response.data;
@@ -151,7 +152,7 @@ const productSlice = createSlice({
       .addCase(fetchSoldProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
   },
 })
 ;

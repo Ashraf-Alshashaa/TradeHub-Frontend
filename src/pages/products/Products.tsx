@@ -42,14 +42,29 @@ const Test: FC = () => {
   }, [dispatch]);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
 
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+  };
+
+  // const handleSearchSubmit = () => {
+  //   dispatch(fetchProducts({
+  //     category_id: categoryId,
+  //     search_str: searchQuery
+  //   }));
+  // };
 
   useEffect(() => {
     dispatch(fetchProducts({
       min_price: priceRange[0],
       max_price: priceRange[1],
       category_id: categoryId,
+      search_str: searchQuery
     }));
-  }, [dispatch, priceRange, categoryId]);
+  }, [dispatch, priceRange, categoryId, searchQuery]);
+
+
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
@@ -64,10 +79,11 @@ const Test: FC = () => {
 
   // if (loading) return <h1>Loading</h1>;
   if (error) return <h1>Error</h1>;
+  
 
   return (
     <div className="Products">
-      <Header />
+      <Header onSearch={handleSearchChange} searchQuery={searchQuery}/>
       <div className="row">
         <div className="col-3">
         <FilterBy categories={categories} priceRange={priceRange} onPriceChange={handlePriceChange} onCategoryChange={handleCategoryChange}/>
