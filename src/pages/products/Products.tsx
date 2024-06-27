@@ -49,9 +49,6 @@ console.log(products)
     condition: string;
     category_id: number;
   }
-  const handlePriceChange = (value: [number, number]) => {
-    console.log("Price range changed:", value);
-  };
 
   const categories = [
     "Electronics",

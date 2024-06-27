@@ -82,7 +82,7 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
       <div className="row">
         <h1>Test Page</h1>
         <div className="col-6">
-          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+          {/* <FilterBy onPriceChange={handlePriceChange} categories={categories} /> */}
         </div>
         <div className="col-6">
           <div className="row my-4">
