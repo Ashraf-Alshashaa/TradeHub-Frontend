@@ -23,7 +23,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue: string = event.target.value;
-
+  
     if (type === 'email') {
       onChange(inputValue);
       if (inputValue.trim() !== '') {
@@ -34,7 +34,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
     } else if (type === 'password') {
       onChange(inputValue);
       setTouched(true); // Set touched immediately for real-time error display
-      
+  
       if (required && inputValue.trim() === '') {
         setError(`${label} is required`);
       } else {
@@ -42,18 +42,24 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
       }
     } else if (type === 'price') {
       const numericValue = inputValue.replace(/[^0-9.]/g, '');
-      const parsedValue = numericValue !== '' ? parseFloat(numericValue) : NaN; // Parse as float, handle non-numeric input
-      
-      onChange(parsedValue);
-
-      if (required && (isNaN(parsedValue) || parsedValue === 0)) {
-        setError(`${label} is required`);
+  
+      if (numericValue === '') {
+        onChange(''); // Update parent component with empty string if input is empty
+        setError(required ? `${label} is required` : null);
       } else {
-        setError(null);
+        const parsedValue = parseFloat(numericValue);
+  
+        if (isNaN(parsedValue)) {
+          onChange(''); // Update parent component with empty string if parsedValue is NaN
+          setError('Please enter a valid number');
+        } else {
+          onChange(parsedValue); // Update parent component with parsed numeric value
+          setError(null);
+        }
       }
     } else {
       onChange(inputValue);
-
+  
       if (required && inputValue.trim() === '') {
         setError(`${label} is required`);
       } else {
