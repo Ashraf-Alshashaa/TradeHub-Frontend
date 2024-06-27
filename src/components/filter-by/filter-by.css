@@ -4,7 +4,6 @@
   background-color: var(--background-color);
   padding: var(--spacing-medium);
   border-radius: var(--border-radius-medium);
-  box-shadow: var(--box-shadow-light);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-large); /* Adds spacing between sections */
