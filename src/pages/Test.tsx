@@ -9,8 +9,13 @@ import CustomButton from "../components/button/Button";
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
+import ProductListing from '../components/product-listing/Product-listing';
+import { Product } from '../components/product-listing/types';
 import RadioButton from "../components/radio-button/Radio-button.tsx";
+import Textarea from "../components/textarea/Textarea.tsx";
 
+
+      
 const Test: FC = () => {
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
@@ -55,6 +60,13 @@ const Test: FC = () => {
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
 
+
+const product: Product = {
+  image: 'https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg',
+  name: 'Product name',
+  price: '$XX.YY',
+  onClick: () => alert("Card clicked")
+};
   const cardClicked = () => alert("Card Clicked");
 
   const bidders = [
@@ -67,10 +79,74 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
   return (
     <div>
       <Header />
-      <div className='row'>
-      <h1>Test Page</h1>
-      <div className='col-6'>
-        {/* <FilterBy onPriceChange={handlePriceChange} priceRange={[0,300]}categories={categories} /> */}
+      <div className="row">
+        <h1>Test Page</h1>
+        <div className="col-6">
+          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+        </div>
+        <div className="col-6">
+          <div className="row my-4">
+            <TextInput
+              label="Email"
+              value={email}
+              onChange={handleEmailChange}
+              type="email"
+            />
+            <TextInput
+              label="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              type="password"
+            />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
+            />
+          </div>
+          <div className="row my-4">
+            <CustomImage
+              src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
+              alt="Sample Image"
+            />
+          </div>
+          <div className="row my-4" style={{ width: "200px" }}>
+            <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
+          </div>
+          <div className="row my-4">
+            <div className="col-6">
+              <ProductCard
+                photo="https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
+                name="Hair Oil"
+                price={11.4}
+                location="Nijmegen"
+                onClick={cardClicked}
+              />
+            </div>
+            <div className="col-6">
+              {bidders.map(([bidder_name, bid]) => (
+                <RadioButton
+                  key={bidder_name}
+                  bidder_name={bidder_name}
+                  group_name="group1"
+                  bid={bid}
+                  onClick={chooseWinnerHandle}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="row my-4">
+            <CustomButton
+              text="Primary Button"
+              onClick={handlePrimaryClick}
+              buttonType="primary"
+            />
+            <CustomButton
+              text="Secondary Button"
+              onClick={handleSecondaryClick}
+              buttonType="secondary"
+            />
+          </div>
       </div>
       <div className='col-6'>
         <div className='row my-4'> 
@@ -130,7 +206,8 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
           buttonType="secondary"
         />
       </div>
-    </div></div>
+    </div>
+    </div>
     <Footer
           githubUrl="https://github.com/yourprofile"
           email="your.email@example.com"
@@ -138,6 +215,5 @@ const chooseWinnerHandle =  () => console.log("choosing the bid")
     </div>
   );
 };
-
 
 export default Test;

@@ -49,8 +49,10 @@ console.log(products)
     condition: string;
     category_id: number;
   }
+  const handlePriceChange = (value: [number, number]) => {
+    console.log("Price range changed:", value);
+  };
 
-  const cardClicked = () => alert("Card clicked");
   const categories = [
     "Electronics",
     "Furniture",
@@ -96,7 +98,6 @@ console.log(products)
                     name={product.name}
                     price={product.price}
                     location={"Amsterdam"}
-                    onClick={cardClicked}
                   />
                 </div>
               ))}

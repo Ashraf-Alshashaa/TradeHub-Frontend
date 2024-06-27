@@ -22,9 +22,9 @@ export const login = createAsyncThunk(
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-
       localStorage.setItem('access_token', response.data.access_token);
-      return response.data;
+
+      return response.data
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
