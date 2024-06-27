@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import './filter-by.css';
 import { FilterByProps } from './types';
@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 import RadioButton from '../radio-button/Radio-button';
-import { Category } from '../header/types';
 
 const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange, onCategoryChange }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -18,10 +17,8 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
     dispatch(fetchPriceRange());
   }, [dispatch]);
 
-  const [selectedCategoryId, setSelectedCategory] = useState<number>()
-
   const handleCategoryChange = (category_id : number) => {
-      setSelectedCategory(category_id);
+      onCategoryChange(category_id);
       console.log(categories[category_id-1], )
   };
 
