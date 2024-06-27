@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 import RadioButton from '../radio-button/Radio-button';
+import { Category } from '../header/types';
 
-const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange }) => {
+const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange, onCategoryChange }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { min_price, max_price} = useSelector(
     (state: RootState) => state.pricerange
@@ -17,14 +18,11 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
     dispatch(fetchPriceRange());
   }, [dispatch]);
 
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategoryId, setSelectedCategory] = useState<number>()
 
-  const handleCategoryChange = (category: string) => {
-    if (selectedCategories.includes(category)) {
-      setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
-    } else {
-      setSelectedCategories([...selectedCategories, category]);
-    }
+  const handleCategoryChange = (category_id : number) => {
+      setSelectedCategory(category_id);
+      console.log(categories[category_id-1], )
   };
 
   return (
@@ -79,10 +77,10 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
         <h4 className='mb-3'>Categories</h4>
         {categories.map((category) => (
               <RadioButton
-              bidder_name={category} 
+              bidder_name={category.name} 
               group_name='Categories'
               bid='' 
-              onClick={() => handleCategoryChange(category)}
+              onClick={() => handleCategoryChange(category.id)}
                 />
         ))}
       </div>
