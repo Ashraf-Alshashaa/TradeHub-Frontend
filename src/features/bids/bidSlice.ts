@@ -59,7 +59,7 @@ const bidSlice = createSlice({
       })
       .addCase(sendBidData.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload as BidState["error"];
       })
       .addCase(fetchAllBids.pending, (state) => {
         state.loading = true;
@@ -71,7 +71,7 @@ const bidSlice = createSlice({
       })
       .addCase(fetchAllBids.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        state.error = action.payload as BidState["error"];
       });
   },
 });

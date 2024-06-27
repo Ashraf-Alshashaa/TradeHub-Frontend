@@ -11,5 +11,5 @@ export interface Bid {
 export interface BidState {
     bids: Bid[];
     loading: boolean;
-    error: string | null;
+    error: {detail: string} | null;
   }

@@ -39,6 +39,10 @@
     margin-left: var(--spacing-medium);
 }
 
+.product-bid-error-msg{
+    color: red;
+}
+
 .product-page-bids-container{
     margin-top: var(--spacing-medium);
 }

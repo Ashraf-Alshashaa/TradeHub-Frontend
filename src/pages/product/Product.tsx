@@ -67,8 +67,9 @@ const ProductPage = () => {
     return <div>Loading...</div>;
   }
 
-  if (error || bidsError) {
-    return <div>Error: {error || bidsError}</div>;
+  if (error) {
+    const errorObj: any = error;
+    return <div>Error: {errorObj.detail}</div>;
   }
 
   if (!product) {
@@ -124,6 +125,11 @@ const ProductPage = () => {
                   />
                 </div>
               </Form>
+              {bidsError && (
+                <span className="product-bid-error-msg">
+                  {bidsError?.detail}
+                </span>
+              )}
             </div>
           )}
           {bidsLoading ? (
