@@ -53,6 +53,13 @@ const Test: FC = () => {
     setPrice(value);
   };
 
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
+  };
+
+
+
   const navigate = useNavigate();
   const dropdownTestData = [
     {
@@ -108,12 +115,21 @@ const product: Product = {
               value={email}
               onChange={handleEmailChange}
               type="email"
+              required={true}
             />
             <TextInput
               label="Password"
               value={password}
               onChange={handlePasswordChange}
               type="password"
+              required={true}
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
+              required={true}
             />
             <Textarea
               label="Text"
