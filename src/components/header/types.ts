@@ -7,4 +7,5 @@ export interface Category {
 export interface HeaderProps {
     onSearch: (searchQuery: string) => void;
     searchQuery: string;
+    onSearchSubmit: (searchQuery: string) => void;
   }

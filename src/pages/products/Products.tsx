@@ -48,6 +48,14 @@ const Test: FC = () => {
     setSearchQuery(value);
   };
 
+  const handleSearchSubmit = (searchQuery: string) => {
+    dispatch(
+      fetchProducts({
+        search_str: searchQuery,
+      })
+    );
+  };
+
   // const handleSearchSubmit = () => {
   //   dispatch(fetchProducts({
   //     category_id: categoryId,
@@ -60,9 +68,9 @@ const Test: FC = () => {
       min_price: priceRange[0],
       max_price: priceRange[1],
       category_id: categoryId,
-      search_str: searchQuery
+      // search_str: searchQuery
     }));
-  }, [dispatch, priceRange, categoryId, searchQuery]);
+  }, [dispatch, priceRange, categoryId]);
 
 
 
@@ -83,7 +91,9 @@ const Test: FC = () => {
 
   return (
     <div className="Products">
-      <Header onSearch={handleSearchChange} searchQuery={searchQuery}/>
+      <Header onSearch={handleSearchChange}
+        searchQuery={searchQuery}
+        onSearchSubmit={handleSearchSubmit}/>
       <div className="row">
         <div className="col-3">
         <FilterBy categories={categories} priceRange={priceRange} onPriceChange={handlePriceChange} onCategoryChange={handleCategoryChange}/>

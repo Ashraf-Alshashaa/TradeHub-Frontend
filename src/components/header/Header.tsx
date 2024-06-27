@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchProducts } from "../../features/products/productsSlice";
 
 
-const Header: FC<HeaderProps> = ({ onSearch, searchQuery}) => {
+const Header: FC<HeaderProps> = ({ onSearch, searchQuery, onSearchSubmit}) => {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const dispatch = useDispatch<AppDispatch>();
@@ -42,8 +42,9 @@ const Header: FC<HeaderProps> = ({ onSearch, searchQuery}) => {
     onSearch(searchQuery);
   };
 
-  const handleSearchSubmit = () => {
-    onSearch(searchQuery);
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault(); // Prevent form submission
+    onSearchSubmit(searchQuery); // Call parent component's search submit handler
   };
 
   
@@ -100,7 +101,7 @@ const Header: FC<HeaderProps> = ({ onSearch, searchQuery}) => {
       <div className="header-top-container">
         <h1>Trade Hub</h1>
         <div className="header-search-container">
-          <Form className="d-flex" onSubmit={handleSearchSubmit}>
+          <Form className="d-flex" onSubmit={handleSubmit}>
             <FormControl
               type="text"
               placeholder="Search products..."
@@ -112,7 +113,7 @@ const Header: FC<HeaderProps> = ({ onSearch, searchQuery}) => {
               text={<Icon name="search" />}
               type="submit"
               buttonType="secondary"
-              onClick={handleSearchSubmit}
+              onClick={handleSubmit}
             />
           </Form>
         </div>
