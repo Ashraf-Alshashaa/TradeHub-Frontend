@@ -16,15 +16,15 @@ const initialState: ProductsState = {
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async ({ min_price, max_price }: { min_price?: number; max_price?: number } = {}, { rejectWithValue }) => {
+  async ({ min_price, max_price, category_id }: { min_price?: number; max_price?: number; category_id?: number;}, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get('/products', {
         params: {
           min_price,
           max_price,
+          category_id,
         },
       });
-      console.log(response.data)
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

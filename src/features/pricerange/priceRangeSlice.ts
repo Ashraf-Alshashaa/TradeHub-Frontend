@@ -15,7 +15,6 @@ export const fetchPriceRange = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get('/products/price-range');
-      console.log(response.data)
       return { min_price: response.data.min_price, max_price: response.data.max_price};
     } catch (error: any) {
       return rejectWithValue(error.response.data);
