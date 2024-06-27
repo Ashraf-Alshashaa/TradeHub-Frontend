@@ -33,7 +33,7 @@ const ProductPage = () => {
     error: bidsError,
   } = useSelector((state: RootState) => state.bids);
 
-  const [bidPrice, setBidPrice] = useState<number>(0);
+  const [bidPrice, setBidPrice] = useState<number>();
 
   const handleBidPriceChange = (value: number) => {
     setBidPrice(value);
@@ -113,7 +113,7 @@ const ProductPage = () => {
                   label=""
                   type="price"
                   onChange={(value) => handleBidPriceChange(value as number)}
-                  value={bidPrice}
+                  value={bidPrice as number}
                 />
                 <div className="submit-bid-btn">
                   <CustomButton
