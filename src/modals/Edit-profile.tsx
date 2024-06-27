@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { editUser, fetchUser } from '../features/users/userSlice';
 import { editAddress } from '../features/addresses/addressSlice';
+import ChangePassword from './Change-password';
+
 
 function EditProfile() {
   const [show, setShow] = useState(false);
@@ -46,7 +48,6 @@ function EditProfile() {
 
   const handleEmailChange = (value) => setEmail(value);
   const handlePasswordChange = (value) => setPassword(value);
-  const handleUsernameChange = (value) => setUsername(value);
   const handleStreetChange = (value) => setStreet(value);
   const handleHouseNumberChange = (value) => setHouseNumber(value);
   const handlePostcodeChange = (value) => setPostcode(value);
@@ -57,8 +58,8 @@ function EditProfile() {
   const handleShow = () => setShow(true);
 
   const handleSave = async() => {
-    if (!username || !email || !password) {
-      alert("Username, email, and password fields are required.");
+    if (!username || !email ) {
+      alert("Email is required.");
       return;
     }
     if (authUser?.user_id) {
@@ -77,7 +78,10 @@ function EditProfile() {
         user_id: user?.id,
         default: true
       };
-
+     
+console.log("IM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+      console.log(userData)
+      console.log(addressData)
       await dispatch(editUser(userData));
       if (user?.address?.id) {
         await dispatch(editAddress({ addressData, id: user.address.id }));
@@ -108,12 +112,6 @@ function EditProfile() {
               <h5>Personal Information</h5>
             </div>
             <div className='col-6'>
-              {/* <TextInput
-                label="Username"
-                value={username}
-                onChange={handleUsernameChange}
-                type="text"
-              /> */}
               <p className='py-1'> Username </p>
               <p className='px-3'> {user?.username || 'Loading...'} </p>
             </div>
@@ -126,12 +124,9 @@ function EditProfile() {
               />
             </div>
             <div className='col-6'>
-              <TextInput
-                label="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
-              />
+            </div>
+            <div className='col-6'>
+              < ChangePassword />
             </div>
 
             {/* Address Section */}
