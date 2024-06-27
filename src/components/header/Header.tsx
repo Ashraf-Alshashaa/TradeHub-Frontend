@@ -12,7 +12,8 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchProducts } from "../../features/products/productsSlice";
 
 
-const Header: FC<HeaderProps> = ({ onSearch, searchQuery, onSearchSubmit}) => {
+const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const dispatch = useDispatch<AppDispatch>();
@@ -39,12 +40,12 @@ const Header: FC<HeaderProps> = ({ onSearch, searchQuery, onSearchSubmit}) => {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value); // Check what event object is received
     const searchQuery = event.target.value.toString() // Ensure event.target is defined
-    onSearch(searchQuery);
+    setSearchQuery(searchQuery);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent form submission
-    onSearchSubmit(searchQuery); // Call parent component's search submit handler
+    onSearchSubmit(searchQuery.trim()); // Call parent component's search submit handler
   };
 
   
