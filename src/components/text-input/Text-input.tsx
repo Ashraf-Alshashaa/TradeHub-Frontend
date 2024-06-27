@@ -2,41 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { TextInputProps } from './types';
 import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
 
-const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className, required=false }) => {
+const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className, required = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // State to track validation errors
   const [emailError, setEmailError] = useState<string | null>(null);
   const [touched, setTouched] = useState(false);
 
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
-
-    // Validate email format if type is 'email' and value is not empty
-    if (type === 'email' && event.target.value.trim() !== '') {
-      validateEmail(event.target.value);
-    } else {
-      setEmailError(null); // Clear email error if value is empty
-    }
-
-  // Validate required fields
-  if (required && !event.target.value) {
-    setError(`${label} is required`);
-  } else {
-    setError(null);
-  }
-};
-
-const handleBlur = () => {
-  setTouched(true);
-  if (required && !value) {
-    setError(`${label} is required`);
-  }
-};
 
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -47,9 +21,69 @@ const handleBlur = () => {
     }
   };
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue: string = event.target.value;
+
+    if (type === 'email') {
+      onChange(inputValue);
+      if (inputValue.trim() !== '') {
+        validateEmail(inputValue);
+      } else {
+        setEmailError(null);
+      }
+    } else if (type === 'password') {
+      onChange(inputValue);
+      setTouched(true); // Set touched immediately for real-time error display
+      
+      if (required && inputValue.trim() === '') {
+        setError(`${label} is required`);
+      } else {
+        setError(null);
+      }
+    } else if (type === 'price') {
+      const numericValue = inputValue.replace(/[^0-9.]/g, '');
+      const parsedValue = numericValue !== '' ? parseFloat(numericValue) : NaN; // Parse as float, handle non-numeric input
+      
+      onChange(parsedValue);
+
+      if (required && (isNaN(parsedValue) || parsedValue === 0)) {
+        setError(`${label} is required`);
+      } else {
+        setError(null);
+      }
+    } else {
+      onChange(inputValue);
+
+      if (required && inputValue.trim() === '') {
+        setError(`${label} is required`);
+      } else {
+        setError(null);
+      }
+    }
+  };
+
+  const handleBlur = () => {
+    setTouched(true);
+
+    if (type === 'password') {
+      const trimmedValue = typeof value === 'string' ? value.trim() : '';
+
+      if (required && trimmedValue === '') {
+        setError(`${label} is required`);
+      } else {
+        setError(null);
+      }
+    } else {
+      if (required && (value === '' || value === 0 || isNaN(Number(value)))) {
+        setError(`${label} is required`);
+      } else {
+        setError(null);
+      }
+    }
+  };
+
   useEffect(() => {
-    // Validate required fields on initial render and on value change
-    if (touched && required && !value) {
+    if (touched && required && (value === '' || value === 0 || isNaN(Number(value)))) {
       setError(`${label} is required`);
     } else {
       setError(null);
@@ -63,11 +97,11 @@ const handleBlur = () => {
         <InputGroup>
           <Form.Control
             type={showPassword ? 'text' : 'password'}
-            value={value}
+            value={value as string}
             onChange={handleChange}
             placeholder={label}
             required={required}
-            isInvalid={!!error} // Mark input as invalid if there's an email error
+            isInvalid={!!error}
             onBlur={handleBlur}
           />
           <Button variant="outline-success" onClick={togglePasswordVisibility}>
@@ -75,17 +109,23 @@ const handleBlur = () => {
           </Button>
         </InputGroup>
       ) : (
-        <Form.Control
-          type={type}
-          value={value}
-          onChange={handleChange}
-          placeholder={label}
-          isInvalid={!!error} // Mark input as invalid if there's an email error
-          required={required} // Pass the required prop
-          onBlur={handleBlur}
-        />
+        <InputGroup>
+          {type === 'price' && (
+            <InputGroup.Text>€</InputGroup.Text>
+          )}
+          <Form.Control
+            type={type === 'price' ? 'text' : type}
+            value={type === 'price' ? (value !== undefined && value !== null ? value.toString() : '') : value}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={label}
+            required={required}
+            isInvalid={!!error}
+            inputMode={type === 'price' ? 'decimal' : undefined}
+            pattern={type === 'price' ? '[0-9]*' : undefined}
+          />
+        </InputGroup>
       )}
-      {/* Show specific error messages */}
       {type === 'email' && required && !value && touched && (
         <Alert variant="danger">Email is required</Alert>
       )}
@@ -96,7 +136,6 @@ const handleBlur = () => {
         <Alert variant="danger">{error}</Alert>
       )}
     </Form.Group>
-    
   );
 };
 

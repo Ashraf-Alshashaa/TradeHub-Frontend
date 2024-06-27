@@ -31,11 +31,11 @@ const Test: FC = () => {
     setPassword(value);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted with:', { email, password });
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
   };
+
 
 
   const navigate = useNavigate();
@@ -94,6 +94,13 @@ const Test: FC = () => {
               value={password}
               onChange={handlePasswordChange}
               type="password"
+              required={true}
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
               required={true}
             />
             <Textarea
