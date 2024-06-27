@@ -116,6 +116,7 @@ function EditProfile() {
                 value={email}
                 onChange={handleEmailChange}
                 type="email"
+                required={true}
               />
             </div>
 
