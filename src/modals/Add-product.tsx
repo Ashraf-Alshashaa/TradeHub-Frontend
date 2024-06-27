@@ -78,7 +78,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
     const newProduct = {
       name: productName,
       image: productImage,
-      description: productDescription,
+      description: productDescription || "",
       seller_id: user?.user_id,
       buyer_id: null,
       date: new Date().toISOString(),
@@ -171,7 +171,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
                 label="Description"
                 required={false}
                 onChange={handleProductDescriptionChange}
-                defaultVlaue=' '
+                defaultVlaue=""
               />
             </div>
             <div className='col-6 mt-2'>
