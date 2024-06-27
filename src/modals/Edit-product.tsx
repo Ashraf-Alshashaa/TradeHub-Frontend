@@ -25,6 +25,8 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
   const [productImage, setProductImage] = useState("");
   const [productCondition, setProductCondition] = useState(""); // Initial state set to 'New'
   const [selectedCategories, setSelectedCategories] =  useState<number>();
+  const [isFormValid, setIsFormValid] = useState(false);
+
 
 
   const dispatch = useDispatch<AppDispatch>();
@@ -38,7 +40,19 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
     setProductImage(existingData.image);
     setProductCondition(existingData.condition);
     setSelectedCategories(existingData.category_id);
-  }, [show]);
+  }, [show, existingData]);
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [productName, productPrice, productImage]);
+
+  const checkFormValidity = () => {
+    if (productName && productPrice && productImage) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  };
 
 
   const handleProductNameChange = (value) => setProductName(value);
@@ -95,9 +109,9 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    if (productPrice === undefined || productPrice === null) {
-      alert("Please enter a valid price.");
-
+    if (!isFormValid) {
+      alert("Please fill out all required fields.");
+      return;
     }
   
 
@@ -115,10 +129,12 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
         .unwrap()
         .then(() => {
           console.log("Product updated successfully:");
+          alert("Product updated successfully!");
           handleClose();
         })
         .catch((error) => {
           console.error("Failed to update product:", error);
+          alert("Please check all required fields.");
         });
   };
 
@@ -146,6 +162,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   value={productName}
                   onChange={(s) => handleProductNameChange(s)}
                   type="text"
+                  required={true}
                 />
               </div>
               <div className='col-4 mt-2'>
@@ -154,6 +171,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                     value={productPrice}
                     onChange={(n) => handleProductPriceChange(n)}
                     type="price"
+                    required={true}
                   />
               </div>
               <div className='col-12 mt-2'>
@@ -162,6 +180,7 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
                   value={productImage}
                   onChange={(s) => handleProductImageChange(s)}
                   type="text"
+                  required={true}
                 />
               </div>
               <div className='col-12 mt-2'>

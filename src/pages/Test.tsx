@@ -16,7 +16,6 @@ import AddProduct from "../modals/Add-product.tsx";
 import Textarea from "../components/textarea/Textarea.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
-import { LuSofa } from "react-icons/lu";
 import { fetchProductById } from "../features/products/productsSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState} from "../app/store.ts";
@@ -53,11 +52,6 @@ const Test: FC = () => {
   const handlePasswordChange = (value: string) => {
     setPassword(value);
   };
-  const [price, setPrice] = useState<number>();
-  const handleInputPriceChange = (value: number) => {
-    setPrice(value);
-  };
-
   const [price, setPrice] = useState<number>();
   const handleInputPriceChange = (value: number) => {
     setPrice(value);
