@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { TextInputProps } from './types';
 import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
+import { TextInputProps } from './types';
 
 const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className, required = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // State to track validation errors
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [touched, setTouched] = useState(false);
+  const [emailError, setEmailError] = useState<string | null>(null); // State to track email validation error
+  const [touched, setTouched] = useState(false); // State to track if input has been touched (blurred)
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -23,43 +23,23 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue: string = event.target.value;
-  
+    onChange(inputValue);
+
+    setTouched(true);
+
     if (type === 'email') {
-      onChange(inputValue);
       if (inputValue.trim() !== '') {
         validateEmail(inputValue);
       } else {
         setEmailError(null);
       }
-    } else if (type === 'password') {
-      onChange(inputValue);
-      setTouched(true); // Set touched immediately for real-time error display
-  
-      if (required && inputValue.trim() === '') {
-        setError(`${label} is required`);
+    } else if (type === 'price') {
+      if (!/^\d*\.?\d*$/.test(inputValue)) {
+        setError('Only numeric values are allowed');
       } else {
         setError(null);
       }
-    } else if (type === 'price') {
-      const numericValue = inputValue.replace(/[^0-9.]/g, '');
-  
-      if (numericValue === '') {
-        onChange(''); // Update parent component with empty string if input is empty
-        setError(required ? `${label} is required` : null);
-      } else {
-        const parsedValue = parseFloat(numericValue);
-  
-        if (isNaN(parsedValue)) {
-          onChange(''); // Update parent component with empty string if parsedValue is NaN
-          setError('Please enter a valid number');
-        } else {
-          onChange(parsedValue); // Update parent component with parsed numeric value
-          setError(null);
-        }
-      }
     } else {
-      onChange(inputValue);
-  
       if (required && inputValue.trim() === '') {
         setError(`${label} is required`);
       } else {
@@ -71,30 +51,32 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
   const handleBlur = () => {
     setTouched(true);
 
-    if (type === 'password') {
-      const trimmedValue = typeof value === 'string' ? value.trim() : '';
-
-      if (required && trimmedValue === '') {
-        setError(`${label} is required`);
+    if (required && `${value}`.trim() === '') {
+      setError(`${label} is required`);
+    } else if (type === 'price' && `${value}`.trim() !== '') {
+      if (!/^\d*\.?\d*$/.test(`${value}`)) {
+        setError('Only numeric values are allowed');
       } else {
         setError(null);
       }
     } else {
-      if (required && (value === '' || value === 0 || isNaN(Number(value)))) {
-        setError(`${label} is required`);
-      } else {
-        setError(null);
-      }
+      setError(null);
     }
   };
 
   useEffect(() => {
-    if (touched && required && (value === '' || value === 0 || isNaN(Number(value)))) {
+    if (touched && required && `${value}`.trim() === '') {
       setError(`${label} is required`);
+    } else if (type === 'price' && `${value}`.trim() !== '') {
+      if (!/^\d*\.?\d*$/.test(`${value}`)) {
+        setError('Only numeric values are allowed');
+      } else {
+        setError(null);
+      }
     } else {
       setError(null);
     }
-  }, [value, label, required, touched]);
+  }, [value, label, required, touched, type]);
 
   return (
     <Form.Group controlId={`formBasic${label}`} className={className}>
@@ -107,7 +89,7 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
             onChange={handleChange}
             placeholder={label}
             required={required}
-            isInvalid={!!error}
+            isInvalid={!!error && touched} // Only show invalid state if touched
             onBlur={handleBlur}
           />
           <Button variant="outline-success" onClick={togglePasswordVisibility}>
@@ -116,29 +98,22 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
         </InputGroup>
       ) : (
         <InputGroup>
-          {type === 'price' && (
-            <InputGroup.Text>€</InputGroup.Text>
-          )}
+          {type === 'price' && <InputGroup.Text>€</InputGroup.Text>}
           <Form.Control
             type={type === 'price' ? 'text' : type}
-            value={type === 'price' ? (value !== undefined && value !== null ? value.toString() : '') : value}
+            value={value as string}
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder={label}
             required={required}
-            isInvalid={!!error}
-            inputMode={type === 'price' ? 'decimal' : undefined}
-            pattern={type === 'price' ? '[0-9]*' : undefined}
+            isInvalid={!!error && touched} // Only show invalid state if touched
           />
         </InputGroup>
-      )}
-      {type === 'email' && required && !value && touched && (
-        <Alert variant="danger">Email is required</Alert>
       )}
       {type === 'email' && emailError && touched && (
         <Alert variant="danger">{emailError}</Alert>
       )}
-      {error && touched && type !== 'email' && (
+      {error && touched && (
         <Alert variant="danger">{error}</Alert>
       )}
     </Form.Group>
