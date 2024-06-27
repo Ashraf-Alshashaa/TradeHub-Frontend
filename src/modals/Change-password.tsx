@@ -44,7 +44,6 @@ function ChangePassword() {
       };
       await dispatch(editUser(userData));
       await dispatch(fetchDefaultAddress({ user_id: userData.id, isDefault: true} ))
-    console.log('Password saved to database:', password);
     handleClose();
   }
 };
