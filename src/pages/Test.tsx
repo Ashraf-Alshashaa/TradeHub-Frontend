@@ -28,10 +28,22 @@ const Test: FC = () => {
     setEmail(value);
   };
 
+  const [text, setText] = useState("");
+  const handleTextChange = (value: string) => {
+    setText(value);
+  };
+
   const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
   };
+
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
+  };
+
+
 
   const navigate = useNavigate();
   const dropdownTestData = [
@@ -102,12 +114,28 @@ const Test: FC = () => {
               value={email}
               onChange={handleEmailChange}
               type="email"
+              required={true}
             />
             <TextInput
               label="Password"
               value={password}
               onChange={handlePasswordChange}
               type="password"
+              required={true}
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
+              required={true}
+            />
+             <TextInput
+              label="Text"
+              value={text}
+              onChange={handleTextChange}
+              type="text"
+              required={true}
             />
             <Textarea
               label="Text"
