@@ -48,7 +48,7 @@ const ProductPage = () => {
     }
 
     if (!product || !user || !bidPrice) {
-      console.error("Incomplete bid data");
+      navigate("/login");
       return;
     }
 
@@ -134,6 +134,10 @@ const ProductPage = () => {
           )}
           {bidsLoading ? (
             <div>Loading...</div>
+          ) : bids.length === 0 ? (
+            <div className="empty-bids-msg">
+              There are no bids for this product yet
+            </div>
           ) : (
             <table className="product-page-bids-container">
               <tbody className="product-page-bid-container">

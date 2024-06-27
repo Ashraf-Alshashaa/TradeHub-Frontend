@@ -43,6 +43,15 @@
     color: red;
 }
 
+.empty-bids-msg{
+    height: 200px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--box-shadow-light);
+    margin-top: var(--font-size-xlarge);
+}
 .product-page-bids-container{
     margin-top: var(--spacing-medium);
 }
