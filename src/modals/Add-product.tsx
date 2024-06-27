@@ -20,10 +20,10 @@ enum ProductCondition {
 const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
   const [productName, setProductName] = useState("");
   const [productImage, setProductImage] = useState("");
-  const [productDescription, setProductDescription] = useState("");
+  const [productDescription, setProductDescription] = useState <string | null>(null);
   const [productCondition, setProductCondition] = useState<ProductCondition>(ProductCondition.New); // Initial state set to 'New'
-  const [productPrice, setProductPrice] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [productPrice, setProductPrice] = useState<number>();
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
 

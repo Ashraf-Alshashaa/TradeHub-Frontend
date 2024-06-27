@@ -20,7 +20,7 @@ enum ProductCondition {
 const EditProduct: FC<EditProductProps> = ({existingData}) => {
   const [show, setShow] = useState(false);
   const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState("");
+  const [productDescription, setProductDescription] = useState <string | null>();
   const [productPrice, setProductPrice] = useState<number>();
   const [productImage, setProductImage] = useState("");
   const [productCondition, setProductCondition] = useState(""); // Initial state set to 'New'
