@@ -19,7 +19,7 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
 
   const handleCategoryChange = (category_id : number) => {
       onCategoryChange(category_id);
-      console.log(categories[category_id-1], )
+
   };
 
   return (
