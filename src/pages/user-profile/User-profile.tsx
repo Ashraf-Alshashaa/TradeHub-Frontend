@@ -50,10 +50,10 @@ const UserProfile: React.FC = () => {
           </div>
         </div>
         <div className='col-2 pt-5'>
-          <div className='row'>
+          <div className='row py-2'>
             <EditProfile />
           </div>
-          <div className='row'>
+          <div className='row py-2'>
             <ChangePassword />
           </div>
         </div>
