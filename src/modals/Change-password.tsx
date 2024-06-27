@@ -6,6 +6,7 @@ import Alert from 'react-bootstrap/Alert';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../app/store';
 import { editUser } from '../features/users/userSlice';
+import { fetchDefaultAddress } from '../features/addresses/addressSlice';
 
 function ChangePassword() {
 
@@ -42,6 +43,7 @@ function ChangePassword() {
         password, // Use the updated password state
       };
       await dispatch(editUser(userData));
+      await dispatch(fetchDefaultAddress({ user_id: userData.id, isDefault: true} ))
     console.log('Password saved to database:', password);
     handleClose();
   }
