@@ -5,7 +5,7 @@ import { FilterByProps } from './types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
-
+import RadioButton from '../radio-button/Radio-button';
 
 const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,11 +30,9 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
   return (
     <div className="filter-by">
       <h2>Filter by</h2>
-      <div className="price-filter">
-        <div className="price-heading">
-          <h3>Price</h3>
-        </div>
-        <div className="price-slider">
+      <div className="price-filter p-3 mb-2">
+          <h4 className='mb-4'>Price</h4>
+        <div className="price-slider mb-2">
           <Range
             values={priceRange}
             step={50}
@@ -78,18 +76,14 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
         </div>
       </div>
       <div className="category-filter">
-        <h3>Categories</h3>
-        {categories.map((category, index) => (
-          <div key={index}>
-            <label>
-              <input
-                type="check-box"
-                checked={selectedCategories.includes(category)}
-                onChange={() => handleCategoryChange(category)}
-              /> &nbsp; &nbsp;
-              {category}
-            </label>
-          </div>
+        <h4 className='mb-3'>Categories</h4>
+        {categories.map((category) => (
+              <RadioButton
+              bidder_name={category} 
+              group_name='Categories'
+              bid='' 
+              onClick={() => handleCategoryChange(category)}
+                />
         ))}
       </div>
     </div>
