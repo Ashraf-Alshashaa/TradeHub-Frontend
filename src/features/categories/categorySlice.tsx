@@ -34,8 +34,7 @@ const categorySlice = createSlice({
         state.error = null;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
-        state.min_price = action.payload.min_price;
-        state.max_price = action.payload.max_price;
+        state.categories = action.payload;
         state.loading = false;
       })
       .addCase(fetchCategories.rejected, (state, action) => {
