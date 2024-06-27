@@ -13,7 +13,7 @@ const DropdownMenu: FC<DropDownMenuProps> = ({
   return (
     <Dropdown className="w-100 h-100">
       <Dropdown.Toggle
-        className="w-100"
+        className="w-100 d-flex justify-content-between align-items-center"
         variant={variant ? variant : "light"}
         id="dropdown-basic"
       >
