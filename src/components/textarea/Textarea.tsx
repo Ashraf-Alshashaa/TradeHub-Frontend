@@ -2,8 +2,13 @@ import { FC, useState, ChangeEvent } from "react";
 import { Form, Alert } from "react-bootstrap";
 import { TextareaProps } from "./types";
 
-const Textarea: FC<TextareaProps> = ({ label, onChange, required = false }) => {
-  const [text, setText] = useState<string>("");
+const Textarea: FC<TextareaProps> = ({
+  label,
+  onChange,
+  required = false,
+  defaultVlaue,
+}) => {
+  const [text, setText] = useState<string>(defaultVlaue ? defaultVlaue : "");
   const [error, setError] = useState<string | null>(null);
 
   const handleOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
