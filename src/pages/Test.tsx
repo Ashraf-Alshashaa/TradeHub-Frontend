@@ -11,6 +11,7 @@ import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
 import ProductListing from "../components/product-listing/Product-listing";
 import { Product } from "../components/product-listing/types";
+import ChooseBid from "../modals/Choose-bid.tsx";
 import RadioButton from "../components/radio-button/Radio-button.tsx";
 import Textarea from "../components/textarea/Textarea.tsx";
 
@@ -103,6 +104,8 @@ const Test: FC = () => {
               onChange={handleEmailChange}
               type="email"
             />
+          </div>
+          <div className="row my-4">
             <TextInput
               label="Password"
               value={password}
@@ -114,6 +117,9 @@ const Test: FC = () => {
               required={true}
               onChange={(e) => console.log(e.target.value)}
             />
+          </div>
+          <div className="row my-4">
+            <ChooseBid />
           </div>
           <div className="row my-4">
             <CustomImage
