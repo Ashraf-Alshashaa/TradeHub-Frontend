@@ -1,7 +1,7 @@
 import TextInput from "../../components/text-input/Text-input";
 import CustomButton from "../../components/button/Button";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoginImage from "../../assets/login.jpg";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { login } from "../../features/auth/authSlice";
 import { registerUser } from "../../features/users/userSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 
 const Login: React.FC = () => {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -71,6 +72,10 @@ const Login: React.FC = () => {
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(fetchPriceRange());
+  }, [dispatch]);
 
   const handleRegisterClick = async (event: React.FormEvent) => {
     event.preventDefault();
