@@ -25,7 +25,6 @@ export const login = createAsyncThunk(
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      localStorage.setItem('access_token', response.data.access_token);
 
       return response.data
     } catch (error: any) {
@@ -41,7 +40,7 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.isAuthenticated = false;
-      localStorage.removeItem('access_token');
+      localStorage.removeItem('user');
     },
   },
   extraReducers: (builder) => {
