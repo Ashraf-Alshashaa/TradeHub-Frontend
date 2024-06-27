@@ -5,6 +5,7 @@ export interface Bid {
   price: number;
   bidder_id: number;
   status: string;
+  username?: string
 }
 
 export interface BidState {

@@ -28,9 +28,18 @@ export const fetchAllBids = createAsyncThunk(
   async (productId: number, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.get(`/bids?product_id=${productId}`);
-      return response.data;
+      const bids = response.data;
+
+      const bidsWithUserPromises = bids.map(async (bid: Bid) => {
+        const userResponse = await axiosInstance.get(`/users?id=${bid.bidder_id}`);
+        const username = userResponse.data.username;
+        return { ...bid, username };
+      });
+
+      const bidsWithUser = await Promise.all(bidsWithUserPromises);
+      return bidsWithUser;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data ?? error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
