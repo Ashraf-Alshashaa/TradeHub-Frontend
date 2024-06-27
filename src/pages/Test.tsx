@@ -9,7 +9,10 @@ import CustomButton from "../components/button/Button";
 import ProductCard from "../components/product-card/Product-card";
 import CustomImage from "../components/image/Image";
 import Header from "../components/header/Header";
+import ProductListing from "../components/product-listing/Product-listing";
+import { Product } from "../components/product-listing/types";
 import RadioButton from "../components/radio-button/Radio-button.tsx";
+import Textarea from "../components/textarea/Textarea.tsx";
 
 const Test: FC = () => {
   const handlePrimaryClick = () => {
@@ -49,12 +52,32 @@ const Test: FC = () => {
     },
   ];
 
+  const selctorDropdownTestData = [
+    {
+      id: "1",
+      onClick: () => alert("You chose the first item"),
+      content: <div>Item 1</div>,
+    },
+    {
+      id: "2",
+      onClick: () => alert("You chose the second item"),
+      content: "Item 2",
+    },
+  ];
+
   const handlePriceChange = (value: [number, number]) => {
     console.log("Price range changed:", value);
   };
 
   const categories = ["Electronics", "Furniture", "Toys", "Clothes"];
 
+  const product: Product = {
+    image:
+      "https://cdn.pixabay.com/photo/2019/12/29/08/37/women-4726513_640.jpg",
+    name: "Product name",
+    price: "$XX.YY",
+    onClick: () => alert("Card clicked"),
+  };
   const cardClicked = () => alert("Card Clicked");
 
   const bidders = [
@@ -86,11 +109,23 @@ const Test: FC = () => {
               onChange={handlePasswordChange}
               type="password"
             />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
+            />
           </div>
           <div className="row my-4">
             <CustomImage
               src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
               alt="Sample Image"
+            />
+          </div>
+          <div className="row my-4" style={{ width: "200px" }}>
+            <DropdownMenu
+              data={selctorDropdownTestData}
+              title="selector Dropdown"
+              selector={true}
             />
           </div>
           <div className="row my-4" style={{ width: "200px" }}>

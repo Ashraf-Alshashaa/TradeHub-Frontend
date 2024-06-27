@@ -26,6 +26,7 @@ const Test: FC = () => {
     console.log("Price range changed:", value);
   };
   const cardClicked = (id: number) => navigate(`/product/${id}`);
+
   const categories = [
     "Electronics",
     "Furniture",

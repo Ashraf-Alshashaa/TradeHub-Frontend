@@ -1,0 +1,30 @@
+.card-text, .card-title {
+    font-weight: 700;
+  }
+
+.card:hover {
+    background-color: rgb(225, 223, 223);
+    cursor: pointer;
+  }
+
+
+  .form-check-input:checked {
+    background-color: var(--bs-success);
+    border-color: var(--bs-success);
+    border: var(--bs-border-width) solid var(--bs-success);
+    --bs-focus-ring-color: rgba(19, 217, 25, 0.25);
+}
+
+
+
+.product-card-list-container {
+  align-items: center;
+  justify-content: center;
+  margin: calc(var(--hz-space--xxs)* -1);
+}
+
+.product-list-image {
+  max-height: 6rem;
+  max-width: 7rem;
+  object-fit: cover;
+}
