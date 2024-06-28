@@ -1,4 +1,8 @@
+import { Category } from "../../features/categories/types";
+
 export interface FilterByProps {
-    onPriceChange: (value: [number, number]) => void;
-    categories: string[]; 
-  }
+  categories: Category[];
+  priceRange: [number, number];
+  onPriceChange: (values: number[]) => void;
+  onCategoryChange: (categoryId: number) => void;
+}

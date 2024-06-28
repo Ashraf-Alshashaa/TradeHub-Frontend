@@ -49,6 +49,18 @@ export const fetchAddressById = createAsyncThunk(
 );
 
 
+export const editAddress = createAsyncThunk(
+  'addresses/editAddress',
+  async ({addressData, id} : {addressData: any , id: number | undefined}, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`/addresses/${id}`, addressData);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 const addressSlice = createSlice({
   name: 'addresses',
@@ -89,6 +101,18 @@ const addressSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchAddressById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(editAddress.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editAddress.fulfilled, (state, action) => {
+        state.address = action.payload;
+        state.loading = false;
+      })
+      .addCase(editAddress.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

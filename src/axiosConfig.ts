@@ -4,8 +4,6 @@ const axiosInstance = axios.create({
   baseURL: "http://localhost:8000"
 });
 
-axiosInstance.defaults.headers.common['Content-Type'] = 'application/json';
-
 axiosInstance.interceptors.request.use(
   (config) => {
     let token = null;
