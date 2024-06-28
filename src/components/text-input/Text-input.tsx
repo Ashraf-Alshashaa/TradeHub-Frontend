@@ -21,6 +21,24 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
     }
   };
 
+  const validateHouseNumber = (houseNumber: string) => {
+    const regex = /^\d+$/;
+    if (!regex.test(houseNumber)) {
+      setError('Please enter a valid house number');
+    } else {
+      setError(null);
+    }
+  };
+
+  const validatePostcode = (postcode: string) => {
+    const regex = /^[0-9]{4}[a-zA-z]{2}$/;
+    if (!regex.test(postcode)) {
+      setError('Please enter a valid postcode');
+    } else {
+      setError(null);
+    }
+  };
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue: string = event.target.value;
     onChange(inputValue);
@@ -39,7 +57,13 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
       } else {
         setError(null);
       }
-    } else {
+    }
+    else if (type === 'housenumber') {
+      validateHouseNumber(inputValue);
+    } else if (type === 'postcode') {
+      validatePostcode(inputValue);
+    }
+    else {
       if (required && inputValue.trim() === '') {
         setError(`${label} is required`);
       } else {
@@ -59,7 +83,13 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
       } else {
         setError(null);
       }
-    } else {
+    } 
+    else if (type === 'housenumber') {
+      validateHouseNumber(`${value}`);
+    } else if (type === 'postcode') {
+      validatePostcode(`${value}`);
+    }
+    else {
       setError(null);
     }
   };
@@ -73,7 +103,13 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
       } else {
         setError(null);
       }
-    } else {
+    } 
+    else if (type === 'housenumber') {
+      validateHouseNumber(`${value}`);
+    } else if (type === 'postcode') {
+      validatePostcode(`${value}`);
+    }
+    else {
       setError(null);
     }
   }, [value, label, required, touched, type]);

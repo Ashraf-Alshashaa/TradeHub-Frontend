@@ -33,6 +33,20 @@ export const fetchUser = createAsyncThunk(
   }
 );
 
+
+export const editUser = createAsyncThunk(
+  'users/editUser',
+  async (userData: any, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`/users/${userData.id}`, userData);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
 const userSlice = createSlice({
   name: 'users',
   initialState,
@@ -60,6 +74,18 @@ const userSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(editUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.loading = false;
+      })
+      .addCase(editUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
