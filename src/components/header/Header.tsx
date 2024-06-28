@@ -9,6 +9,7 @@ import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import Cart from "../../modals/Cart";
 
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -151,7 +152,7 @@ const Header: FC = () => {
         </ButtonGroup>
         <div className="header-cart-notifications-cont">
           <Icon name="notifications" onclick={handleNotifications} />
-          <Icon name="shopping_cart" onclick={handleShoppingCart} />
+          <Cart />
         </div>
       </div>
     </header>
