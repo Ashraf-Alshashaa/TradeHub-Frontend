@@ -3,6 +3,6 @@
   border-color: var(--bs-success);
 }
 
-.radio-label:hover {
+.radio-label:hover, .form-check-input:hover {
   cursor: pointer;
 }
