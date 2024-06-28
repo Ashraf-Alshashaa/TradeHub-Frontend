@@ -32,7 +32,7 @@ const Test: FC = () => {
 
   const [categoryId, setCategoryId] = useState<(number)>();
 
-  const handleCategoryChange = (id: number) => {
+  const handleCategoryChange = (id: number| null) => {
     setCategoryId(id);
   };
 
@@ -78,10 +78,16 @@ const Test: FC = () => {
 
   return (
     <div className="Products">
-      <Header onSearchSubmit={setSearchQuery}/>
+      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} />
       <div className="row">
         <div className="col-3">
-        <FilterBy categories={categories} priceRange={priceRange} onPriceChange={handlePriceChange} onCategoryChange={handleCategoryChange}/>
+        <FilterBy
+          categories={categories}
+          priceRange={priceRange}
+          onPriceChange={handlePriceChange}
+          onCategoryChange={handleCategoryChange}
+          selectedCategoryId={categoryId}
+          />
         </div>
 
         <div className="col-9 my-4 overflow-auto scrollable-products">

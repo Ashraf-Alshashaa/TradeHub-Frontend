@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchCategories } from "../../features/categories/categorySlice";
 
 
-const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
+const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCategoryId}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -54,7 +54,7 @@ const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
 
   const handleCategorySelect = (categoryId: number) => {
     console.log(categoryId);
-    setActiveCategory(categoryId);
+    onCategorySelect(categoryId);
   };
 
   const handleNotifications = () => {
@@ -132,11 +132,11 @@ const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
         <Button
             className={`mx-1 rounded-1 ${
-              activeCategory === null
+              selectedCategoryId === null
                 ? "header-catygory-btn-active"
                 : "header-catygory-btn"
             }`}
-            variant="outline-success"
+            variant={selectedCategoryId === null ? "secondary header-catygory-btn" : "light"}
             onClick={() => handleCategorySelect(null)}
           >
             All Products
@@ -144,13 +144,13 @@ const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
           {categories.map((category) => (
             <Button
               className={`mx-1 rounded-1 ${
-                activeCategory === category.id
+                selectedCategoryId === category.id
                   ? "header-catygory-btn-active"
                   : "header-catygory-btn"
               }`}
               key={"header-category-" + category.id}
               variant={
-                activeCategory === category.id
+                selectedCategoryId === category.id
                   ? "secondary header-catygory-btn"
                   : "light"
               }

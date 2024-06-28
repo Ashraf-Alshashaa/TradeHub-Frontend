@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
 import RadioButton from '../radio-button/Radio-button';
 
-const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange, onCategoryChange }) => {
+const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange, onCategoryChange, selectedCategoryId }) => {
   const dispatch = useDispatch<AppDispatch>();
   const { min_price, max_price} = useSelector(
     (state: RootState) => state.pricerange
@@ -17,7 +17,7 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
     dispatch(fetchPriceRange());
   }, [dispatch]);
 
-  const handleCategoryChange = (category_id : number) => {
+  const handleCategoryChange = (category_id : number | null) => {
       onCategoryChange(category_id);
 
   };
@@ -72,12 +72,22 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
       </div>
       <div className="category-filter">
         <h4 className='mb-3'>Categories</h4>
+        <RadioButton
+          bidder_name="All Products"
+          group_name="Categories"
+          bid=""
+          onClick={() => handleCategoryChange(null)}
+          checked={selectedCategoryId === null}
+
+        />
         {categories.map((category) => (
               <RadioButton
               bidder_name={category.name} 
               group_name='Categories'
               bid='' 
               onClick={() => handleCategoryChange(category.id)}
+              checked={selectedCategoryId === category.id}
+          
                 />
         ))}
       </div>

@@ -3,7 +3,7 @@ import Form from 'react-bootstrap/Form';
 import { RadioButtonProps } from './types';
 import './radio-button.css';
 
-const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid, onClick}) => {
+const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid, onClick, checked}) => {
   const type = 'radio';
   
   return (
@@ -18,6 +18,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({bidder_name, group_name, bid, 
         name={group_name}
         type={type}
         id={`default-${type}-1`}
+        checked={checked}
         onClick={onClick}
       />
     </div>
