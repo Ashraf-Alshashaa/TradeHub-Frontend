@@ -7,6 +7,7 @@ import { fetchUser } from '../features/users/userSlice';
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../features/products/types';
 import { fetchMyCart } from '../features/products/productsSlice';
+import Icon from '../components/icon/Icon';
 
 
 function Cart() {
@@ -45,7 +46,7 @@ function Cart() {
 
   return (
     <>
-      <CustomButton text="Cart" onClick={handleShow} buttonType='primary' />
+      <Icon name="shopping_cart" onclick={handleShow} />
 
       <Modal
         size="lg"
