@@ -9,7 +9,9 @@ import { Form } from "react-bootstrap";
 import TextInput from "../../components/text-input/Text-input";
 import CustomButton from "../../components/button/Button";
 import { sendBidData, fetchAllBids } from "../../features/bids/bidSlice";
+import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
+import { ProductTypes } from "../../modals/types";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -54,7 +56,7 @@ const ProductPage = () => {
     }
 
     const bidData = {
-      product_id: product.id,
+      product_id: product.id as number,
       date: new Date().toISOString(),
       price: bidPrice,
       bidder_id: user.user_id,
@@ -87,11 +89,7 @@ const ProductPage = () => {
           <p className="product-page-product-name">{product.name}</p>
           {product.seller_id === user?.user_id && (
             <div className="product-edit-btn">
-              <CustomButton
-                text="Edit"
-                buttonType="secondary"
-                onClick={() => alert("Edit btn clicked")}
-              />
+              <EditProduct existingData={product as ProductTypes} />
             </div>
           )}
         </div>

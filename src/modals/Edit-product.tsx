@@ -1,36 +1,28 @@
-import { useState, useEffect, FC } from 'react';
-import CustomButton from '../components/button/Button';
-import Modal from 'react-bootstrap/Modal';
-import TextInput from '../components/text-input/Text-input';
-import DropdownMenu from '../components/dropdown/Dropdown';
-import { EditProductProps } from './types';
-import { updateProduct } from '../features/products/productsSlice';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from "../app/store";
-import Textarea from '../components/textarea/Textarea';
+import { useState, useEffect, FC } from "react";
+import CustomButton from "../components/button/Button";
+import Modal from "react-bootstrap/Modal";
+import TextInput from "../components/text-input/Text-input";
+import DropdownMenu from "../components/dropdown/Dropdown";
+import { EditProductProps, ProductCondition } from "./types";
+import { DropdownItemProps } from "../components/dropdown/types.ts";
+import { updateProduct } from "../features/products/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../app/store";
+import { fetchCategories } from "../features/categories/categorySlice";
+import Textarea from "../components/textarea/Textarea";
+import { fetchProductById } from "../features/products/productsSlice";
 
-
-enum ProductCondition {
-    New = 'new',
-    GoodAsNew = 'good as new',
-    Used = 'used',
-  }
-
-
-const EditProduct: FC<EditProductProps> = ({existingData}) => {
+const EditProduct: FC<EditProductProps> = ({ existingData }) => {
   const [show, setShow] = useState(false);
   const [productName, setProductName] = useState("");
-  const [productDescription, setProductDescription] = useState <string | null>();
+  const [productDescription, setProductDescription] = useState<string | null>();
   const [productPrice, setProductPrice] = useState<number>();
   const [productImage, setProductImage] = useState("");
-  const [productCondition, setProductCondition] = useState(""); // Initial state set to 'New'
-  const [selectedCategories, setSelectedCategories] =  useState<number>();
+  const [productCondition, setProductCondition] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<number>();
   const [isFormValid, setIsFormValid] = useState(false);
 
-
-
   const dispatch = useDispatch<AppDispatch>();
-
 
   useEffect(() => {
     // Set initial values when modal opens
@@ -54,11 +46,9 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
     }
   };
 
-
-  const handleProductNameChange = (value) => setProductName(value);
-  const handleProductImageChange = (value) => setProductImage(value);
-  const handleProductDescriptionChange = (value) => setProductDescription(value);
-  const handleProductPriceChange = (value) => setProductPrice(value);
+  const handleProductNameChange = (value: string) => setProductName(value);
+  const handleProductImageChange = (value: string) => setProductImage(value);
+  const handleProductPriceChange = (value: number) => setProductPrice(value);
 
   // Handler for changing product condition using enum
   const handleProductConditionChange = (condition: ProductCondition) => {
@@ -78,32 +68,23 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
     {
       id: "3",
       onClick: () => handleProductConditionChange(ProductCondition.Used),
-      content: "Used"
+      content: "Used",
     },
   ];
 
-  const Categories = [
-    {
-      id: "1",
-      onClick: () => setSelectedCategories(1),
-      content: "Electronics",
-    },
-    {
-      id: "2",
-      onClick: () => setSelectedCategories(2),
-      content: "Furniture",
-    },
-    {
-      id: "3",
-      onClick: () => setSelectedCategories(3),
-      content: "Toys",
-    },
-    {
-      id: "4",
-      onClick: () => setSelectedCategories(4),
-      content: "Clothes",
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const { categories } = useSelector((state: RootState) => state.categories);
+
+  const CategoryDropdownData: DropdownItemProps[] = categories.map(
+    (category) => ({
+      id: category.id.toString(),
+      onClick: () => setSelectedCategories(category.id),
+      content: category.name,
+    })
+  );
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -113,102 +94,120 @@ const EditProduct: FC<EditProductProps> = ({existingData}) => {
       alert("Please fill out all required fields.");
       return;
     }
-  
 
-    dispatch(updateProduct({id : existingData.id, productData: {
-      name: productName,
-      image: productImage,
-      description: productDescription,
-      seller_id: existingData.seller_id,
-      buyer_id: null,
-      price: productPrice,
-      date: new Date(existingData.date),
-      condition: productCondition as string,
-      category_id: selectedCategories,  
-    }}))
-        .unwrap()
-        .then(() => {
-          console.log("Product updated successfully:");
-          alert("Product updated successfully!");
-          handleClose();
-        })
-        .catch((error) => {
-          console.error("Failed to update product:", error);
-          alert("Please check all required fields.");
-        });
+    dispatch(
+      updateProduct({
+        id: existingData.id,
+        productData: {
+          name: productName,
+          image: productImage,
+          description: productDescription,
+          seller_id: existingData.seller_id,
+          buyer_id: null,
+          price: productPrice,
+          date: new Date(existingData.date),
+          condition: productCondition as string,
+          category_id: selectedCategories,
+        },
+      })
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(fetchProductById(existingData.id));
+      })
+      .then(() => {
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Failed to update product:", error);
+        alert("Please check all required fields.");
+      });
   };
 
-  
-  
-    return (
-      <>
-        <CustomButton text="Edit Product" onClick={handleShow} buttonType='secondary'/>
-  
-        <Modal
-          size="lg"
-          show={show}
-          onHide={handleClose}
-          backdrop="static"
-          keyboard={false}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Product</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className='row'>
-              <div className='col-8 mt-2'>
-                <TextInput
-                  label="Product Name"
-                  value={productName}
-                  onChange={(s) => handleProductNameChange(s)}
-                  type="text"
-                  required={true}
-                />
-              </div>
-              <div className='col-4 mt-2'>
-                  <TextInput
-                    label="Price"
-                    value={productPrice}
-                    onChange={(n) => handleProductPriceChange(n)}
-                    type="price"
-                    required={true}
-                  />
-              </div>
-              <div className='col-12 mt-2'>
-                <TextInput
-                  label="Product Image URL"
-                  value={productImage}
-                  onChange={(s) => handleProductImageChange(s)}
-                  type="text"
-                  required={true}
-                />
-              </div>
-              <div className='col-12 mt-2'>
-                <Textarea
-                    label="Product Description"
-                    required={false}
-                    onChange={(e) => setProductDescription(e.target.value)}
-                    defaultVlaue= {existingData.description}
-                />
-              </div>
-              <div className='col-6 mt-2'>
-                  <h6>Product Condition</h6>
-                  <DropdownMenu data={Conditions} title="Choose Condition" />
-              </div>
-              <div className='col-6 mt-2'>
-                  <h6>Product Categories</h6>
-                  <DropdownMenu data={Categories} title="Choose Category" />
-              </div>
+  return (
+    <>
+      <CustomButton
+        text="Edit Product"
+        onClick={handleShow}
+        buttonType="secondary"
+      />
+
+      <Modal
+        size="lg"
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Edit Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="row">
+            <div className="col-8 mt-2">
+              <TextInput
+                label="Product Name"
+                value={productName}
+                onChange={(s) => handleProductNameChange(s as string)}
+                type="text"
+                required={true}
+              />
             </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <CustomButton text='Save' buttonType="primary" onClick={handleSave}/>
-            <CustomButton text='Close' buttonType="secondary" onClick={handleClose}/>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
-  
+            <div className="col-4 mt-2">
+              <TextInput
+                label="Price"
+                value={productPrice}
+                onChange={(n) => handleProductPriceChange(n as number)}
+                type="price"
+                required={true}
+              />
+            </div>
+            <div className="col-12 mt-2">
+              <TextInput
+                label="Product Image URL"
+                value={productImage}
+                onChange={(s) => handleProductImageChange(s as string)}
+                type="text"
+                required={true}
+              />
+            </div>
+            <div className="col-12 mt-2">
+              <Textarea
+                label="Product Description"
+                required={false}
+                onChange={(e) => setProductDescription(e.target.value)}
+                defaultVlaue={existingData.description}
+              />
+            </div>
+            <div className="col-6 mt-2">
+              <h6>Product Condition</h6>
+              <DropdownMenu
+                data={Conditions}
+                title="Choose Condition"
+                selector={true}
+              />
+            </div>
+            <div className="col-6 mt-2">
+              <h6>Product Categories</h6>
+              <DropdownMenu
+                data={CategoryDropdownData}
+                title="Choose Category"
+                selector={true}
+              />
+            </div>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <CustomButton text="Save" buttonType="primary" onClick={handleSave} />
+          <CustomButton
+            text="Close"
+            buttonType="secondary"
+            onClick={handleClose}
+          />
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
 export default EditProduct;
