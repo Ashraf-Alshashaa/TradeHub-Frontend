@@ -18,11 +18,11 @@ const { id } = useParams<{ id: string }>();
   };
 
   return (
-    <div className='py-1'>
-    <Card className="pt-3" style={{height: '6rem'}}>
+    <div className='py-1 items-align-center'>
+    <Card style={{height: '6rem'}}>
     <div className='row d-flex px-3 align-items-center'>
       <div className='product-card-list-container col-4 '>
-      <Card.Img className='product-list-image' src={product.image} onClick={() => handleClick(product.id)} /> </div>
+      <Card.Img className='product-list-image items-align-center' src={product.image} onClick={() => handleClick(product.id)} /> </div>
       <Card.Body className='col-8'>
         <div className='row d-flex'>
         <Card.Title className='col-6'  onClick={() => handleClick(product.id)}>{product.name}</Card.Title>
