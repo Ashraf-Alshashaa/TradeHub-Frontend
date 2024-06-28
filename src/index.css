@@ -8,6 +8,10 @@
   font-family: "Inter", sans-serif;
 } 
 
+html{
+  height: 100vh;
+}
+
 
 :root {
   --primary-color: #379237;
