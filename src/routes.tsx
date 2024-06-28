@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
+import ProtectedRoute from "./components/protected-routes/ProtectedRoute";
 
 const Test = lazy(() => import("./pages/Test"));
 const Home = lazy(() => import("./pages/Home"));
@@ -19,7 +20,11 @@ const routes: RouteObject[] = [
   },
   {
     path: "/profile",
-    element: <UserProfile />,
+    element: (
+      <ProtectedRoute>
+        <UserProfile />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/login",
