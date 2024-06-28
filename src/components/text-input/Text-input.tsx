@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Alert, InputGroup } from 'react-bootstrap';
-import { TextInputProps } from './types';
+import React, { useState, useEffect } from "react";
+import { Form, Button, Alert, InputGroup } from "react-bootstrap";
+import { TextInputProps } from "./types";
 
-const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 'text', className, required = false }) => {
+const TextInput: React.FC<TextInputProps> = ({
+  label,
+  value,
+  onChange,
+  type = "text",
+  className,
+  required = false,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null); // State to track validation errors
   const [emailError, setEmailError] = useState<string | null>(null); // State to track email validation error
@@ -15,9 +22,27 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(email)) {
-      setEmailError('Please enter a valid email address');
+      setEmailError("Please enter a valid email address");
     } else {
       setEmailError(null);
+    }
+  };
+
+  const validateHouseNumber = (houseNumber: string) => {
+    const regex = /^\d+$/;
+    if (!regex.test(houseNumber)) {
+      setError("Please enter a valid house number");
+    } else {
+      setError(null);
+    }
+  };
+
+  const validatePostcode = (postcode: string) => {
+    const regex = /^[0-9]{4}[a-zA-z]{2}$/;
+    if (!regex.test(postcode)) {
+      setError("Please enter a valid postcode");
+    } else {
+      setError(null);
     }
   };
 
@@ -27,20 +52,24 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
 
     setTouched(true);
 
-    if (type === 'email') {
-      if (inputValue.trim() !== '') {
+    if (type === "email") {
+      if (inputValue.trim() !== "") {
         validateEmail(inputValue);
       } else {
         setEmailError(null);
       }
-    } else if (type === 'price') {
+    } else if (type === "price") {
       if (!/^\d*\.?\d*$/.test(inputValue)) {
-        setError('Only numeric values are allowed');
+        setError("Only numeric values are allowed");
       } else {
         setError(null);
       }
+    } else if (type === "housenumber") {
+      validateHouseNumber(inputValue);
+    } else if (type === "postcode") {
+      validatePostcode(inputValue);
     } else {
-      if (required && inputValue.trim() === '') {
+      if (required && inputValue.trim() === "") {
         setError(`${label} is required`);
       } else {
         setError(null);
@@ -51,28 +80,36 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
   const handleBlur = () => {
     setTouched(true);
 
-    if (required && `${value}`.trim() === '') {
+    if (required && `${value}`.trim() === "") {
       setError(`${label} is required`);
-    } else if (type === 'price' && `${value}`.trim() !== '') {
+    } else if (type === "price" && `${value}`.trim() !== "") {
       if (!/^\d*\.?\d*$/.test(`${value}`)) {
-        setError('Only numeric values are allowed');
+        setError("Only numeric values are allowed");
       } else {
         setError(null);
       }
+    } else if (type === "housenumber") {
+      validateHouseNumber(`${value}`);
+    } else if (type === "postcode") {
+      validatePostcode(`${value}`);
     } else {
       setError(null);
     }
   };
 
   useEffect(() => {
-    if (touched && required && `${value}`.trim() === '') {
+    if (touched && required && `${value}`.trim() === "") {
       setError(`${label} is required`);
-    } else if (type === 'price' && `${value}`.trim() !== '') {
+    } else if (type === "price" && `${value}`.trim() !== "") {
       if (!/^\d*\.?\d*$/.test(`${value}`)) {
-        setError('Only numeric values are allowed');
+        setError("Only numeric values are allowed");
       } else {
         setError(null);
       }
+    } else if (type === "housenumber") {
+      validateHouseNumber(`${value}`);
+    } else if (type === "postcode") {
+      validatePostcode(`${value}`);
     } else {
       setError(null);
     }
@@ -80,11 +117,11 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
 
   return (
     <Form.Group controlId={`formBasic${label}`} className={className}>
-      <Form.Label>{label}</Form.Label>
-      {type === 'password' ? (
+      {label && <Form.Label>{label}</Form.Label>}
+      {type === "password" ? (
         <InputGroup>
           <Form.Control
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={value as string}
             onChange={handleChange}
             placeholder={label}
@@ -93,14 +130,14 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
             onBlur={handleBlur}
           />
           <Button variant="outline-success" onClick={togglePasswordVisibility}>
-            {showPassword ? 'Hide' : 'Show'}
+            {showPassword ? "Hide" : "Show"}
           </Button>
         </InputGroup>
       ) : (
         <InputGroup>
-          {type === 'price' && <InputGroup.Text>€</InputGroup.Text>}
+          {type === "price" && <InputGroup.Text>€</InputGroup.Text>}
           <Form.Control
-            type={type === 'price' ? 'text' : type}
+            type={type === "price" ? "number" : type}
             value={value as string}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -110,12 +147,10 @@ const TextInput: React.FC<TextInputProps> = ({ label, value, onChange, type = 't
           />
         </InputGroup>
       )}
-      {type === 'email' && emailError && touched && (
+      {type === "email" && emailError && touched && (
         <Alert variant="danger">{emailError}</Alert>
       )}
-      {error && touched && (
-        <Alert variant="danger">{error}</Alert>
-      )}
+      {error && touched && <Alert variant="danger">{error}</Alert>}
     </Form.Group>
   );
 };

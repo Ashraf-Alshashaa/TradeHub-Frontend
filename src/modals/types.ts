@@ -1,4 +1,6 @@
-export type ProductTypes {
+import { Bid } from "../features/bids/types"
+
+export type ProductTypes = {
     id: number;
     name: string;
     description: string;
@@ -19,3 +21,7 @@ export interface AddProductProps {
     handleClose: () => void;
     user: any;
   }
+
+export interface ChooseBidProps {
+    bidsData: Bid[]
+}

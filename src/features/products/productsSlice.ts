@@ -16,9 +16,27 @@ const initialState: ProductsState = {
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
-  async (_, { rejectWithValue }) => {
+  async ({ min_price, max_price, category_id }: { min_price?: number; max_price?: number; category_id?: number;}, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.get('/products');
+      const response = await axiosInstance.get('/products', {
+        params: {
+          min_price,
+          max_price,
+          category_id,
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+  
+export const fetchBoughtProducts = createAsyncThunk(
+  'products/fetchBoughtProducts',
+  async (buyer_id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/products?buyer_id=${buyer_id}`);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
@@ -37,6 +55,7 @@ export const updateProduct = createAsyncThunk(
     }
   }
 );
+
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async (id: number, { rejectWithValue }) => {
@@ -49,7 +68,6 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
-// New createProduct thunk
 export const createProduct = createAsyncThunk(
   'products/createProduct',
   async (productData: any, { rejectWithValue }) => {
@@ -80,6 +98,31 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
+      // Handle fetchProductById states
+      .addCase(fetchProductById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.product = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBoughtProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchBoughtProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchBoughtProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
       .addCase(updateProduct.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -93,18 +136,6 @@ const productSlice = createSlice({
         state.loading = false;
       })
       .addCase(updateProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-      .addCase(fetchProductById.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchProductById.fulfilled, (state, action) => {
-        state.product = action.payload;
-        state.loading = false;
-      })
-      .addCase(fetchProductById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })

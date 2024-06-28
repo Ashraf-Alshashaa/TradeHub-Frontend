@@ -7,8 +7,7 @@ export interface Product {
   date : string;
   condition : string;
   category_id : number;
-  seller_id: number;
-  image: string
+  seller_id: number
 }
   
 export interface ProductsState {
