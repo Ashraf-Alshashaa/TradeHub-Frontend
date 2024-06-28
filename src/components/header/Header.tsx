@@ -42,18 +42,13 @@ const Header: FC = () => {
     } else {
       queryParams.delete("search");
     }
-    if (categoryId !== null) {
-      queryParams.set("category", categoryId.toString());
-    }
     navigate(`/products?${queryParams.toString()}`);
   };
 
-  const handleCategorySelect = (categoryId: number | null) => {
+  
+  const handleCategoryChange = (categoryId: number | null) => {
     setCategoryId(categoryId);
     const queryParams = new URLSearchParams(location.search);
-    if (searchQuery.trim() !== "") {
-      queryParams.set("search", searchQuery.trim());
-    }
     if (categoryId !== null) {
       queryParams.set("category", categoryId.toString());
     } else {
@@ -61,6 +56,15 @@ const Header: FC = () => {
     }
     navigate(`/products?${queryParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Update categoryId state when location.search changes
+    const queryParams = new URLSearchParams(location.search);
+    const category = queryParams.get("category") || null;
+    setCategoryId(category ? parseInt(category) : null);
+  }, [location.search]);
+  
+  
   
   const handleSellNowOnclick = () => {
     !user ? navigate("/login") : alert("Sell Now clicked");
@@ -154,7 +158,7 @@ const Header: FC = () => {
                 : "header-catygory-btn"
             }`}
             variant={categoryId === null ? "secondary header-catygory-btn" : "light"}
-            onClick={() => handleCategorySelect(null)}
+            onClick={() => handleCategoryChange(null)}
           >
             All Products
           </Button>
@@ -171,7 +175,7 @@ const Header: FC = () => {
                   ? "secondary header-catygory-btn"
                   : "light"
               }
-              onClick={() => handleCategorySelect(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
             >
               {category.name}
             </Button>

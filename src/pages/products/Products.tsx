@@ -22,12 +22,19 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
+  const {categories} = useSelector(
+    (state: RootState) => state.categories
+  )
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   // Function to fetch filtered products
   const fetchFilteredProducts = (

@@ -21,6 +21,11 @@ const FilterBy: FC = () => {
    // State to manage selectedCategoryId
    const [categoryId, setCategoryId] = useState<number | null>(null);
 
+    // Fetch categories on component mount
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   useEffect(() => {
     dispatch(fetchPriceRange());
   }, [dispatch]);
@@ -32,7 +37,6 @@ const FilterBy: FC = () => {
 
   const handleCategoryChange = (categoryId: number | null) => {
     setCategoryId(categoryId);
-
     const queryParams = new URLSearchParams(location.search);
     if (categoryId !== null) {
       queryParams.set("category", categoryId.toString());
@@ -54,11 +58,6 @@ const FilterBy: FC = () => {
     queryParams.set("max_price", maxPrice.toString());
     navigate(`/products?${queryParams.toString()}`);
   };
-
-  // Fetch categories on component mount
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
 
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState<string>("");
