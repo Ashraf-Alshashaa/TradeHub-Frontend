@@ -37,6 +37,10 @@ const Test: FC = () => {
     setPassword(value);
   };
 
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
+  };
 
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
@@ -45,13 +49,6 @@ const Test: FC = () => {
   const handleSecondaryClick = () => {
     alert("Secondary Button Clicked!");
   };
-
-  const [price, setPrice] = useState<number>();
-  const handleInputPriceChange = (value: number) => {
-    setPrice(value);
-  };
-
-
 
   const navigate = useNavigate();
 
@@ -117,126 +114,94 @@ const Test: FC = () => {
         <h1>Test Page</h1>
         <div className="row">
           <div className="col-md-6">
+            <h2> FILTER BY </h2>
             {/* <FilterBy
               onPriceChange={(min, max) => console.log(`Price range: ${min}-${max}`)}
               categories={categories}
             /> */}
-        <div className="col-6">
-          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+          </div>
+        <div className="col-md-6">
+        <div className="row my-4">
+          <TextInput
+            label="Email"
+            value={email}
+            onChange={handleEmailChange}
+            type="email"
+            required={true}
+          />
+          <TextInput
+            label="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            type="password"
+            required={true}
+          />
+          <TextInput
+            label="Price"
+            value={price ? price.toString() : ""}
+            onChange={(e) => handleInputPriceChange(parseFloat(e.target.value))}
+            type="number"
+            required={true}
+          />
+          <TextInput
+            label="Text"
+            value={text}
+            onChange={handleTextChange}
+            type="text"
+            required={true}
+          />
+          <Textarea
+            label="Text"
+            required={true}
+            onChange={(e) => console.log(e.target.value)}
+          />
         </div>
-        <div className="col-6">
-          <div className="row my-4">
-            <TextInput
-              label="Email"
-              value={email}
-              onChange={handleEmailChange}
-              type="email"
-              required={true}
+        <div className="row mt-4">
+          <DropdownMenu
+            data={selctorDropdownTestData}
+            title="Selector Dropdown"
+            selector={true}
+          />
+          <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
+        </div>
+        <div className="row mt-4">
+          <div className="col-md-6">
+            <ProductCard
+              photo={
+                "https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
+              }
+              name="Hair Oil"
+              price={11.4}
+              location="Nijmegen"
+              onClick={cardClicked}
             />
-            <TextInput
-              label="Password"
-              value={password}
-              onChange={handlePasswordChange}
-              type="password"
-              required={true}
-            />
-            <TextInput
-              label="Price"
-              value={price}
-              onChange={handleInputPriceChange}
-              type="price"
-              required={true}
-            />
-             <TextInput
-              label="Text"
-              value={text}
-              onChange={handleTextChange}
-              type="text"
-              required={true}
-            />
-            <Textarea
-              label="Text"
-              required={true}
-              onChange={(e) => console.log(e.target.value)}
-            />
-
           </div>
           <div className="col-md-6">
-            <div className="row">
-              <div className="col-md-12">
-                <TextInput
-                  label="Email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  type="email"
-                />
-                <TextInput
-                  label="Password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  type="password"
-                />
-                <Textarea
-                  label="Text"
-                  required={true}
-                  onChange={(e) => console.log(e.target.value)}
-                />
-              </div>
-              </div>
-              <div className="row">
-              <div className="col-md-12">
-                <CustomImage
-                  src="https://buffer.com/library/content/images/size/w1200/2023/10/free-images.jpg"
-                  alt="Sample Image"
-                />
-              </div>
-            </div>
-            <div className="row mt-4">
-              <DropdownMenu
-                data={selctorDropdownTestData}
-                title="Selector Dropdown"
-                selector={true}
+            {bidders.map(([bidder_name, bid]) => (
+              <RadioButton
+                key={bidder_name}
+                bidder_name={bidder_name}
+                group_name="group1"
+                bid={parseFloat(bid)}
+                onClick={chooseWinnerHandle}
               />
-              <DropdownMenu data={dropdownTestData} title="Test Dropdown" />
-            </div>
-            <div className="row mt-4">
-              <div className="col-md-6">
-                <ProductCard
-                  photo={
-                    "https://www.helium10.com/app/uploads/2023/08/shutterstock_2251573229-copy-958x632.webp"
-                  }
-                  name="Hair Oil"
-                  price={11.4}
-                  location="Nijmegen"
-                  onClick={cardClicked}
-                />
-              </div>
-              <div className="col-md-6">
-                {bidders.map(([bidder_name, bid]) => (
-                  <RadioButton
-                    key={bidder_name}
-                    bidder_name={bidder_name}
-                    group_name="group1"
-                    bid={parseFloat(bid)}
-                    onClick={chooseWinnerHandle}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="row mt-4">
-              <CustomButton
-                text="Primary Button"
-                onClick={handlePrimaryClick}
-                buttonType="primary"
-              />
-              <CustomButton
-                text="Secondary Button"
-                onClick={handleSecondaryClick}
-                buttonType="secondary"
-              />
-            </div>
+            ))}
           </div>
         </div>
+        <div className="row mt-4">
+          <CustomButton
+            text="Primary Button"
+            onClick={handlePrimaryClick}
+            buttonType="primary"
+          />
+          <CustomButton
+            text="Secondary Button"
+            onClick={handleSecondaryClick}
+            buttonType="secondary"
+          />
+        </div>
+      </div>
+      </div>
       </div>
       <Footer
         githubUrl="https://github.com/yourprofile"
