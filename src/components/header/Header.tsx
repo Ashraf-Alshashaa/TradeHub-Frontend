@@ -9,33 +9,24 @@ import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
-import { fetchProducts } from "../../features/products/productsSlice";
+import { fetchCategories } from "../../features/categories/categorySlice";
 
 
 const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const {products,  loading, error } = useSelector((state: RootState) => state.products);
   const navigate = useNavigate();
 
-  
+  const { categories } = useSelector( (state: RootState) => state.categories)
+
+  // useEffect(() => {
+  //   dispatch(fetchCategories())
+  // }, [dispatch]);
 
 
-  useEffect(() => {
-    setCategories([
-      { id: 1, name: "Electronics" },
-      { id: 2, name: "Furniture" },
-      { id: 3, name: "Clothing" },
-      { id: 4, name: "Auto and Parts" },
-      { id: 5, name: "Toys" },
-      { id: 6, name: "Books" },
-      { id: 7, name: "Sports Equipment" },
-      { id: 8, name: "Groceries" },
-    ]);
-  }, []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value); // Check what event object is received
@@ -139,6 +130,17 @@ const Header: FC<HeaderProps> = ({onSearchSubmit}) => {
       </div>
       <div className="header-bottom-container">
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
+        <Button
+            className={`mx-1 rounded-1 ${
+              activeCategory === null
+                ? "header-catygory-btn-active"
+                : "header-catygory-btn"
+            }`}
+            variant="outline-success"
+            onClick={() => handleCategorySelect(null)}
+          >
+            All Products
+          </Button>
           {categories.map((category) => (
             <Button
               className={`mx-1 rounded-1 ${
