@@ -18,17 +18,17 @@ const { id } = useParams<{ id: string }>();
   };
 
   return (
-    <div className='py-1' onClick={() => handleClick(product.id)}>
-    <Card style={{height: '6rem'}}>
-    <div className='row d-flex'>
+    <div className='py-1'>
+    <Card className="pt-3" style={{height: '6rem'}}>
+    <div className='row d-flex px-3 align-items-center'>
       <div className='product-card-list-container col-4 '>
-      <Card.Img className='product-list-image' src={product.image} /> </div>
+      <Card.Img className='product-list-image' src={product.image} onClick={() => handleClick(product.id)} /> </div>
       <Card.Body className='col-8'>
         <div className='row d-flex'>
-        <Card.Title className='col-6'>{product.name}</Card.Title>
-        <Card.Text className='col-4'> €{product.price} </Card.Text>
+        <Card.Title className='col-6'  onClick={() => handleClick(product.id)}>{product.name}</Card.Title>
+        <Card.Text className='col-4'  onClick={() => handleClick(product.id)}> €{product.price} </Card.Text>
         {is_cart && (
-              <Form.Check className='col-2'
+              <Form.Check className='col-2 align-items-center'
                 type={type}
                 id={`default-${type}`}
               />
