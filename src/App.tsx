@@ -1,19 +1,19 @@
-import { FC, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import routes from './routes';
-import './App.css'
+import { FC, Suspense } from "react";
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
 
 const App: FC = () => {
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          {routes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.element} />
-          ))}
-        </Routes>
-      </Suspense>
-    </Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Header />
+      <Outlet />;
+      <Footer
+        githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
+        email="your.email@example.com"
+      />
+    </Suspense>
   );
 };
 
