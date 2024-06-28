@@ -66,7 +66,6 @@ const Test: FC = () => {
 
   const chunkedProducts = chunkArray(products, 3);
 
-  if (loading) return <h1>Loading</h1>;
   if (error) return <h1>Error</h1>;
 
   return (
@@ -81,24 +80,29 @@ const Test: FC = () => {
             onCategoryChange={handleCategoryChange}
           />
         </div>
-
-        <div className="col-9 my-4 overflow-auto scrollable-products">
-          {chunkedProducts.map((row: any, rowIndex: number) => (
-            <div key={rowIndex} className="row mb-5">
-              {row.map((product: Product) => (
-                <div key={product.id} className="col-4 mb-4">
-                  <ProductCard
-                    photo={product.image}
-                    name={product.name}
-                    price={product.price}
-                    location={"Amsterdam"}
-                    onClick={() => cardClicked(product.id)}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <h1 className="col-9 my-4 overflow-auto scrollable-products">
+            Loading
+          </h1>
+        ) : (
+          <div className="col-9 my-4 overflow-auto scrollable-products">
+            {chunkedProducts.map((row: any, rowIndex: number) => (
+              <div key={rowIndex} className="row mb-5">
+                {row.map((product: Product) => (
+                  <div key={product.id} className="col-4 mb-4">
+                    <ProductCard
+                      photo={product.image}
+                      name={product.name}
+                      price={product.price}
+                      location={"Amsterdam"}
+                      onClick={() => cardClicked(product.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <Footer
         githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
