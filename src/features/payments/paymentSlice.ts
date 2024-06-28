@@ -13,7 +13,7 @@ export const initiatePayment = createAsyncThunk(
   'payments/initiatePayment',
   async (productData : Payment, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put('/payments', productData);
+      const response = await axiosInstance.post('/payments', productData);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);

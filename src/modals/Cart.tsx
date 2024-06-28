@@ -7,6 +7,7 @@ import { fetchUser } from '../features/users/userSlice';
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../features/products/types';
 import { fetchMyCart } from '../features/products/productsSlice';
+import { initiatePayment } from '../features/payments/paymentSlice';
 import Icon from '../components/icon/Icon';
 
 
@@ -20,6 +21,7 @@ function Cart() {
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
   const { myCart, loading, error } = useSelector((state: RootState) => state.products)
+  const { payment } = useSelector((state:RootState) => state.payments )
 
 
   const handleCheckbox = (productId: number) => {
@@ -55,9 +57,24 @@ useEffect(() => {
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
-      dispatch(fetchMyCart(authUser.user_id))
+      dispatch(fetchMyCart(authUser.user_id));
     }
   }, [dispatch, authUser]);
+
+  const handlePay = (productIds: number[]) => {
+    dispatch(initiatePayment(
+      {
+        product_ids : productIds,
+        currency: 'eur',
+        user_id: authUser.user_id,
+      }));
+      console.log( {
+        product_ids : productIds,
+        currency: 'eur',
+        user_id: authUser.user_id,
+      })
+    handleClose();
+  };
   
 
   return (
@@ -83,7 +100,7 @@ useEffect(() => {
         </div>
         </Modal.Body>
         <Modal.Footer>
-          <CustomButton text='Pay' buttonType="primary" onClick={handleClose} />
+          <CustomButton text='Pay' buttonType="primary" onClick={() => handlePay(selectedProducts)} />
           <CustomButton text='Close' buttonType="secondary" onClick={handleClose} />
         </Modal.Footer>
       </Modal>
