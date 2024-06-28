@@ -5,7 +5,8 @@ import userReducer from '../features/users/userSlice';
 import bidReduser from '../features/bids/bidSlice'
 import addressReducer from '../features/addresses/addressSlice'
 import priceRangeReducer from '../features/pricerange/priceRangeSlice';
-import categoryReducer from '../features/categories/categorySlice'
+import categoryReducer from '../features/categories/categorySlice';
+import paymentReducer from '../features/payments/paymentSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     pricerange: priceRangeReducer,
     addresses: addressReducer,
     categories: categoryReducer,
+    payments: paymentReducer,
   },
 });
 
