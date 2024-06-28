@@ -44,6 +44,18 @@ export const fetchAllBids = createAsyncThunk(
   }
 );
 
+export const chooseBuyer = createAsyncThunk(
+  'bids/chooseBuyer',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.put(`/bids/${id}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data ?? error.message);
+    }
+  }
+);
+
 const bidSlice = createSlice({
   name: 'bids',
   initialState,

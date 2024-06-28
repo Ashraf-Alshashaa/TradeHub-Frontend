@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductById } from "../../features/products/productsSlice";
 import { AppDispatch, RootState } from "../../app/store";
 import CustomImage from "../../components/image/Image";
+import ChooseBid from "../../modals/Choose-bid";
 import { Form } from "react-bootstrap";
 import TextInput from "../../components/text-input/Text-input";
 import CustomButton from "../../components/button/Button";
@@ -101,11 +102,7 @@ const ProductPage = () => {
             {product.description}
           </p>
           {product.seller_id === user?.user_id ? (
-            <CustomButton
-              text="Choose bidder"
-              buttonType="primary"
-              onClick={() => alert("Choose bidder clicked")}
-            />
+            <ChooseBid bidsData={bids} />
           ) : (
             <div className="product-add-bid-form">
               <Form className="d-flex mt-3" onSubmit={handleSubmit}>

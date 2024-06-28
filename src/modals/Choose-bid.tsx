@@ -1,42 +1,42 @@
-import { useState, useEffect } from 'react';
-import CustomButton from '../components/button/Button';
-import Modal from 'react-bootstrap/Modal';
-import RadioButton from '../components/radio-button/Radio-button';
+import { useState, useEffect, FC } from "react";
+import CustomButton from "../components/button/Button";
+import { Modal, Alert } from "react-bootstrap";
+import RadioButton from "../components/radio-button/Radio-button";
+import { ChooseBidProps } from "./types";
+import { AppDispatch } from "../app/store";
+import { chooseBuyer } from "../features/bids/bidSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-
-const initialBids = [
-  { bidder_name: 'user1', bid: 12.3 },
-  { bidder_name: 'user2', bid: 14 },
-  { bidder_name: 'user3', bid: 23 },
-  { bidder_name: 'user4', bid: 30 }
-];
-
-function ChooseBid() {
+const ChooseBid: FC<ChooseBidProps> = ({ bidsData }) => {
   const [show, setShow] = useState(false);
-  const [bids, setBids] = useState([]);
+  const [bids, setBids] = useState<ChooseBidProps["bidsData"]>([]);
+  const [winnerId, setWinnerId] = useState<number>();
+  const [error, setError] = useState<string | null>(null);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    //HERE WE DISPATCH
-    setBids(initialBids);
-  }, []);
+    setBids(bidsData);
+  }, [bidsData]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const handleSave = () => {
-    //PUT REQUEST TO BID STATE
-    console.log("Save clicked");
-    handleClose();
-  };
-
-  const isWinner = (bidderName) => {
-    // I just added here so we see who is chosen.
-    console.log(`${bidderName} chosen as winner`);
+    if (winnerId) {
+      dispatch(chooseBuyer(winnerId));
+      handleClose();
+      navigate("/profile", { replace: true });
+    } else {
+      setError("Please choose a bid");
+    }
   };
 
   return (
     <>
-      <CustomButton text="Choose Bid" onClick={handleShow} buttonType='primary'>
+      <CustomButton text="Choose Bid" onClick={handleShow} buttonType="primary">
         Choose Bid
       </CustomButton>
 
@@ -46,27 +46,36 @@ function ChooseBid() {
         backdrop="static"
         keyboard={false}
       >
-        <Modal.Header closeButton>
-          Choose Winner
-        </Modal.Header>
+        <Modal.Header closeButton>Choose Winner</Modal.Header>
         <Modal.Body>
           {bids.map((bid, index) => (
             <RadioButton
               key={index}
-              bidder_name={bid.bidder_name}
-              bid={bid.bid}
-              group_name='bids'
-              onClick={() => isWinner(bid.bidder_name)}
+              bidder_name={bid.username as string}
+              bid={bid.price}
+              group_name="bids"
+              onClick={() => {
+                setWinnerId(bid.id), setError(null);
+              }}
             />
           ))}
         </Modal.Body>
+        {error && (
+          <Alert key={"danger"} variant={"danger"}>
+            {error}
+          </Alert>
+        )}
         <Modal.Footer>
-          <CustomButton text="Save" onClick={handleSave} buttonType='primary'/>
-          <CustomButton text="Cancel" onClick={handleClose} buttonType='secondary'/>
+          <CustomButton text="Save" onClick={handleSave} buttonType="primary" />
+          <CustomButton
+            text="Cancel"
+            onClick={handleClose}
+            buttonType="secondary"
+          />
         </Modal.Footer>
       </Modal>
     </>
   );
-}
+};
 
 export default ChooseBid;
