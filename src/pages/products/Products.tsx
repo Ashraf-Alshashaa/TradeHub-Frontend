@@ -11,6 +11,7 @@ import { fetchCategories } from "../../features/categories/categorySlice";
 import { RootState } from "../../app/store";
 import { Product } from "../../features/products/types";
 import { AppDispatch } from "../../app/store";
+import { useLocation } from "react-router-dom";
 
 const Test: FC = () => {
 
@@ -23,9 +24,10 @@ const Test: FC = () => {
   );
   const { categories } = useSelector( (state: RootState) => state.categories)
 
-  const [categoryId, setCategoryId] = useState<(number)>();
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const location = useLocation();
 
 
   const handlePriceChange = (values: number[]) => {
@@ -35,32 +37,38 @@ const Test: FC = () => {
   const handleCategoryChange = (id: number| null) => {
     setCategoryId(id);
   };
+ 
   useEffect(() => {
-    // Fetch products based on initial query parameters
-    const urlParams = new URLSearchParams(window.location.search);
+    dispatch(fetchPriceRange());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
     const search = urlParams.get("search") || "";
     const category = urlParams.get("category") || null;
 
     setSearchQuery(search);
     setCategoryId(category ? parseInt(category) : null);
-  }, []);
+
+    fetchFilteredProducts(search, category ? parseInt(category) : null, priceRange);
+  }, [location.search]);
 
   useEffect(() => {
-    dispatch(fetchPriceRange());
-    dispatch(fetchCategories())
-  }, [dispatch]);
+    fetchFilteredProducts(searchQuery, categoryId, priceRange);
+  }, [priceRange, categoryId, searchQuery]);
 
-  useEffect(() => {
-    fetchFilteredProducts();
-  }, [searchQuery, categoryId, priceRange]);
-
-  const fetchFilteredProducts = () => {
+  const fetchFilteredProducts = (
+    search: string,
+    category: number | null,
+    priceRange: [number, number]
+  ) => {
     dispatch(
       fetchProducts({
-        search_str: searchQuery,
+        search_str: search,
         min_price: priceRange[0],
         max_price: priceRange[1],
-        category_id: categoryId,
+        category_id: category,
       })
     );
   };
@@ -84,7 +92,7 @@ const Test: FC = () => {
 
   return (
     <div className="Products">
-      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} />
+      <Header />
       <div className="row">
         <div className="col-3">
         <FilterBy

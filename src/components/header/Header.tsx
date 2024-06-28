@@ -3,19 +3,19 @@ import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ButtonGroup, Form, FormControl, Button } from "react-bootstrap";
 import Icon from "../icon/Icon";
-import { Category , HeaderProps} from "./types";
 import CustomButton from "../button/Button";
 import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
 import { fetchCategories } from "../../features/categories/categorySlice";
-import { useHistory, useLocation } from "react-router-dom"; // Import useHistory and useLocation
+import { useLocation } from "react-router-dom"; // Import useHistory and useLocation
 
 
 
-const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCategoryId}) => {
+const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
@@ -29,22 +29,38 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
   }, [dispatch]);
 
 
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value); // Check what event object is received
-    const searchQuery = event.target.value.toString() // Ensure event.target is defined
+    const searchQuery = event.target.value;
     setSearchQuery(searchQuery);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Prevent form submission
-    onSearchSubmit(searchQuery.trim()); // Call parent component's search submit handler
-    // Redirect to /products only if not already on /products
-    if (location.pathname !== "/products") {
-      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    event.preventDefault();
+    const queryParams = new URLSearchParams(location.search);
+    if (searchQuery.trim() !== "") {
+      queryParams.set("search", searchQuery.trim());
+    } else {
+      queryParams.delete("search");
     }
+    if (categoryId !== null) {
+      queryParams.set("category", categoryId.toString());
+    }
+    navigate(`/products?${queryParams.toString()}`);
   };
 
+  const handleCategorySelect = (categoryId: number | null) => {
+    setCategoryId(categoryId);
+    const queryParams = new URLSearchParams(location.search);
+    if (searchQuery.trim() !== "") {
+      queryParams.set("search", searchQuery.trim());
+    }
+    if (categoryId !== null) {
+      queryParams.set("category", categoryId.toString());
+    } else {
+      queryParams.delete("category");
+    }
+    navigate(`/products?${queryParams.toString()}`);
+  };
   
   const handleSellNowOnclick = () => {
     !user ? navigate("/login") : alert("Sell Now clicked");
@@ -56,15 +72,6 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
   const handleLogoutSelect = () => {
     dispatch(logout());
     navigate("/login");
-  };
-
-  const handleCategorySelect = (categoryId: number) => {
-    console.log(categoryId);
-    onCategorySelect(categoryId);
-    // Redirect to /products only if not already on /products
-    if (location.pathname !== "/products") {
-      navigate(`/products?category=${categoryId}`);
-    }
   };
 
   const handleNotifications = () => {
@@ -142,11 +149,11 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
         <Button
             className={`mx-1 rounded-1 ${
-              selectedCategoryId === null
+              categoryId === null
                 ? "header-catygory-btn-active"
                 : "header-catygory-btn"
             }`}
-            variant={selectedCategoryId === null ? "secondary header-catygory-btn" : "light"}
+            variant={categoryId === null ? "secondary header-catygory-btn" : "light"}
             onClick={() => handleCategorySelect(null)}
           >
             All Products
@@ -154,13 +161,13 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
           {categories.map((category) => (
             <Button
               className={`mx-1 rounded-1 ${
-                selectedCategoryId === category.id
+                categoryId === category.id
                   ? "header-catygory-btn-active"
                   : "header-catygory-btn"
               }`}
               key={"header-category-" + category.id}
               variant={
-                selectedCategoryId === category.id
+                categoryId === category.id
                   ? "secondary header-catygory-btn"
                   : "light"
               }
