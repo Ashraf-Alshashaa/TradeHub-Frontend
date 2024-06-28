@@ -56,9 +56,14 @@ function Cart() {
         </Modal.Header>
         <Modal.Body>
         {loading ? 'Loading...' : error ? error : renderProducts(myCart)}
+        <div className='row my-3'>
+            <div className='col-4'>
+                <h5> Total price: </h5>
+            </div>
+        </div>
         </Modal.Body>
         <Modal.Footer>
-          <CustomButton text='Save' buttonType="primary" onClick={handleClose} />
+          <CustomButton text='Pay' buttonType="primary" onClick={handleClose} />
           <CustomButton text='Close' buttonType="secondary" onClick={handleClose} />
         </Modal.Footer>
       </Modal>
