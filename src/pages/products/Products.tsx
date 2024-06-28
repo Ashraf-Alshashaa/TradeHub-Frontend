@@ -22,11 +22,9 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
-  const { categories } = useSelector( (state: RootState) => state.categories)
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,31 +51,6 @@ const Test: FC = () => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
- // Handle price change
- const handlePriceChange = (values: number[]) => {
-  setPriceRange([values[0], values[1]]);
-  updateURL(searchQuery, selectedCategoryId, values[0], values[1]);
-};
-
-// Handle category change
-const handleCategoryChange = (id: number | null) => {
-  setSelectedCategoryId(id);
-  updateURL(searchQuery, id, priceRange[0], priceRange[1]);
-};
-
-// Function to update URL based on filters
-const updateURL = (search: string, category: number | null, minPrice: number, maxPrice: number) => {
-  const queryParams = new URLSearchParams();
-  if (search.trim() !== "") {
-    queryParams.set("search", search.trim());
-  }
-  if (category !== null) {
-    queryParams.set("category", category.toString());
-  }
-  queryParams.set("min_price", minPrice.toString());
-  queryParams.set("max_price", maxPrice.toString());
-  navigate(`/products?${queryParams.toString()}`);
-};
 
 // Fetch products based on URL parameters
 useEffect(() => {
@@ -86,7 +59,7 @@ useEffect(() => {
   const category = urlParams.get("category") || null;
 
   setSearchQuery(search);
-  setSelectedCategoryId(category ? parseInt(category) : null);
+  setCategoryId(category ? parseInt(category) : null);
   setPriceRange([parseInt(urlParams.get("min_price") || min_price.toString()), parseInt(urlParams.get("max_price") || max_price.toString())]);
 
   fetchFilteredProducts(search, category ? parseInt(category) : null, priceRange);

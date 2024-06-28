@@ -1,7 +1,6 @@
 import { FC, useEffect , useState} from 'react';
 import { Range, getTrackBackground } from 'react-range';
 import './filter-by.css';
-import { FilterByProps } from './types';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store';
 import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
@@ -20,7 +19,7 @@ const FilterBy: FC = () => {
   const navigate = useNavigate()
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
    // State to manage selectedCategoryId
-   const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+   const [categoryId, setCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
     dispatch(fetchPriceRange());
@@ -28,11 +27,11 @@ const FilterBy: FC = () => {
 
   const handlePriceChange = (values: number[]) => {
     setPriceRange([values[0], values[1]]);
-    updateURL(searchQuery, selectedCategoryId, values[0], values[1]);
+    updateURL(searchQuery, categoryId, values[0], values[1]);
   };
 
   const handleCategoryChange = (categoryId: number | null) => {
-    setSelectedCategoryId(categoryId);
+    setCategoryId(categoryId);
 
     const queryParams = new URLSearchParams(location.search);
     if (categoryId !== null) {
@@ -71,7 +70,7 @@ const FilterBy: FC = () => {
     const category = urlParams.get("category") || null;
 
     setSearchQuery(search);
-    setSelectedCategoryId(category ? parseInt(category) : null);
+    setCategoryId(category ? parseInt(category) : null);
     setPriceRange([parseInt(urlParams.get("min_price") || min_price.toString()), parseInt(urlParams.get("max_price") || max_price.toString())]);
 
   }, [location.search]);
@@ -133,7 +132,7 @@ const FilterBy: FC = () => {
           group_name="Categories"
           bid=""
           onClick={() => handleCategoryChange(null)}
-          checked={selectedCategoryId === null}
+          checked={categoryId === null}
 
         />
         {categories.map((category) => (
@@ -142,7 +141,7 @@ const FilterBy: FC = () => {
               group_name='Categories'
               bid='' 
               onClick={() => handleCategoryChange(category.id)}
-              checked={selectedCategoryId === category.id}
+              checked={categoryId === category.id}
           
                 />
         ))}
