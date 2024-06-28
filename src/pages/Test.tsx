@@ -27,10 +27,16 @@ const Test: FC = () => {
     setEmail(value);
   };
 
+  const [text, setText] = useState("");
+  const handleTextChange = (value: string) => {
+    setText(value);
+  };
+
   const [password, setPassword] = useState("");
   const handlePasswordChange = (value: string) => {
     setPassword(value);
   };
+
 
   const handlePrimaryClick = () => {
     alert("Primary Button Clicked!");
@@ -39,6 +45,13 @@ const Test: FC = () => {
   const handleSecondaryClick = () => {
     alert("Secondary Button Clicked!");
   };
+
+  const [price, setPrice] = useState<number>();
+  const handleInputPriceChange = (value: number) => {
+    setPrice(value);
+  };
+
+
 
   const navigate = useNavigate();
 
@@ -108,6 +121,45 @@ const Test: FC = () => {
               onPriceChange={(min, max) => console.log(`Price range: ${min}-${max}`)}
               categories={categories}
             /> */}
+        <div className="col-6">
+          <FilterBy onPriceChange={handlePriceChange} categories={categories} />
+        </div>
+        <div className="col-6">
+          <div className="row my-4">
+            <TextInput
+              label="Email"
+              value={email}
+              onChange={handleEmailChange}
+              type="email"
+              required={true}
+            />
+            <TextInput
+              label="Password"
+              value={password}
+              onChange={handlePasswordChange}
+              type="password"
+              required={true}
+            />
+            <TextInput
+              label="Price"
+              value={price}
+              onChange={handleInputPriceChange}
+              type="price"
+              required={true}
+            />
+             <TextInput
+              label="Text"
+              value={text}
+              onChange={handleTextChange}
+              type="text"
+              required={true}
+            />
+            <Textarea
+              label="Text"
+              required={true}
+              onChange={(e) => console.log(e.target.value)}
+            />
+
           </div>
           <div className="col-md-6">
             <div className="row">
