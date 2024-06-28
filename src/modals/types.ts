@@ -25,3 +25,9 @@ export interface AddProductProps {
 export interface ChooseBidProps {
     bidsData: Bid[]
 }
+
+export enum ProductCondition {
+    New = "new",
+    GoodAsNew = "good as new",
+    Used = "used",
+  }
