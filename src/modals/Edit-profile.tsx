@@ -137,7 +137,7 @@ function EditProfile() {
                 label="House Number"
                 value={house_number}
                 onChange={handleHouseNumberChange}
-                type="text"
+                type="housenumber"
               />
             </div>
             <div className='col-6'>
@@ -145,7 +145,7 @@ function EditProfile() {
                 label="Postcode"
                 value={postcode}
                 onChange={handlePostcodeChange}
-                type="text"
+                type="postcode"
               />
             </div>
             <div className='col-6'>
