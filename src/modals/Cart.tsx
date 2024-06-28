@@ -7,9 +7,9 @@ import { fetchUser } from '../features/users/userSlice';
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../features/products/types';
 import { fetchMyCart } from '../features/products/productsSlice';
-import { initiatePayment } from '../features/payments/paymentSlice';
+import { initiatePayment, paymentStatus, selectPaymentId } from '../features/payments/paymentSlice';
 import Icon from '../components/icon/Icon';
-
+import { useResolvedPath } from 'react-router-dom';
 
 function Cart() {
   const [show, setShow] = useState(false);
@@ -20,9 +20,10 @@ function Cart() {
   const handleShow = () => setShow(true);
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
-  const { myCart, loading, error } = useSelector((state: RootState) => state.products)
-  const { payment } = useSelector((state:RootState) => state.payments )
+  const { myCart, loading, error } = useSelector((state: RootState) => state.products);
+  const { paymentId } = useSelector((state: RootState) => state.payments.paymentId)
 
+  
 
   const handleCheckbox = (productId: number) => {
     setSelectedProducts((prevSelected) => {
@@ -61,21 +62,29 @@ useEffect(() => {
     }
   }, [dispatch, authUser]);
 
-  const handlePay = (productIds: number[]) => {
-    dispatch(initiatePayment(
-      {
-        product_ids : productIds,
-        currency: 'eur',
-        user_id: authUser.user_id,
-      }));
-      console.log( {
-        product_ids : productIds,
-        currency: 'eur',
-        user_id: authUser.user_id,
-      })
-    handleClose();
-  };
+  const handlePay = async (productIds: number[]) => {
+      try {
+        const paymentRequest = {
+          product_ids: productIds,
+          currency: 'eur',
+          user_id: authUser.user_id,
+        };
   
+        const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
+        alert(`Payment ${randomStatus}`);
+      if ( randomStatus === 'succeeded'){
+       await dispatch(initiatePayment(paymentRequest));
+      }
+      console.log(paymentId)
+       await dispatch(paymentStatus({ id: paymentId , paymentStatus: randomStatus }));
+      } catch (error) {
+        console.error('Payment initiation failed', error);
+        alert('Payment initiation failed');
+      } finally {
+        handleClose();
+      }
+    };
+
 
   return (
     <>

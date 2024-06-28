@@ -6,6 +6,7 @@ export interface Payment {
     
   export interface PaymentState {
     payment: Payment | null;
+    paymentId: string | null;
     loading: boolean;
     error: string | null;
   }
