@@ -84,7 +84,7 @@ const Test: FC = () => {
 
   return (
     <div className="Products">
-      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} categories={categories} />
+      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} />
       <div className="row">
         <div className="col-3">
         <FilterBy
