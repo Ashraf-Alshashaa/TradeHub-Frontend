@@ -11,7 +11,7 @@ import { fetchCategories } from "../../features/categories/categorySlice";
 import { RootState } from "../../app/store";
 import { Product } from "../../features/products/types";
 import { AppDispatch } from "../../app/store";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
 
@@ -26,38 +26,12 @@ const Test: FC = () => {
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
+  const navigate = useNavigate();
 
-
-  const handlePriceChange = (values: number[]) => {
-    setPriceRange([values[0], values[1]]);
-  };
-
-  const handleCategoryChange = (id: number| null) => {
-    setCategoryId(id);
-  };
- 
-  useEffect(() => {
-    dispatch(fetchPriceRange());
-    dispatch(fetchCategories());
-  }, [dispatch]);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const search = urlParams.get("search") || "";
-    const category = urlParams.get("category") || null;
-
-    setSearchQuery(search);
-    setCategoryId(category ? parseInt(category) : null);
-
-    fetchFilteredProducts(search, category ? parseInt(category) : null, priceRange);
-  }, [location.search]);
-
-  useEffect(() => {
-    fetchFilteredProducts(searchQuery, categoryId, priceRange);
-  }, [priceRange, categoryId, searchQuery]);
-
+  // Function to fetch filtered products
   const fetchFilteredProducts = (
     search: string,
     category: number | null,
@@ -72,6 +46,51 @@ const Test: FC = () => {
       })
     );
   };
+
+   // Fetch initial data on component mount
+   useEffect(() => {
+    dispatch(fetchPriceRange());
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+ // Handle price change
+ const handlePriceChange = (values: number[]) => {
+  setPriceRange([values[0], values[1]]);
+  updateURL(searchQuery, selectedCategoryId, values[0], values[1]);
+};
+
+// Handle category change
+const handleCategoryChange = (id: number | null) => {
+  setSelectedCategoryId(id);
+  updateURL(searchQuery, id, priceRange[0], priceRange[1]);
+};
+
+// Function to update URL based on filters
+const updateURL = (search: string, category: number | null, minPrice: number, maxPrice: number) => {
+  const queryParams = new URLSearchParams();
+  if (search.trim() !== "") {
+    queryParams.set("search", search.trim());
+  }
+  if (category !== null) {
+    queryParams.set("category", category.toString());
+  }
+  queryParams.set("min_price", minPrice.toString());
+  queryParams.set("max_price", maxPrice.toString());
+  navigate(`/products?${queryParams.toString()}`);
+};
+
+// Fetch products based on URL parameters
+useEffect(() => {
+  const urlParams = new URLSearchParams(location.search);
+  const search = urlParams.get("search") || "";
+  const category = urlParams.get("category") || null;
+
+  setSearchQuery(search);
+  setSelectedCategoryId(category ? parseInt(category) : null);
+  setPriceRange([parseInt(urlParams.get("min_price") || min_price.toString()), parseInt(urlParams.get("max_price") || max_price.toString())]);
+
+  fetchFilteredProducts(search, category ? parseInt(category) : null, priceRange);
+}, [location.search]);
 
 
 
@@ -96,11 +115,6 @@ const Test: FC = () => {
       <div className="row">
         <div className="col-3">
         <FilterBy
-          categories={categories}
-          priceRange={priceRange}
-          onPriceChange={handlePriceChange}
-          onCategoryChange={handleCategoryChange}
-          selectedCategoryId={categoryId}
           />
         </div>
 
