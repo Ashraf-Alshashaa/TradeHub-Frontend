@@ -5,7 +5,7 @@ export interface Payment {
   }
     
   export interface PaymentState {
-    payment: boolean;
+    payment: Payment | null;
     loading: boolean;
     error: string | null;
   }

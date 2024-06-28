@@ -3,7 +3,7 @@ import axiosInstance from '../../axiosConfig';
 import { Payment, PaymentState } from './types';
 
 const initialState: PaymentState = {
-  payment: false,
+  payment: null,
   loading: false,
   error: null,
   
