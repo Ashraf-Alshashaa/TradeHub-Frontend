@@ -5,7 +5,6 @@ import {AuthState} from "./types"
 const localStorageUser = localStorage.getItem("user");
 const user = localStorageUser ? JSON.parse(localStorageUser) : null;
 
-
 const initialState: AuthState = {
   user: user,
   isAuthenticated: false,
