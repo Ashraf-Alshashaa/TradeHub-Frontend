@@ -17,8 +17,7 @@ function Cart() {
   const handleShow = () => setShow(true);
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
-  const { user, loading, error } = useSelector((state: RootState) => state.users);
-  const { myCart } = useSelector((state: RootState) => state.products.myCart)
+  const { myCart, loading, error } = useSelector((state: RootState) => state.products)
 
 
   const renderProducts = (products: Product[], isCart = true) => {
@@ -40,9 +39,6 @@ function Cart() {
     }
   }, [dispatch, authUser]);
 
-  useEffect(() => {
-    
-  }, [show]);
 
   return (
     <>
