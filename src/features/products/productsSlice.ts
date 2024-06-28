@@ -68,6 +68,46 @@ export const fetchProductById = createAsyncThunk(
   }
 );
 
+export const fetchMyCart = createAsyncThunk(
+  'products/fetchMyCart',
+  async (user_id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/products?user_id=${user_id}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const fetchMyBids = createAsyncThunk(
+  'products/fetchMyBids',
+  async (bidder_id: string, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get(`/products?bidder_id=${bidder_id}`);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+export const fetchSoldProducts = createAsyncThunk(
+  'products/fetchSoldProducts',
+  async ({ seller_id, sold }: { seller_id: string; sold: boolean }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.get('/products', {
+        params: { seller_id , sold }} );
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
 export const createProduct = createAsyncThunk(
   'products/createProduct',
   async (productData: any, { rejectWithValue }) => {
@@ -116,10 +156,47 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchBoughtProducts.fulfilled, (state, action) => {
-        state.products = action.payload;
+        state.boughtProducts = action.payload;
         state.loading = false;
       })
       .addCase(fetchBoughtProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchMyBids.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyBids.fulfilled, (state, action) => {
+        state.myBids = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchMyBids.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchMyCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchMyCart.fulfilled, (state, action) => {
+        state.myCart = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchMyCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchSoldProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchSoldProducts.fulfilled, (state, action) => {
+        state.soldProducts = action.payload.filter((product: any) => product.sold);
+        state.myListings = action.payload;
+        state.loading = false;
+      })
+      .addCase(fetchSoldProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
