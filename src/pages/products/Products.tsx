@@ -21,28 +21,34 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
-
   const { categories } = useSelector( (state: RootState) => state.categories)
+
+  const [categoryId, setCategoryId] = useState<(number)>();
+  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
 
   const handlePriceChange = (values: number[]) => {
     setPriceRange([values[0], values[1]]);
   };
 
-
-  const [categoryId, setCategoryId] = useState<(number)>();
-
   const handleCategoryChange = (id: number| null) => {
     setCategoryId(id);
   };
+  useEffect(() => {
+    // Fetch products based on initial query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const search = urlParams.get("search") || "";
+    const category = urlParams.get("category") || null;
+
+    setSearchQuery(search);
+    setCategoryId(category ? parseInt(category) : null);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchPriceRange());
     dispatch(fetchCategories())
   }, [dispatch]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     fetchFilteredProducts();
@@ -78,7 +84,7 @@ const Test: FC = () => {
 
   return (
     <div className="Products">
-      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} />
+      <Header onSearchSubmit={setSearchQuery} onCategorySelect={handleCategoryChange} selectedCategoryId={categoryId} categories={categories} />
       <div className="row">
         <div className="col-3">
         <FilterBy

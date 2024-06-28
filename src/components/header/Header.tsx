@@ -10,21 +10,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
 import { fetchCategories } from "../../features/categories/categorySlice";
+import { useHistory, useLocation } from "react-router-dom"; // Import useHistory and useLocation
+
 
 
 const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCategoryId}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
-  const {products,  loading, error } = useSelector((state: RootState) => state.products);
   const navigate = useNavigate();
+  const location = useLocation();
+  
 
   const { categories } = useSelector( (state: RootState) => state.categories)
 
-  // useEffect(() => {
-  //   dispatch(fetchCategories())
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch]);
 
 
 
@@ -37,6 +39,10 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Prevent form submission
     onSearchSubmit(searchQuery.trim()); // Call parent component's search submit handler
+    // Redirect to /products only if not already on /products
+    if (location.pathname !== "/products") {
+      navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   
@@ -55,6 +61,10 @@ const Header: FC<HeaderProps> = ({onSearchSubmit, onCategorySelect, selectedCate
   const handleCategorySelect = (categoryId: number) => {
     console.log(categoryId);
     onCategorySelect(categoryId);
+    // Redirect to /products only if not already on /products
+    if (location.pathname !== "/products") {
+      navigate(`/products?category=${categoryId}`);
+    }
   };
 
   const handleNotifications = () => {
