@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 
 
   
-const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart }) =>
+const ProductListing: React.FC<ProductListingProps> = ({ product, is_cart, handleCheckbox, is_selected }) =>
 {
 const type = 'checkbox'
 const navigate = useNavigate();
@@ -31,6 +31,8 @@ const { id } = useParams<{ id: string }>();
               <Form.Check className='col-2 align-items-center'
                 type={type}
                 id={`default-${type}`}
+                checked={is_selected}
+                onChange={() => handleCheckbox(product.id)}
               />
             )}
         </div>

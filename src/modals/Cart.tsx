@@ -12,6 +12,7 @@ import Icon from '../components/icon/Icon';
 
 function Cart() {
   const [show, setShow] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -20,14 +21,27 @@ function Cart() {
   const { myCart, loading, error } = useSelector((state: RootState) => state.products)
 
 
+  const handleCheckbox = (productId: number) => {
+    setSelectedProducts((prevSelected) => {
+      if (prevSelected.includes(productId)) {
+        // If the product is already selected, remove it from the list
+        return prevSelected.filter(id => id !== productId);
+      } else {
+        // If the product is not selected, add it to the list
+        console.log ([...prevSelected, productId])
+        return [...prevSelected, productId];
+      }
+    });
+}
+
+
   const renderProducts = (products: Product[], isCart = true) => {
     if (products.length > 0) {
       return products.map(product => (
-        <ProductListing key={product.id} product={product} is_cart={isCart} />
+        <ProductListing key={product.id} product={product} is_cart={isCart} handleCheckbox={handleCheckbox} />
       ));
     }
-    return 'No content';
-  };
+    return 'No content'; }
 
 
 
@@ -38,7 +52,7 @@ function Cart() {
       dispatch(fetchMyCart(authUser.user_id))
     }
   }, [dispatch, authUser]);
-
+  
 
   return (
     <>
