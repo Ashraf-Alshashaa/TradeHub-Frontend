@@ -52,7 +52,7 @@ function Cart() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Edit Profile</Modal.Title>
+          <Modal.Title>Cart</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         {loading ? 'Loading...' : error ? error : renderProducts(myCart)}
