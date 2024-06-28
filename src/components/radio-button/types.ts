@@ -1,6 +1,6 @@
 export interface RadioButtonProps {
     bidder_name : string;
     group_name : string;
-    bid : string;
+    bid : number | string;
     onClick: () => void;
   }

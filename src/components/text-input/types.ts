@@ -5,4 +5,5 @@ export interface TextInputProps {
   type?: 'text' | 'password' | 'email' | 'price' | 'housenumber' | 'postcode'; // Type of the input field (default is 'text')
   className?: string; // Optional className for styling
   required?: boolean; // Optional flag indicating if the field is required
+  showErrors?: boolean;
 }

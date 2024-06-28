@@ -8,17 +8,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
   name,
   price,
   location,
-}
-  ) => {
-     const handleClick = () => alert("card clicked!")
-    // const handleClick = () => {
-    //   navigate(`/product/${product.id}`);
+  onClick,
+}) => {
   return (
     <div>
-      <Card onClick={handleClick}>
-      <div className="product-card-image-container">
-        <CardImg variant="top" src={photo} className="product-image" />
-      </div>
+      <Card onClick={onClick}>
+        <div className="product-card-image-container">
+          <CardImg variant="top" src={photo} className="product-image" />
+        </div>
         <Card.Body>
           <CardTitle> {name} </CardTitle>
           <ListGroup.Item className="text-success font-weight-bold">
