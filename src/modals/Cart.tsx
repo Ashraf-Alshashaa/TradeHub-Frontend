@@ -16,7 +16,12 @@ function Cart() {
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setSelectedProducts([]);
+    setTotalPrice(0);
+  };
+  
   const handleShow = () => setShow(true);
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
@@ -62,7 +67,7 @@ useEffect(() => {
     }
   }, [dispatch, authUser]);
 
-  const handlePay = async (productIds: number[]) => {
+  const handlePay = (productIds: number[]) => {
       try {
         const paymentRequest = {
           product_ids: productIds,
@@ -73,10 +78,9 @@ useEffect(() => {
         const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
         alert(`Payment ${randomStatus}`);
       if ( randomStatus === 'succeeded'){
-       await dispatch(initiatePayment(paymentRequest));
+        dispatch(initiatePayment(paymentRequest));
       }
-      console.log(paymentId)
-       await dispatch(paymentStatus({ id: paymentId , paymentStatus: randomStatus }));
+        dispatch(paymentStatus({ id: paymentId , paymentStatus: randomStatus }));
       } catch (error) {
         console.error('Payment initiation failed', error);
         alert('Payment initiation failed');
