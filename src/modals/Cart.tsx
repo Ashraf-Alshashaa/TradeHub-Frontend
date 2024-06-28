@@ -13,6 +13,7 @@ import Icon from '../components/icon/Icon';
 function Cart() {
   const [show, setShow] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,11 +29,16 @@ function Cart() {
         return prevSelected.filter(id => id !== productId);
       } else {
         // If the product is not selected, add it to the list
-        console.log ([...prevSelected, productId])
         return [...prevSelected, productId];
       }
     });
 }
+
+useEffect(() => {
+  const newTotalPrice = myCart.filter(product => selectedProducts.includes(product.id))
+    .reduce((total, product) => total + product.price, 0);
+  setTotalPrice(newTotalPrice);
+}, [selectedProducts, myCart]);
 
 
   const renderProducts = (products: Product[], isCart = true) => {
@@ -72,7 +78,7 @@ function Cart() {
         {loading ? 'Loading...' : error ? error : renderProducts(myCart)}
         <div className='row my-3'>
             <div className='col-4'>
-                <h5> Total price: </h5>
+                <h5> Total price: €{totalPrice} </h5>
             </div>
         </div>
         </Modal.Body>
