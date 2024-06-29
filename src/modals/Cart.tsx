@@ -67,17 +67,20 @@ useEffect(() => {
   }, [dispatch, authUser]);
 
   const handlePay = (productIds: number[]) => {
+    if (productIds.length > 0)
+    {
       const paymentRequest = {
-          product_ids: productIds,
-          currency: 'eur',
-          user_id: authUser.user_id,
-      };
-  
-      const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
-      if ( randomStatus === 'succeeded'){
-        dispatch(initiatePayment(paymentRequest));
-      }
-        navigate('/payment', {state: { paymentResult: randomStatus }});
+        product_ids: productIds,
+        currency: 'eur',
+        user_id: authUser.user_id,
+    };
+
+    const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
+    if ( randomStatus === 'succeeded'){
+      dispatch(initiatePayment(paymentRequest));
+    }
+      navigate('/payment', {state: { paymentResult: randomStatus }});
+    }  
         handleClose();
     };
 
