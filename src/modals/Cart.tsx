@@ -7,11 +7,11 @@ import { fetchUser } from '../features/users/userSlice';
 import ProductListing from '../components/product-listing/Product-listing';
 import { Product } from '../features/products/types';
 import { fetchMyCart } from '../features/products/productsSlice';
-import { initiatePayment, paymentStatus, selectPaymentId } from '../features/payments/paymentSlice';
+import { initiatePayment } from '../features/payments/paymentSlice';
 import Icon from '../components/icon/Icon';
-import { useResolvedPath } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function Cart() {
+const Cart = () => {
   const [show, setShow] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -26,7 +26,8 @@ function Cart() {
   const dispatch = useDispatch<AppDispatch>();
   const { user: authUser } = useSelector((state: RootState) => state.auth);
   const { myCart, loading, error } = useSelector((state: RootState) => state.products);
-  const { paymentId } = useSelector((state: RootState) => state.payments.paymentId)
+  const navigate = useNavigate();
+  
 
   
 
@@ -58,8 +59,6 @@ useEffect(() => {
     return 'No content'; }
 
 
-
-
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
@@ -68,25 +67,18 @@ useEffect(() => {
   }, [dispatch, authUser]);
 
   const handlePay = (productIds: number[]) => {
-      try {
-        const paymentRequest = {
+      const paymentRequest = {
           product_ids: productIds,
           currency: 'eur',
           user_id: authUser.user_id,
-        };
+      };
   
-        const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
-        alert(`Payment ${randomStatus}`);
+      const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
       if ( randomStatus === 'succeeded'){
         dispatch(initiatePayment(paymentRequest));
       }
-        dispatch(paymentStatus({ id: paymentId , paymentStatus: randomStatus }));
-      } catch (error) {
-        console.error('Payment initiation failed', error);
-        alert('Payment initiation failed');
-      } finally {
+        navigate('/payment', {state: { paymentResult: randomStatus }});
         handleClose();
-      }
     };
 
 
