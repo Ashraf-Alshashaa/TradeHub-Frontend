@@ -1,8 +1,12 @@
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer'
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-function Notification() {
+type Notification = {
+    message: string | undefined;
+}
+
+const Notification: FC<Notification> = ({message}) => {
 
     function timeAgo(pastDate: Date): string {
     const now = new Date();
@@ -37,7 +41,7 @@ const [show, setShow] = useState(true);
         <strong className="me-auto">Notification</strong>
         <small>{timeAgo(date)}</small>
       </Toast.Header>
-      <Toast.Body>Read it from websockets!</Toast.Body>
+      <Toast.Body>{message}</Toast.Body>
     </Toast>
     </ToastContainer>
   );
