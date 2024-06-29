@@ -2,7 +2,7 @@ import TextInput from "../../components/text-input/Text-input";
 import CustomButton from "../../components/button/Button";
 import React from "react";
 import { useState, useEffect } from "react";
-import LoginImage from "../../assets/login.jpg";
+import LoginImage from "../../assets/trade-hub.png";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
@@ -110,9 +110,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-md-7 mt-auto text-center">
+    <div className="login-page-container">
+      <div className="row d-flex justify-content-center ">
+        <div className="col-md-6 text-center p-0 ">
           <img src={LoginImage} alt="Login" className="img-fluid" />
         </div>
         <div className="col-md-5 d-flex flex-column align-items-center justify-content-center login-form">
