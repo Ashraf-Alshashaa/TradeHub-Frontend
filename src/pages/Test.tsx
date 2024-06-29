@@ -14,6 +14,7 @@ import AddProduct from "../modals/Add-product.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
 import { Product } from "../components/product-listing/types";
+import Notification from "../toasts/Notification.tsx";
 
 const Test: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -71,6 +72,7 @@ const Test: FC = () => {
       <Header />
       <div className="container mt-4">
         <h1>Test Page</h1>
+        <Notification/>
         <div className="col-6"></div>
         <div className="col-6">
           <div className="row my-4">
