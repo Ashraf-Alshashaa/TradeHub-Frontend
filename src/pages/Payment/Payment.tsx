@@ -11,22 +11,28 @@ const Payment = () => {
   const paymentResult = location.state?.paymentResult || null;
 
   useEffect(() => {
-    if (paymentId && paymentResult) {
-      dispatch(paymentStatus({ id: paymentId, status: 'succeeded' })); // Correctly dispatch paymentStatus
-      setTimeout(() => {
-        navigate(-1); // Go back to the previous page
-      }, 2000);
+    if (paymentId && paymentResult === 'succeeded') {
+      dispatch(paymentStatus({ id: paymentId, status: paymentResult }));
     }
+    setTimeout(() => {
+        navigate('/products');
+      }, 2000);
   }, [dispatch, navigate, paymentId, paymentResult]);
 
   return (
-    <div>
+<div className="d-flex justify-content-center align-items-center vh-100">
       {paymentResult === 'succeeded' ? (
-        <h1>Payment Succeeded</h1>
+        <div className="rounded p-4 border border-success alert alert-success text-center">
+          <h3 className='p-5'>Payment Succeeded</h3>
+        </div>
       ) : paymentResult === 'failed' ? (
-        <h1>Payment Failed</h1>
+        <div className="rounded p-4 border border-danger alert alert-danger text-center">
+          <h3 className='p-5'>Payment Failed</h3>
+        </div>
       ) : (
-        <h1>Payment Status Unknown</h1>
+        <div className="rounded p-4 bg-secondary text-center">
+          <h1 className="fw-bold text-white">Payment Status Unknown</h1>
+        </div>
       )}
     </div>
   );
