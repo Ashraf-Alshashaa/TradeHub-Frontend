@@ -7,13 +7,19 @@ import Footer from "./components/footer/Footer";
 const App: FC = () => {
   return (
     <div className="app-container">
-      <Header />
-      <Outlet />
-      <div className="app-footer">
-        <Footer
-          githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
-          email="your.email@example.com"
-        />
+      <div className="app-header">
+        <Header />
+      </div>
+      <div className="app-content">
+        <div className="app-pages">
+          <Outlet />
+        </div>
+        <div className="app-footer">
+          <Footer
+            githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
+            email="your.email@example.com"
+          />
+        </div>
       </div>
     </div>
   );

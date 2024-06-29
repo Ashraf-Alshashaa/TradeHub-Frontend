@@ -1,16 +1,18 @@
-import React from 'react';
-import './footer.css';
-import { FooterProps } from './types';
-import { FaGithub, FaEnvelope } from 'react-icons/fa';
+import React from "react";
+import "./footer.css";
+import { FooterProps } from "./types";
+import { FaGithub, FaEnvelope } from "react-icons/fa";
 
 const Footer: React.FC<FooterProps> = ({ githubUrl, email }) => {
   return (
-    <footer className="footer pt-3">
+    <footer className="footer p-3">
       <div className="container text-center">
         <div className="row">
           <div className="col">
-            <div className='footer-title'>
-            <p><strong>TradeHub</strong></p>
+            <div className="footer-title">
+              <p>
+                <strong>TradeHub</strong>
+              </p>
             </div>
             <a
               href={githubUrl}
@@ -33,13 +35,13 @@ const Footer: React.FC<FooterProps> = ({ githubUrl, email }) => {
             <p className="mt-3">Contact us through the above channels</p>
           </div>
         </div>
-        <div className='footer-bottom'>
-          <p className='text-xs-center'>
+        <div className="footer-bottom">
+          <p className="text-xs-center mb-0">
             &copy;{new Date().getFullYear()}
           </p>
         </div>
       </div>
-    </footer> 
+    </footer>
   );
 };
 

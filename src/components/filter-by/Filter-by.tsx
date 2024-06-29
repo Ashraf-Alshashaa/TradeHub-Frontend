@@ -1,15 +1,20 @@
-import { FC, useEffect } from 'react';
-import { Range, getTrackBackground } from 'react-range';
-import './filter-by.css';
-import { FilterByProps } from './types';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../app/store';
-import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
-import RadioButton from '../radio-button/Radio-button';
+import { FC, useEffect } from "react";
+import { Range, getTrackBackground } from "react-range";
+import "./filter-by.css";
+import { FilterByProps } from "./types";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
+import RadioButton from "../radio-button/Radio-button";
 
-const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onPriceChange, onCategoryChange }) => {
+const FilterBy: FC<FilterByProps> = ({
+  categories,
+  priceRange = [1, 1000000],
+  onPriceChange,
+  onCategoryChange,
+}) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { min_price, max_price} = useSelector(
+  const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
 
@@ -17,17 +22,16 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
     dispatch(fetchPriceRange());
   }, [dispatch]);
 
-  const handleCategoryChange = (category_id : number) => {
-      onCategoryChange(category_id);
-
+  const handleCategoryChange = (category_id: number) => {
+    onCategoryChange(category_id);
   };
 
   return (
     <div className="filter-by">
-      <h2>Filter by</h2>
-      <div className="price-filter p-3 mb-2">
-          <h4 className='mb-4'>Price</h4>
-        <div className="price-slider mb-2">
+      <h4>Filter by</h4>
+      <div className="price-filter p-3">
+        <h5 className="mb-2">Price</h5>
+        <div className="price-slider">
           <Range
             values={priceRange}
             step={50}
@@ -39,14 +43,14 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
                 {...props}
                 style={{
                   ...props.style,
-                  height: '6px',
-                  width: '100%',
+                  height: "6px",
+                  width: "100%",
                   background: getTrackBackground({
                     values: priceRange,
-                    colors: ['#ccc', 'var(--primary-color)', '#ccc'],
+                    colors: ["#ccc", "var(--primary-color)", "#ccc"],
                     min: min_price,
-                    max: max_price
-                  })
+                    max: max_price,
+                  }),
                 }}
               >
                 {children}
@@ -57,10 +61,10 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
                 {...props}
                 style={{
                   ...props.style,
-                  height: '16px',
-                  width: '16px',
-                  backgroundColor: 'var(--primary-color)',
-                  borderRadius: '50%'
+                  height: "16px",
+                  width: "16px",
+                  backgroundColor: "var(--primary-color)",
+                  borderRadius: "50%",
                 }}
               />
             )}
@@ -71,14 +75,14 @@ const FilterBy: FC<FilterByProps> = ({ categories, priceRange = [1,1000000], onP
         </div>
       </div>
       <div className="category-filter">
-        <h4 className='mb-3'>Categories</h4>
+        <h5 className="mb-2">Categories</h5>
         {categories.map((category) => (
-              <RadioButton
-              bidder_name={category.name} 
-              group_name='Categories'
-              bid='' 
-              onClick={() => handleCategoryChange(category.id)}
-                />
+          <RadioButton
+            bidder_name={category.name}
+            group_name="Categories"
+            bid=""
+            onClick={() => handleCategoryChange(category.id)}
+          />
         ))}
       </div>
     </div>
