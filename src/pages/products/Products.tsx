@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { fetchCategories } from "../../features/categories/categorySlice";
 import { Product } from "../../features/products/types";
+import NotificationWS from "../../toasts/Websocket";
 
 const Test: FC = () => {
   const navigate = useNavigate();
@@ -104,6 +105,7 @@ const Test: FC = () => {
           </div>
         )}
       </div>
+      <NotificationWS/>
       <Footer
         githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
         email="your.email@example.com"
