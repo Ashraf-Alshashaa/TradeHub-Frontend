@@ -23,17 +23,19 @@ export const initiatePayment = createAsyncThunk(
   }
 );
 
+
 export const paymentStatus = createAsyncThunk(
   'payments/paymentStatus',
-  async ({ id, paymentStatus }: { id: string | null; paymentStatus: string }, { rejectWithValue }) => {
+  async ({ id, status }: { id: string | null; status: string }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.put(`/payments/${id}`, { status: paymentStatus });
+      const response = await axiosInstance.put(`/payments/${id}`, { status: status });
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
   }
 );
+
 
 const paymentSlice = createSlice({
   name: 'payments',
@@ -60,6 +62,7 @@ const paymentSlice = createSlice({
       })
       .addCase(paymentStatus.fulfilled, (state, action) => {
         state.payment = action.payload;
+        state.paymentId = null;
         state.loading = false;
       })
       .addCase(paymentStatus.rejected, (state, action) => {
