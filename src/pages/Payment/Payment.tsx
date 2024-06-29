@@ -30,8 +30,8 @@ const Payment = () => {
           <h3 className='p-5'>Payment Failed</h3>
         </div>
       ) : (
-        <div className="rounded p-4 bg-secondary text-center">
-          <h1 className="fw-bold text-white">Payment Status Unknown</h1>
+        <div className="rounded p-4 border border-dark alert alert-dark text-center">
+          <h3 className='p-5'>Payment Status Unknown</h3>
         </div>
       )}
     </div>
