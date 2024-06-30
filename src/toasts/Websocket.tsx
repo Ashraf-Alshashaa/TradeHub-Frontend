@@ -16,7 +16,12 @@ function NotificationWS() {
 
     // Listen for messages
     socket.addEventListener('message', function (event) {
-      setMessage(event.data);
+    const data = JSON.parse(event.data);
+    const userID = data.userID;
+    const productID = data.productID;
+    const message = data.message;
+    console.log(data)
+      setMessage(message);
     });
 
     return () => {
