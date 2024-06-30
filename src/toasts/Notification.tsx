@@ -4,9 +4,10 @@ import { FC, useState } from 'react';
 
 type Notification = {
     message: string | undefined;
+    onClick: () => void;
 }
 
-const Notification: FC<Notification> = ({message}) => {
+const Notification: FC<Notification> = ({message, onClick}) => {
 
     function timeAgo(pastDate: Date): string {
     const now = new Date();
@@ -41,7 +42,7 @@ const [show, setShow] = useState(true);
         <strong className="me-auto">Notification</strong>
         <small>{timeAgo(date)}</small>
       </Toast.Header>
-      <Toast.Body>{message}</Toast.Body>
+      <Toast.Body style={{ cursor: 'pointer' }} onClick={onClick}>{message}</Toast.Body>
     </Toast>
     </ToastContainer>
   );

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import Notification from './Notification';
+import { useNavigate } from 'react-router-dom';
 
 
 function NotificationWS() {
-  
+    const navigate = useNavigate();
+
   const [message, setMessage] = useState<string>();
+  const [productID, setProductID] = useState<string>();
   let socket;
 
   useEffect(() => {
@@ -17,20 +20,21 @@ function NotificationWS() {
     // Listen for messages
     socket.addEventListener('message', function (event) {
     const data = JSON.parse(event.data);
-    const userID = data.userID;
-    const productID = data.productID;
+    const userID = data.userId;
+    const productID = data.productId;
     const message = data.message;
     console.log(data)
       setMessage(message);
+      setProductID(productID);
     });
-
     return () => {
       socket.close();
     };
   }, []);
+  const notificationClick = () => navigate(`/product/${productID?.toString()}`);
 
     return (
-      <Notification message={message}/>
+      <Notification message={message} onClick={notificationClick}/>
     )
   }
 
