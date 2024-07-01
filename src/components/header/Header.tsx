@@ -8,6 +8,7 @@ import DropdownMenu from "../dropdown/Dropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { AppDispatch, RootState } from "../../app/store";
+import Cart from "../../modals/Cart";
 import AddProduct from "../../modals/Add-product";
 import { fetchCategories } from "../../features/categories/categorySlice";
 import { useLocation } from "react-router-dom"; // Import useHistory and useLocation
@@ -187,7 +188,7 @@ const Header: FC = () => {
         </ButtonGroup>
         <div className="header-cart-notifications-cont">
           <Icon name="notifications" onclick={handleNotifications} />
-          <Icon name="shopping_cart" onclick={handleShoppingCart} />
+          <Cart />
         </div>
       </div>
       {/* Render AddProductModal based on showAddProductModal state */}
