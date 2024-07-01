@@ -1,5 +1,6 @@
 .product-page-container{
     display: flex;
+    padding: var(--spacing-xlarge);
 }
 
 .product-img-container{
@@ -51,6 +52,7 @@
     justify-content: center;
     box-shadow: var(--box-shadow-light);
     margin-top: var(--font-size-xlarge);
+    padding: var(--spacing-medium);
 }
 .product-page-bids-container{
     margin-top: var(--spacing-medium);

@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from "react";
 import "./products.css";
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
 import FilterBy from "../../components/filter-by/Filter-by";
 import ProductCard from "../../components/product-card/Product-card";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,41 +87,35 @@ useEffect(() => {
   
 
   return (
-    <div className="Products">
-      <Header />
-      <div className="row">
-        <div className="col-3">
-        <FilterBy
-          />
+    <div className="products">
+      <div className="products-filter-by">
+        <div className="products-filter-by-item">
+          <FilterBy/>
         </div>
-        {loading ? (
-          <h1 className="col-9 my-4 overflow-auto scrollable-products">
-            Loading
-          </h1>
-        ) : (
-          <div className="col-9 my-4 overflow-auto scrollable-products">
-            {chunkedProducts.map((row: any, rowIndex: number) => (
-              <div key={rowIndex} className="row mb-5">
-                {row.map((product: Product) => (
-                  <div key={product.id} className="col-4 mb-4">
-                    <ProductCard
-                      photo={product.image}
-                      name={product.name}
-                      price={product.price}
-                      location={"Amsterdam"}
-                      onClick={() => cardClicked(product.id)}
-                    />
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
       </div>
-      <Footer
-        githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"
-        email="your.email@example.com"
-      />
+      {loading ? (
+        <h1 className="col-9 my-4 overflow-auto scrollable-products">
+          Loading
+        </h1>
+      ) : (
+        <div className="prducts-cards">
+          {chunkedProducts.map((row: any, rowIndex: number) => (
+            <div key={rowIndex} className="row">
+              {row.map((product: Product) => (
+                <div key={product.id} className="col-4 mb-4">
+                  <ProductCard
+                    photo={product.image}
+                    name={product.name}
+                    price={product.price}
+                    location={"Amsterdam"}
+                    onClick={() => cardClicked(product.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

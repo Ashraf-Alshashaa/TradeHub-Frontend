@@ -8,6 +8,9 @@
   font-family: "Inter", sans-serif;
 } 
 
+html{
+  min-height: 100vh;
+}
 
 :root {
   --primary-color: #379237;
@@ -40,4 +43,7 @@
 
   --transition-duration: 0.3s;
   --transition-easing: ease-in-out;
+
+  --header-height: 181.3px ;
+  --footer-height: 179.3px;
 }

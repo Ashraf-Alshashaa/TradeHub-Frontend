@@ -10,7 +10,7 @@ import { fetchCategories } from '../../features/categories/categorySlice';
 
 const FilterBy: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { min_price, max_price} = useSelector(
+  const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
   const { categories } = useSelector(
@@ -78,10 +78,10 @@ const FilterBy: FC = () => {
 
   return (
     <div className="filter-by">
-      <h2>Filter by</h2>
-      <div className="price-filter p-3 mb-2">
-          <h4 className='mb-4'>Price</h4>
-        <div className="price-slider mb-2">
+      <h4>Filter by</h4>
+      <div className="price-filter p-3">
+        <h5 className="mb-2">Price</h5>
+        <div className="price-slider">
           <Range
             values={priceRange}
             step={50}
@@ -93,14 +93,14 @@ const FilterBy: FC = () => {
                 {...props}
                 style={{
                   ...props.style,
-                  height: '6px',
-                  width: '100%',
+                  height: "6px",
+                  width: "100%",
                   background: getTrackBackground({
                     values: priceRange,
-                    colors: ['#ccc', 'var(--primary-color)', '#ccc'],
+                    colors: ["#ccc", "var(--primary-color)", "#ccc"],
                     min: min_price,
-                    max: max_price
-                  })
+                    max: max_price,
+                  }),
                 }}
               >
                 {children}
@@ -111,10 +111,10 @@ const FilterBy: FC = () => {
                 {...props}
                 style={{
                   ...props.style,
-                  height: '16px',
-                  width: '16px',
-                  backgroundColor: 'var(--primary-color)',
-                  borderRadius: '50%'
+                  height: "16px",
+                  width: "16px",
+                  backgroundColor: "var(--primary-color)",
+                  borderRadius: "50%",
                 }}
               />
             )}
@@ -125,7 +125,7 @@ const FilterBy: FC = () => {
         </div>
       </div>
       <div className="category-filter">
-        <h4 className='mb-3'>Categories</h4>
+        <h5 className="mb-2">Categories</h5>
         <RadioButton
           bidder_name="All Products"
           group_name="Categories"
