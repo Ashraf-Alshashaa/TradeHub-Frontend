@@ -17,8 +17,8 @@ function ProfileTab() {
   useEffect(() => {
     dispatch(fetchBoughtProducts(user.user_id));
     dispatch(fetchMyBids(user.user_id))
-    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: 'true'}))
-    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: 'false'}))
+    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: true}))
+    dispatch(fetchSoldProducts({seller_id: user.user_id, sold: false}))
     
   }, [dispatch]);
 
