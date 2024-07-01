@@ -1,5 +1,5 @@
 export interface Product {
-  id?: number;
+  id: number;
   name: string;
   image: string;
   description: string;
@@ -14,6 +14,7 @@ export interface ProductsState {
   products: Product[];
   myCart : Product[];
   myBids : Product[];
+  searchProducts : Product [];
   boughtProducts : Product[];
   soldProducts : Product[];
   myListings: Product[];
