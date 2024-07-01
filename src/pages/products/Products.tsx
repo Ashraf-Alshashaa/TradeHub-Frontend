@@ -30,8 +30,10 @@ const Test: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
 
-  useEffect(() => {
-    dispatch(fetchCategories());
+   // Fetch initial data on component mount
+   useEffect(() => {
+    dispatch(fetchPriceRange());
+    dispatch(fetchCategories())
   }, [dispatch]);
 
   // Function to fetch filtered products
@@ -50,25 +52,21 @@ const Test: FC = () => {
     );
   };
 
-   // Fetch initial data on component mount
-   useEffect(() => {
-    dispatch(fetchPriceRange());
-    dispatch(fetchCategories())
-  }, [dispatch]);
-
-
 // Fetch products based on URL parameters
 useEffect(() => {
   const urlParams = new URLSearchParams(location.search);
   const search = urlParams.get("search") || "";
   const category = urlParams.get("category") || null;
+  const minPrice = parseInt(urlParams.get("min_price") || min_price.toString());
+  const maxPrice = parseInt(urlParams.get("max_price") || max_price.toString());
+
 
   setSearchQuery(search);
   setCategoryId(category ? parseInt(category) : null);
-  setPriceRange([parseInt(urlParams.get("min_price") || min_price.toString()), parseInt(urlParams.get("max_price") || max_price.toString())]);
+  setPriceRange([minPrice, maxPrice]);
 
-  fetchFilteredProducts(search, category ? parseInt(category) : null, priceRange);
-}, [location.search]);
+  fetchFilteredProducts(search, category ? parseInt(category) : null, [minPrice, maxPrice]);
+}, [location.search, min_price, max_price]);
 
 
 

@@ -31,6 +31,12 @@ const Header: FC = () => {
     dispatch(fetchCategories())
   }, [dispatch]);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchParam = queryParams.get("search") || "";
+    setSearchQuery(searchParam);
+  }, [location.search]);
+
 
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +66,12 @@ const Header: FC = () => {
     }
     navigate(`/products?${queryParams.toString()}`);
   };
+  // Reset categoryId to null when navigating to the profile page
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      setCategoryId(null);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     // Update categoryId state when location.search changes
