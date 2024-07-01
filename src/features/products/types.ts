@@ -14,6 +14,7 @@ export interface ProductsState {
   products: Product[];
   myCart : Product[];
   myBids : Product[];
+  searchProducts : Product [];
   boughtProducts : Product[];
   soldProducts : Product[];
   myListings: Product[];
