@@ -6,14 +6,15 @@ import FilterBy from "../../components/filter-by/Filter-by";
 import ProductCard from "../../components/product-card/Product-card";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../../features/products/productsSlice";
+import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { fetchCategories } from "../../features/categories/categorySlice";
-import { RootState } from "../../app/store";
 import { Product } from "../../features/products/types";
-import { AppDispatch } from "../../app/store";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
+  const navigate = useNavigate();
+  const cardClicked = (id: number) => navigate(`/product/${id}`);
 
   const dispatch = useDispatch<AppDispatch>();
   const { products, loading, error } = useSelector(
@@ -30,7 +31,6 @@ const Test: FC = () => {
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -55,7 +55,7 @@ const Test: FC = () => {
    // Fetch initial data on component mount
    useEffect(() => {
     dispatch(fetchPriceRange());
-    dispatch(fetchCategories());
+    dispatch(fetchCategories())
   }, [dispatch]);
 
 
@@ -85,7 +85,6 @@ useEffect(() => {
 
   const chunkedProducts = chunkArray(products, 3);
 
-  // if (loading) return <h1>Loading</h1>;
   if (error) return <h1>Error</h1>;
   
 
@@ -97,23 +96,29 @@ useEffect(() => {
         <FilterBy
           />
         </div>
-
-        <div className="col-9 my-4 overflow-auto scrollable-products">
-          {chunkedProducts.map((row: any, rowIndex: number) => (
-            <div key={rowIndex} className="row mb-5">
-              {row.map((product: Product) => (
-                <div key={product.id} className="col-4 mb-4">
-                  <ProductCard
-                    photo={product.image}
-                    name={product.name}
-                    price={product.price}
-                    location={"Amsterdam"}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <h1 className="col-9 my-4 overflow-auto scrollable-products">
+            Loading
+          </h1>
+        ) : (
+          <div className="col-9 my-4 overflow-auto scrollable-products">
+            {chunkedProducts.map((row: any, rowIndex: number) => (
+              <div key={rowIndex} className="row mb-5">
+                {row.map((product: Product) => (
+                  <div key={product.id} className="col-4 mb-4">
+                    <ProductCard
+                      photo={product.image}
+                      name={product.name}
+                      price={product.price}
+                      location={"Amsterdam"}
+                      onClick={() => cardClicked(product.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <Footer
         githubUrl="https://github.com/Ashraf-Alshashaa/TradeHub-Frontend"

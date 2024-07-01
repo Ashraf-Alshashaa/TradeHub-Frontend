@@ -1,46 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import CustomButton from '../components/button/Button';
 import Modal from 'react-bootstrap/Modal';
 import TextInput from '../components/text-input/Text-input';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../app/store';
+import { editUser, fetchUser } from '../features/users/userSlice';
+import { editAddress } from '../features/addresses/addressSlice';
+import ChangePassword from './Change-password';
 
 function EditProfile() {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [street, setStreet] = useState("");
-  const [houseNumber, setHouseNumber] = useState("");
+  const [street_name, setStreet] = useState("");
+  const [house_number, setHouseNumber] = useState("");
   const [postcode, setPostcode] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
 
-  // Example of existing data (fetch this from your backend or context)
-  const existingData = {
-    username: "user1",
-    email: "user1@example.com",
-    password: "password1",
-    street: "example street",
-    houseNumber: "123",
-    postcode: "1234AL",
-    city: "somewhere",
-    country: "The Netherlands"
-  };
+  const dispatch = useDispatch<AppDispatch>();
+  const { user: authUser } = useSelector((state: RootState) => state.auth);
+  const { user, loading, error } = useSelector((state: RootState) => state.users);
 
   useEffect(() => {
-    // Set initial values when modal opens
-    setUsername(existingData.username);
-    setEmail(existingData.email);
-    setPassword(existingData.password);
-    setStreet(existingData.street);
-    setHouseNumber(existingData.houseNumber);
-    setPostcode(existingData.postcode);
-    setCity(existingData.city);
-    setCountry(existingData.country);
-  }, [show]); // Only run when `show` changes (modal opens)
+    if (authUser?.user_id) {
+      dispatch(fetchUser(authUser.user_id));
+    }
+  }, [dispatch, authUser]);
+
+  useEffect(() => {
+    if (user) {
+      setUsername(user.username);
+      setEmail(user.email);
+      setPassword('');  // Or you can set it to existing password or keep it blank for security
+      if (user.address) {
+        setStreet(user.address.street_name);
+        setHouseNumber(user.address.house_number);
+        setPostcode(user.address.postcode);
+        setCity(user.address.city);
+        setCountry(user.address.country);
+      }
+    }
+  }, [user, user?.address, show]);
 
   const handleEmailChange = (value) => setEmail(value);
-  const handlePasswordChange = (value) => setPassword(value);
-  const handleUsernameChange = (value) => setUsername(value);
+  const handlePasswordChange = (value) => setPassword(value); // Update password state
   const handleStreetChange = (value) => setStreet(value);
   const handleHouseNumberChange = (value) => setHouseNumber(value);
   const handlePostcodeChange = (value) => setPostcode(value);
@@ -50,23 +55,40 @@ function EditProfile() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSave = () => {
-    // Logic to save changes (e.g., send to backend)
-    console.log(`Saving changes for: 
-      Username - ${username}, 
-      Email - ${email}, 
-      Password - ${password}, 
-      Street - ${street}, 
-      House Number - ${houseNumber}, 
-      Postcode - ${postcode}, 
-      City - ${city}, 
-      Country - ${country}`);
+  const handleSave = async () => {
+    if (!username || !email) {
+      alert("Username and Email are required.");
+      return;
+    }
+    if (authUser?.user_id) {
+      const userData = {
+        id: authUser.user_id,
+        username,
+        email,
+        password, // Use the updated password state
+      };
+      const addressData = {
+        street_name,
+        city,
+        country,
+        postcode,
+        house_number,
+        user_id: user?.id,
+        default: true
+      };
+
+      await dispatch(editUser(userData));
+      if (user?.address?.id) {
+        await dispatch(editAddress({ addressData, id: user.address.id }));
+      }
+      dispatch(fetchUser(authUser.user_id)); // Refetch user data to update the profile
+    }
     handleClose();
   };
 
   return (
     <>
-      <CustomButton text="Edit Profile" onClick={handleShow} buttonType='secondary'/>
+      <CustomButton text="Edit Profile" onClick={handleShow} buttonType='secondary' />
 
       <Modal
         size="lg"
@@ -85,12 +107,8 @@ function EditProfile() {
               <h5>Personal Information</h5>
             </div>
             <div className='col-6'>
-              <TextInput
-                label="Username"
-                value={username}
-                onChange={handleUsernameChange}
-                type="text"
-              />
+              <p className='py-1'> Username </p>
+              <p className='px-3'> {user?.username || 'Loading...'} </p>
             </div>
             <div className='col-6'>
               <TextInput
@@ -98,14 +116,7 @@ function EditProfile() {
                 value={email}
                 onChange={handleEmailChange}
                 type="email"
-              />
-            </div>
-            <div className='col-6'>
-              <TextInput
-                label="Password"
-                value={password}
-                onChange={handlePasswordChange}
-                type="password"
+                required={true}
               />
             </div>
 
@@ -116,7 +127,7 @@ function EditProfile() {
             <div className='col-6'>
               <TextInput
                 label="Street"
-                value={street}
+                value={street_name}
                 onChange={handleStreetChange}
                 type="text"
               />
@@ -124,9 +135,9 @@ function EditProfile() {
             <div className='col-6'>
               <TextInput
                 label="House Number"
-                value={houseNumber}
+                value={house_number}
                 onChange={handleHouseNumberChange}
-                type="text"
+                type="housenumber"
               />
             </div>
             <div className='col-6'>
@@ -134,7 +145,7 @@ function EditProfile() {
                 label="Postcode"
                 value={postcode}
                 onChange={handlePostcodeChange}
-                type="text"
+                type="postcode"
               />
             </div>
             <div className='col-6'>
@@ -156,8 +167,8 @@ function EditProfile() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <CustomButton text='Save' buttonType="primary" onClick={handleSave}/>
-          <CustomButton text='Close' buttonType="secondary" onClick={handleClose}/>
+          <CustomButton text='Save' buttonType="primary" onClick={handleSave} />
+          <CustomButton text='Close' buttonType="secondary" onClick={handleClose} />
         </Modal.Footer>
       </Modal>
     </>
