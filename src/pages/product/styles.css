@@ -18,17 +18,20 @@
 }
 
 .product-edit-btn{
-    margin-left: var(--spacing-medium);
+    margin-left: var(--spacing-xlarge);
+    margin-bottom: var(--spacing-large);
 }
 
 .product-page-product-name{
     font-size: var( --font-size-xlarge);
     font-weight: 600;
+    margin-bottom: var(--spacing-large);
 }
 
 .product-page-product-condition{
-    font-size: var( --font-size-large);
+    font-size: var( --font-size-medium);
     color: var(--primary-text-colour-light);
+    margin-bottom: var(--spacing-xsmall);
 }
 
 .product-page-product-description{
@@ -55,7 +58,7 @@
     padding: var(--spacing-medium);
 }
 .product-page-bids-container{
-    margin-top: var(--spacing-medium);
+    margin-top: var(--spacing-xlarge);
 }
 
 .product-page-bid-container > tr{
@@ -73,4 +76,5 @@
 
 .product-page-bid-date{
     color: var(--primary-text-colour-light);
+    text-align: right;
 }
