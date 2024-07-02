@@ -63,7 +63,9 @@ const Login: React.FC = () => {
 
     try {
       await dispatch(login({ username, password })).unwrap();
-      navigate("/products");
+      const localStorageUser = localStorage.getItem("user");
+      const user = localStorageUser ? JSON.parse(localStorageUser) : null;
+      user.role === "admin" ? navigate("/dashboard") : navigate("/products");
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.detail) {
         setErrors({ form: error.response.data.detail });
