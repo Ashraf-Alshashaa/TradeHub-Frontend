@@ -105,7 +105,7 @@ useEffect(() => {
                     photo={product.image}
                     name={product.name}
                     price={product.price}
-                    location={"Amsterdam"}
+                    seller_city={product.seller_city}
                     onClick={() => cardClicked(product.id)}
                   />
                 </div>
