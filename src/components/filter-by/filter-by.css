@@ -13,6 +13,11 @@
 .price-filter {
   border-radius: var(--border-radius-small);
   background-color: var(--secondary-color); /* Optional: for better visual separation */
+  margin-bottom: var(--spacing-large);
+}
+
+.price-slider {
+  margin-top: var(--spacing-large);
 }
 
 .slider-values {
@@ -20,4 +25,20 @@
   justify-content: space-between;
   font-size: var(--font-size-small);
   margin-top: var(--spacing-medium); /* Add margin above the price values */
+}
+
+.price-filter,
+.category-filter {
+  border-radius: var(--border-radius-small);
+  background-color: var(--secondary-color); /* Optional: for better visual separation */
+  padding: var(--spacing-medium); /* Match padding with the price slider section */
+}
+
+
+.category-filter {
+  margin-top: var(--spacing-large); /* Optional: add margin to separate from price section */
+}
+
+.category-title {
+  margin-bottom: var(--spacing-xlarge); /* Adjust margin bottom to create space above Categories header */
 }

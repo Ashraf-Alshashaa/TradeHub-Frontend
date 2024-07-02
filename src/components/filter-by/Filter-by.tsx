@@ -125,7 +125,7 @@ const FilterBy: FC = () => {
         </div>
       </div>
       <div className="category-filter">
-        <h5 className="mb-2">Categories</h5>
+        <div className='category-title'> <h5 className="mb-2">Categories</h5> </div>
         <RadioButton
           bidder_name="All Products"
           group_name="Categories"

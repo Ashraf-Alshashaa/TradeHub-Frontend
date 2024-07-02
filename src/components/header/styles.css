@@ -26,7 +26,7 @@
 
 .header-sell-now-btn-container > * {
     flex: 1; /* Equal width for both items */
-    margin: 0 5px; /* Adjust margin as needed */
+    margin: 0 4px; /* Adjust margin as needed */
     box-sizing: border-box;
 }
 
