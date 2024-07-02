@@ -29,6 +29,12 @@ const Login: React.FC = () => {
     (state: RootState) => state.auth
   );
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/products");
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleNameChange = (value: string) => {
     setUsername(value);
     if (value) {
@@ -52,7 +58,7 @@ const Login: React.FC = () => {
 
   const handleLoginClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    const newErrors: { username?: string; password?: string } = {};
+    const newErrors: { username?: string; password?: string, form?: string } = {};
     if (!username) newErrors.username = "Username is required";
     if (!password) newErrors.password = "Password is required";
 
@@ -63,13 +69,12 @@ const Login: React.FC = () => {
 
     try {
       await dispatch(login({ username, password })).unwrap();
-      navigate("/products");
-    } catch (error: any) {
-      if (error.response && error.response.data && error.response.data.detail) {
-        setErrors({ form: error.response.data.detail });
-      } else {
-        setErrors({ form: "An error occurred while logging in." });
-      }
+    } catch (err: any) {
+      // Assuming the error object has a response.data.detail structure
+      const errorMessage = err.response?.data?.detail || "Login failed. Please check your credentials and try again.";
+      setErrors({ form: errorMessage });
+      setUsername(""); // Clear username input
+      setPassword(""); // Clear password input
     }
   };
 
@@ -91,9 +96,7 @@ const Login: React.FC = () => {
     }
 
     try {
-      await dispatch(
-        registerUser({ username: username, email, password })
-      ).unwrap();
+      await dispatch(registerUser({ username, email, password })).unwrap();
       setIsRegistering(false);
     } catch (error: any) {
       if (error.response && error.response.data && error.response.data.detail) {
@@ -194,7 +197,9 @@ const Login: React.FC = () => {
               />
             </div>
             {loading && <div>Loading...</div>}
-            {error && <div className="text-danger">{error}</div>}
+            {error && typeof error === "string" && (
+              <div className="text-danger text-center">{error}</div>
+            )}
             {isAuthenticated && (
               <div className="text-success">Successfully authenticated!</div>
             )}
