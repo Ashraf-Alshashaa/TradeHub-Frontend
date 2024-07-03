@@ -48,6 +48,7 @@ const UserProfile: React.FC = () => {
           <div className="row">
             <p> Email: {user?.email || "Loading..."} </p>
           </div>
+          {user?.address && (
           <div className="row">
             <p>
               {" "}
@@ -59,6 +60,7 @@ const UserProfile: React.FC = () => {
               {user?.address?.country}
             </p>
           </div>
+          )}
         </div>
         <div className="col-2 pt-5">
           <div className="row py-2">
