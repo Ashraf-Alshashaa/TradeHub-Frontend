@@ -32,12 +32,6 @@ const Login: React.FC = () => {
     (state: RootState) => state.pricerange
   );
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate(`/products?min_price=${min_price}&max_price=${max_price}`);
-    }
-  }, [isAuthenticated, navigate]);
-
   const handleNameChange = (value: string) => {
     setUsername(value);
     if (value) {
@@ -75,7 +69,7 @@ const Login: React.FC = () => {
       await dispatch(login({ username, password })).unwrap();
       const localStorageUser = localStorage.getItem("user");
       const user = localStorageUser ? JSON.parse(localStorageUser) : null;
-      user.role === "admin" ? navigate("/dashboard") : navigate("/products");
+      user.role === "admin" ? navigate("/dashboard") : navigate(`/products?min_price=${min_price}&max_price=${max_price}`);
     } catch (err: any) {
       // Assuming the error object has a response.data.detail structure
       const errorMessage =
