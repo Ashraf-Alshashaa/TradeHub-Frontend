@@ -32,6 +32,20 @@ const Test: FC = () => {
     (state: RootState) => state.products
   );
 
+
+  const messages = [
+    "Welcome to the application!",
+    "Your profile has been updated.",
+    "You have a new friend request.",
+    "Your password was changed successfully.",
+    "A new version of the app is available.",
+    "You have unread notifications.",
+    "Don't forget to check your messages.",
+    "Your subscription will expire soon.",
+    "New comment on your post.",
+    "Backup completed successfully."
+];
+
   const [email, setEmail] = useState("");
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -77,7 +91,7 @@ const Test: FC = () => {
       <Header />
       <div className="container mt-4">
         <h1>Test Page</h1>
-        <Notification/>
+        <Notification message={messages} onClick={chooseWinnerHandle}/>
         <div className="col-6"></div>
         <div className="col-6">
           <CloudinaryUploadWidget onUpload={handleUpload} />
