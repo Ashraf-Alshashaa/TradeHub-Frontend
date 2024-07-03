@@ -31,6 +31,12 @@ const Header: FC = () => {
     dispatch(fetchCategories())
   }, [dispatch]);
 
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchParam = queryParams.get("search") || "";
+    setSearchQuery(searchParam);
+  }, [location.search]);
+
 
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,6 +66,12 @@ const Header: FC = () => {
     }
     navigate(`/products?${queryParams.toString()}`);
   };
+  // Reset categoryId to null when navigating to the profile page
+  useEffect(() => {
+    if (location.pathname === "/profile") {
+      setCategoryId(null);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     // Update categoryId state when location.search changes
@@ -116,7 +128,7 @@ const Header: FC = () => {
   return (
     <header className="header">
       <div className="header-top-container">
-        <h1>Trade Hub</h1>
+        <h4>TradeHub</h4>
         <div className="header-search-container">
           <Form className="d-flex" onSubmit={handleSubmit}>
             <FormControl
@@ -135,25 +147,26 @@ const Header: FC = () => {
           </Form>
         </div>
         <div className="header-sell-now-btn-container">
-          <CustomButton
+        <CustomButton
             text="Sell Now"
             onClick={handleSellNowOnclick}
             buttonType="primary"
-          />
-          
-        </div>
+        />
+        {/* User dropdown */}
         {user?.username ? (
-          <div className="profile-select">
-            <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
-          </div>
+            <div className="profile-select">
+                <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
+            </div>
         ) : (
-          <CustomButton
-            text="Login"
-            buttonType="primary"
-            onClick={handleLogin}
-          />
+            <CustomButton
+                text="Login"
+                buttonType="primary"
+                onClick={handleLogin}
+            />
         )}
-      </div>
+    </div>
+</div>
+          
       <div className="header-bottom-container">
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
         <Button

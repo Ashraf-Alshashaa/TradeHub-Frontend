@@ -2,6 +2,6 @@ export interface ProductCardProps {
   photo: string;
   name: string;
   price: number;
-  location: string;
+  seller_city: string;
   onClick: () => void
 }
