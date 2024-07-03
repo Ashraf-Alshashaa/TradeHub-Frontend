@@ -1,27 +1,28 @@
-import { FC, useEffect , useState} from 'react';
-import { Range, getTrackBackground } from 'react-range';
-import './filter-by.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../app/store';
-import { fetchPriceRange } from '../../features/pricerange/priceRangeSlice'; 
-import RadioButton from '../radio-button/Radio-button';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { fetchCategories } from '../../features/categories/categorySlice';
+import { FC, useEffect, useState } from "react";
+import { Range, getTrackBackground } from "react-range";
+import "./filter-by.css";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../app/store";
+import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
+import RadioButton from "../radio-button/Radio-button";
+import { useNavigate, useLocation } from "react-router-dom";
+import { fetchCategories } from "../../features/categories/categorySlice";
 
 const FilterBy: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
-  const { categories } = useSelector(
-    (state: RootState) => state.categories
-  );
-  const navigate = useNavigate()
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-   // State to manage selectedCategoryId
-   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const { categories } = useSelector((state: RootState) => state.categories);
+  const navigate = useNavigate();
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    min_price,
+    max_price,
+  ]);
+  // State to manage selectedCategoryId
+  const [categoryId, setCategoryId] = useState<number | null>(null);
 
-    // Fetch categories on component mount
+  // Fetch categories on component mount
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
@@ -46,7 +47,12 @@ const FilterBy: FC = () => {
     navigate(`/products?${queryParams.toString()}`);
   };
 
-  const updateURL = (search: string, category: number | null, minPrice: number, maxPrice: number) => {
+  const updateURL = (
+    search: string,
+    category: number | null,
+    minPrice: number,
+    maxPrice: number
+  ) => {
     const queryParams = new URLSearchParams();
     if (search.trim() !== "") {
       queryParams.set("search", search.trim());
@@ -70,17 +76,17 @@ const FilterBy: FC = () => {
 
     setSearchQuery(search);
     setCategoryId(category ? parseInt(category) : null);
-    setPriceRange([parseInt(urlParams.get("min_price") || min_price.toString()), parseInt(urlParams.get("max_price") || max_price.toString())]);
-
+    setPriceRange([
+      parseInt(urlParams.get("min_price") || min_price.toString()),
+      parseInt(urlParams.get("max_price") || max_price.toString()),
+    ]);
   }, [location.search]);
-
-
 
   return (
     <div className="filter-by">
-      <h4>Filter by</h4>
+      <h4 className="filter-by-title">Filter by</h4>
       <div className="price-filter p-3">
-        <h5 className="mb-2">Price</h5>
+        <h5 className="mb-2 filter-by-price-title">Price</h5>
         <div className="price-slider">
           <Range
             values={priceRange}
@@ -125,24 +131,27 @@ const FilterBy: FC = () => {
         </div>
       </div>
       <div className="category-filter">
-        <div className='category-title'> <h5 className="mb-2">Categories</h5> </div>
+        <div className="category-title">
+          {" "}
+          <h5 className="mb-2">Categories</h5>{" "}
+        </div>
         <RadioButton
+          fontSize="s"
           bidder_name="All Products"
           group_name="Categories"
           bid=""
           onClick={() => handleCategoryChange(null)}
           checked={categoryId === null}
-
         />
         {categories.map((category) => (
-              <RadioButton
-              bidder_name={category.name} 
-              group_name='Categories'
-              bid='' 
-              onClick={() => handleCategoryChange(category.id)}
-              checked={categoryId === category.id}
-          
-                />
+          <RadioButton
+            fontSize="s"
+            bidder_name={category.name}
+            group_name="Categories"
+            bid=""
+            onClick={() => handleCategoryChange(category.id)}
+            checked={categoryId === category.id}
+          />
         ))}
       </div>
     </div>
