@@ -16,7 +16,7 @@ function NotificationWS({ user_id }: { user_id: number }) {
     dispatch(addNotification(messageData));
   };
 
-  console.log(receiveMessage)
+  console.log(notifications)
   const notificationClick = (productId: number) => {
     navigate(`/product/${productId.toString()}`);
   };

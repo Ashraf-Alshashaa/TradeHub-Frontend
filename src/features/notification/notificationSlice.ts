@@ -12,10 +12,10 @@ const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    addNotification: (state, action: PayloadAction<{ message: string; product_id: number | null }>) => {
+    addNotification: (state, action: PayloadAction<{ message: string; productId: number | null }>) => {
       state.notifications.push({
         message: action.payload.message,
-        product_id: action.payload.product_id,
+        product_id: action.payload.productId,
       });
     },
   },
