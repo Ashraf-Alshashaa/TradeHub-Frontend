@@ -1,24 +1,24 @@
-// useWebSocket.ts
 import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateData } from './notificationSlice';
+import { addNotification } from './notificationSlice';
 
-const useWebSocket = (url: string) => {
+const useWebSocket = (user_id: number | null) => {
   const dispatch = useDispatch();
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    ws.current = new WebSocket(url);
+    ws.current = new WebSocket(`ws://localhost.:8000/ws/${user_id}`);
 
     ws.current.onopen = () => {
-      console.log('WebSocket connection opened');
+      console.log('WebSocket connection opened for', user_id
+      );
     };
 
     ws.current.onmessage = (event) => {
 
     const data = JSON.parse(event.data);
     console.log('Received', data);
-    dispatch(updateData(data));
+    dispatch(addNotification(data));
     };
 
     ws.current.onclose = () => {
@@ -30,7 +30,7 @@ const useWebSocket = (url: string) => {
         ws.current.close();
       }
     };
-  }, [url, dispatch]);
+  }, [user_id, dispatch]);
 
   const sendMessage = (message: string) => {
     if (ws.current && ws.current.readyState === WebSocket.OPEN) {
