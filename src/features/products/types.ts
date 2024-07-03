@@ -9,6 +9,7 @@ export interface Product {
   category_id : number;
   seller_id: number
   seller_city: string;
+  sold: boolean;
 }
   
 export interface ProductsState {
