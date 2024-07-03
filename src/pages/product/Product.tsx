@@ -94,8 +94,8 @@ const ProductPage = () => {
           )}
         </div>
         <div className="product-info-container">
-          <p className="product-page-product-condition">{product.condition}</p>
-          <p>€{product.price}</p>
+          <p className="product-page-product-condition"> Condition: {product.condition}</p>
+          <p>Price: €{product.price}</p>
           <p className="product-page-product-description">
             {product.description}
           </p>
