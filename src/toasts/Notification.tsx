@@ -1,13 +1,13 @@
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
 import { FC, useState } from 'react';
+import Toast from 'react-bootstrap/Toast';
 
 type NotificationProps = {
-    message: string[];
+    message: string;
     onClick: () => void;
-}
+    show: boolean;
+};
 
-const Notification: FC<NotificationProps> = ({ message, onClick }) => {
+const Notification: FC<NotificationProps> = ({ message, onClick, show }) => {
 
     function timeAgo(pastDate: Date): string {
         const now = new Date();
@@ -32,27 +32,24 @@ const Notification: FC<NotificationProps> = ({ message, onClick }) => {
     }
 
     const date = new Date();
-    const [show, setShow] = useState(Array(message.length).fill(true));
 
-    const toggleShow = (index: number) => {
-        setShow(show.map((s, i) => (i === index ? !s : s)));
+    const [showToast, setShowToast] = useState(show);
+
+    const toggleShow = () => {
+        setShowToast(!showToast);
     };
 
     return (
-        <ToastContainer position='bottom-end' className='position-fixed m-4' style={{ zIndex: 1 }}>
-            {message.map((msg, index) => (
-                <Toast key={index} show={show[index]} onClose={() => toggleShow(index)}>
-                    <Toast.Header>
-                        <strong className="me-auto">Notification</strong>
-                        <small>{timeAgo(date)}</small>
-                    </Toast.Header>
-                    <Toast.Body style={{ cursor: 'pointer' }} onClick={onClick}>
-                        {msg}
-                    </Toast.Body>
-                </Toast>
-            ))}
-        </ToastContainer>
+        <Toast show={showToast} onClose={toggleShow}>
+            <Toast.Header>
+                <strong className="me-auto">Notification</strong>
+                <small>{timeAgo(date)}</small>
+            </Toast.Header>
+            <Toast.Body style={{ cursor: 'pointer' }} onClick={onClick}>
+                {message}
+            </Toast.Body>
+        </Toast>
     );
-}
+};
 
 export default Notification;
