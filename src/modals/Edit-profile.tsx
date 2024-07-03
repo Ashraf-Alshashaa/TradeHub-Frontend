@@ -5,7 +5,7 @@ import TextInput from '../components/text-input/Text-input';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../app/store';
 import { editUser, fetchUser } from '../features/users/userSlice';
-import { editAddress } from '../features/addresses/addressSlice';
+import { editAddress, addAddress } from '../features/addresses/addressSlice';
 import ChangePassword from './Change-password';
 
 function EditProfile() {
@@ -80,8 +80,10 @@ function EditProfile() {
       await dispatch(editUser(userData));
       if (user?.address?.id) {
         await dispatch(editAddress({ addressData, id: user.address.id }));
+      } else {
+        await dispatch(addAddress({ addressData }));
       }
-      dispatch(fetchUser(authUser.user_id)); // Refetch user data to update the profile
+      dispatch(fetchUser(authUser.user_id));
     }
     handleClose();
   };

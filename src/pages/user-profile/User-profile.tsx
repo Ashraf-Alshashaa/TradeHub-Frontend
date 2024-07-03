@@ -48,18 +48,21 @@ const UserProfile: React.FC = () => {
           <div className="row">
             <p> Email: {user?.email || "Loading..."} </p>
           </div>
-          {user?.address && (
-          <div className="row">
-            <p>
-              {" "}
-              Address: &nbsp;&nbsp;
-              {user?.address?.street_name}&nbsp;&nbsp;
-              {user?.address?.house_number}, &nbsp;&nbsp;
-              {user?.address?.postcode}, &nbsp;&nbsp;
-              {user?.address?.city}, &nbsp;&nbsp;
-              {user?.address?.country}
-            </p>
-          </div>
+          {user?.address ? (
+            <div className="row">
+              <p>
+                Address: &nbsp;&nbsp;
+                {user.address.street_name}&nbsp;&nbsp;
+                {user.address.house_number}, &nbsp;&nbsp;
+                {user.address.postcode}, &nbsp;&nbsp;
+                {user.address.city}, &nbsp;&nbsp;
+                {user.address.country}
+              </p>
+            </div>
+          ) : (
+            <div className="row">
+              <p>No address provided. Please add an address in "Edit Profile".</p>
+            </div>
           )}
         </div>
         <div className="col-2 pt-5">
