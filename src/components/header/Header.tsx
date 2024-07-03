@@ -199,7 +199,6 @@ const Header: FC = () => {
           ))}
         </ButtonGroup>
         <div className="header-cart-notifications-cont">
-          <Icon name="notifications" onclick={handleNotifications} />
           <Cart />
         </div>
       </div>
