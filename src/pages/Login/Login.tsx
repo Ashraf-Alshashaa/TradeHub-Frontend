@@ -28,10 +28,13 @@ const Login: React.FC = () => {
   const { loading, error, isAuthenticated } = useSelector(
     (state: RootState) => state.auth
   );
+  const { min_price, max_price } = useSelector(
+    (state: RootState) => state.pricerange
+  );
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/products");
+      navigate(`/products?min_price=${min_price}&max_price=${max_price}`);
     }
   }, [isAuthenticated, navigate]);
 

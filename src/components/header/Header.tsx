@@ -23,6 +23,9 @@ const Header: FC = () => {
   const location = useLocation();
   
   const { categories } = useSelector( (state: RootState) => state.categories)
+  const { min_price, max_price } = useSelector(
+    (state: RootState) => state.pricerange
+  );
   const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
@@ -54,7 +57,7 @@ const Header: FC = () => {
     } else {
       queryParams.delete("search");
     }
-    navigate(`/products?${queryParams.toString()}`);
+    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
   };
 
 
@@ -66,7 +69,7 @@ const Header: FC = () => {
     } else {
       queryParams.delete("category");
     }
-    navigate(`/products?${queryParams.toString()}`);
+    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
   };
   // Reset categoryId to null when navigating to the profile page
   useEffect(() => {
