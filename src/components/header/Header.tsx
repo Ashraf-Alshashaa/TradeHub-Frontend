@@ -14,16 +14,14 @@ import { fetchCategories } from "../../features/categories/categorySlice";
 import { useLocation } from "react-router-dom"; // Import useHistory and useLocation
 
 
-
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState<number | null | undefined>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   
-
   const { categories } = useSelector( (state: RootState) => state.categories)
   const [showAddProductModal, setShowAddProductModal] = useState(false);
 
@@ -32,7 +30,11 @@ const Header: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    // Update categoryId state when location.search changes
     const queryParams = new URLSearchParams(location.search);
+    const category = queryParams.get("category") || null;
+    setCategoryId(category ? parseInt(category) : null);
+
     const searchParam = queryParams.get("search") || "";
     setSearchQuery(searchParam);
   }, [location.search]);
@@ -55,7 +57,7 @@ const Header: FC = () => {
     navigate(`/products?${queryParams.toString()}`);
   };
 
-  
+
   const handleCategoryChange = (categoryId: number | null) => {
     setCategoryId(categoryId);
     const queryParams = new URLSearchParams(location.search);
@@ -69,17 +71,9 @@ const Header: FC = () => {
   // Reset categoryId to null when navigating to the profile page
   useEffect(() => {
     if (location.pathname === "/profile") {
-      setCategoryId(null);
+      setCategoryId(undefined);
     }
   }, [location.pathname]);
-
-  useEffect(() => {
-    // Update categoryId state when location.search changes
-    const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get("category") || null;
-    setCategoryId(category ? parseInt(category) : null);
-  }, [location.search]);
-  
   
   
   const handleSellNowOnclick = () => {
@@ -96,10 +90,6 @@ const Header: FC = () => {
 
   const handleNotifications = () => {
     !user ? navigate("/login") : alert("notifications clicked");
-  };
-
-  const handleShoppingCart = () => {
-    !user ? navigate("/login") : alert("shopping cart clicked");
   };
 
   const nav = [

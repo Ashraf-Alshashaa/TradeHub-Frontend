@@ -24,17 +24,7 @@ const Test: FC = () => {
   const {categories} = useSelector(
     (state: RootState) => state.categories
   )
-
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
-
-   // Fetch initial data on component mount
-   useEffect(() => {
-    dispatch(fetchPriceRange());
-    dispatch(fetchCategories())
-  }, [dispatch]);
 
   // Function to fetch filtered products
   const fetchFilteredProducts = (
@@ -60,13 +50,8 @@ useEffect(() => {
   const minPrice = parseInt(urlParams.get("min_price") || min_price.toString());
   const maxPrice = parseInt(urlParams.get("max_price") || max_price.toString());
 
-
-  setSearchQuery(search);
-  setCategoryId(category ? parseInt(category) : null);
-  setPriceRange([minPrice, maxPrice]);
-
   fetchFilteredProducts(search, category ? parseInt(category) : null, [minPrice, maxPrice]);
-}, [location.search, min_price, max_price]);
+}, [location.search ]);
 
 
 
