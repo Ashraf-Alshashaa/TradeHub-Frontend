@@ -25,7 +25,7 @@ function NotificationWS({ user_id }: { user_id: number }) {
 
   return (
     <>
-      <ToastContainer position='bottom-end' className='position-fixed m-4' style={{ zIndex: 1 }}>
+      <ToastContainer position='bottom-end' className='position-fixed m-4' style={{ zIndex: 999999 }}>
         {notifications.map((notification, index) => (
           <Notification
             key={index}

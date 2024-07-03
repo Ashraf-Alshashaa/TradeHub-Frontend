@@ -16,7 +16,7 @@ const store = configureStore({
     auth: authReducer,
     products: productReducer,
     users: userReducer,
-    bids: bidReduser,
+    bids: bidReducer,
     pricerange: priceRangeReducer,
     addresses: addressReducer,
     categories: categoryReducer,
