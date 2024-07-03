@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { paymentStatus, selectPaymentId } from '../../features/payments/paymentSlice';
+import { fetchMyCart } from '../../features/products/productsSlice';
+
 
 const Payment = () => {
   const dispatch = useDispatch();
@@ -9,15 +11,18 @@ const Payment = () => {
   const paymentId = useSelector(selectPaymentId);
   const location = useLocation();
   const paymentResult = location.state?.paymentResult || null;
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
 
   useEffect(() => {
     if (paymentId && paymentResult === 'succeeded') {
       dispatch(paymentStatus({ id: paymentId, status: paymentResult }));
+      dispatch(fetchMyCart(user_id));
     }
     setTimeout(() => {
         navigate('/products');
       }, 2000);
-  }, [dispatch, navigate, paymentId, paymentResult]);
+  }, [dispatch, navigate, paymentId, paymentResult, user_id]);
 
   return (
 <div className="d-flex justify-content-center align-items-center vh-100">
