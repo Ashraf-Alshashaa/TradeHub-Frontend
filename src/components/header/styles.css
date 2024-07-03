@@ -49,6 +49,30 @@
     font-weight: 500 !important;
 }
 
+.header-product-btn{
+    background-color: #28a745; /* Default green color */
+    border-color: #28a745; /* Border color same as background */
+    color: #ffffff; /* Text color */
+}
+
+/* Custom active style for the success button */
+.header-product-btn.active,
+.header-product-btn:active,
+.header-product-btn:focus,
+.header-product-btn:hover {
+    background-color: #218838; /* Darker green for active state */
+    border-color: #1e7e34; /* Darker border color */
+    color: #ffffff; /* Text color */
+}
+
+/* Additional style for active state when activeCategory is null */
+.header-product-btn-active {
+    background-color: #218838; /* Darker green for active state */
+    border-color: #1e7e34; /* Darker border color */
+    color: #ffffff; /* Text color */
+  }
+
+
 .header-cart-notifications-cont{
     width: 10%;
     display: flex;

@@ -15,9 +15,14 @@ import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
 import { Product } from "../components/product-listing/types";
 import Notification from "../toasts/Notification.tsx";
+import CloudinaryUploadWidget from "../components/cloudinary-upload-widget/CloudinaryUploadWidget";
 
 const Test: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const handleUpload = (url: string) => {
+    alert(url);
+  };
 
   useEffect(() => {
     dispatch(fetchProductById(1));
@@ -75,6 +80,7 @@ const Test: FC = () => {
         <Notification/>
         <div className="col-6"></div>
         <div className="col-6">
+          <CloudinaryUploadWidget onUpload={handleUpload} />
           <div className="row my-4">
             <TextInput
               label="Email"

@@ -3,4 +3,5 @@ export interface RadioButtonProps {
     group_name : string;
     bid : number | string;
     onClick: () => void;
+    checked?: boolean;
   }

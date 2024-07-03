@@ -1,3 +1,12 @@
+.login-page-container{
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: var(--spacing-xlarge);
+}
+
 .login-form  {
     background-color: var(--background-color);
     padding: var(--spacing-medium);
@@ -6,12 +15,11 @@
     gap: var(--spacing-large); /* Adds spacing between sections */
     align-items: center; /* Centers the children horizontally */
     justify-content: center; /* Centers the children vertically */
-    margin-top: 100px;
-    margin-bottom: 100px;
     display: flex;
     flex-direction: column;
     align-items: center; /* Centers the children horizontally */
     justify-content: center; /* Centers the children vertically */
+    margin-left: var(--spacing-large);
   }
 
 .text-input-container {
@@ -19,3 +27,10 @@
   justify-content: center;
 
 }
+
+@media only screen and (max-width: 766px) {
+  .login-form  {
+   margin-top: var(--spacing-xlarge);
+   margin-left: 0;
+  }
+  }
