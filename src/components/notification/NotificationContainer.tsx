@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-bootstrap';
-import { RootState } from '../app/store';
+import { RootState } from '../../app/store';
 import Notification from './Notification';
 
 function NotificationWS({ user_id }: { user_id: number }) {

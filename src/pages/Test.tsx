@@ -14,7 +14,7 @@ import AddProduct from "../modals/Add-product.tsx";
 import EditProfile from "../modals/Edit-profile.tsx";
 import EditProduct from "../modals/Edit-product.tsx";
 import { Product } from "../components/product-listing/types";
-import Notification from "../toasts/Notification.tsx";
+import Notification from "../components/notification/Notification.tsx";
 import CloudinaryUploadWidget from "../components/cloudinary-upload-widget/CloudinaryUploadWidget";
 
 const Test: FC = () => {

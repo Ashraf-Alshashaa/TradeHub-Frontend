@@ -6,7 +6,7 @@ import EditProfile from "../../modals/Edit-profile";
 import ProfileTab from "./Tab";
 import Avatar, { genConfig } from "react-nice-avatar";
 import ChangePassword from "../../modals/Change-password";
-import NotificationWS from "../../toasts/NotificationContainer";
+import NotificationWS from "../../components/notification/NotificationContainer";
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

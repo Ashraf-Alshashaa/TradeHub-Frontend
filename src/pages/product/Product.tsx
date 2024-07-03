@@ -12,7 +12,7 @@ import { sendBidData, fetchAllBids } from "../../features/bids/bidSlice";
 import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
 import { ProductTypes } from "../../modals/types";
-import NotificationWS from "../../toasts/NotificationContainer";
+import NotificationWS from "../../components/notification/NotificationContainer";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();

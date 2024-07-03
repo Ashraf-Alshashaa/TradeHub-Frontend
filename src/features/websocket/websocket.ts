@@ -13,7 +13,6 @@ const websocketMiddleware = storeAPI => {
         socket = new WebSocket(`ws://localhost:8000/ws/${action.payload.userId}`);
 
         socket.onopen = () => {
-          console.log('WebSocket connection opened');
         };
 
         socket.onmessage = (event) => {
@@ -26,7 +25,6 @@ const websocketMiddleware = storeAPI => {
         };
 
         socket.onclose = () => {
-          console.log('WebSocket connection closed');
         };
 
         break;

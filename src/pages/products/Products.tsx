@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { fetchCategories } from "../../features/categories/categorySlice";
 import { Product } from "../../features/products/types";
-import NotificationWS from "../../toasts/NotificationContainer";
+import NotificationWS from "../../components/notification/NotificationContainer";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
@@ -70,8 +70,6 @@ const Test: FC = () => {
 
   const localStorageUser = localStorage.getItem("user");
   const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
-  
-  console.log("user_id is:", user_id);
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
