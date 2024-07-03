@@ -78,6 +78,7 @@ const ProductPage = () => {
   if (!product) {
     return <div>No product found</div>;
   }
+  const isProductSold = Boolean(product.buyer_id);
 
   return (
     <div className="product-page-container">
