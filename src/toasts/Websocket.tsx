@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function NotificationWS() {
     const navigate = useNavigate();
 
-  const [message, setMessage] = useState<string>();
+  const [messages, setMessages] = useState<string[]>([]);
   const [productID, setProductID] = useState<string>();
   let socket;
 
@@ -24,8 +24,9 @@ function NotificationWS() {
     const productID = data.productId;
     const message = data.message;
     console.log(data)
-      setMessage(message);
-      setProductID(productID);
+    setMessages(prevMessages => prevMessages.concat(message));
+    setProductID(productID);
+  
     });
     return () => {
       socket.close();
@@ -34,7 +35,7 @@ function NotificationWS() {
   const notificationClick = () => navigate(`/product/${productID?.toString()}`);
 
     return (
-      <Notification message={message} onClick={notificationClick}/>
+      <Notification message={messages} onClick={notificationClick}/>
     )
   }
 
