@@ -43,15 +43,15 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="col-5 pt-5 text-start">
           <div className="row">
-            <p> Username: {user?.username || "Loading..."} </p>
+            <p> <strong>Username:</strong> {user?.username || "Loading..."} </p>
           </div>
           <div className="row">
-            <p> Email: {user?.email || "Loading..."} </p>
+            <p> <strong>Email: </strong>{user?.email || "Loading..."} </p>
           </div>
           {user?.address ? (
             <div className="row">
               <p>
-                Address: &nbsp;&nbsp;
+                <strong> Address: </strong> <br />
                 {user.address.street_name}&nbsp;&nbsp;
                 {user.address.house_number}, &nbsp;&nbsp;
                 {user.address.postcode}, &nbsp;&nbsp;
@@ -61,7 +61,7 @@ const UserProfile: React.FC = () => {
             </div>
           ) : (
             <div className="row">
-              <p>No address provided. Please add an address in "Edit Profile".</p>
+              <p style={{ color: 'red' }}> No address provided. Please add an address in "Edit Profile".</p>
             </div>
           )}
         </div>
