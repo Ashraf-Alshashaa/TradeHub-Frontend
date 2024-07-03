@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { fetchCategories } from "../../features/categories/categorySlice";
 import { Product } from "../../features/products/types";
-import NotificationWS from "../../toasts/Websocket";
+import NotificationWS from "../../toasts/NotificationContainer";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
@@ -22,19 +22,19 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
-  const {categories} = useSelector(
+  const { categories } = useSelector(
     (state: RootState) => state.categories
-  )
+  );
 
   const [categoryId, setCategoryId] = useState<number | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const location = useLocation();
 
-   // Fetch initial data on component mount
-   useEffect(() => {
+  // Fetch initial data on component mount
+  useEffect(() => {
     dispatch(fetchPriceRange());
-    dispatch(fetchCategories())
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   // Function to fetch filtered products
@@ -53,23 +53,25 @@ const Test: FC = () => {
     );
   };
 
-// Fetch products based on URL parameters
-useEffect(() => {
-  const urlParams = new URLSearchParams(location.search);
-  const search = urlParams.get("search") || "";
-  const category = urlParams.get("category") || null;
-  const minPrice = parseInt(urlParams.get("min_price") || min_price.toString());
-  const maxPrice = parseInt(urlParams.get("max_price") || max_price.toString());
+  // Fetch products based on URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const search = urlParams.get("search") || "";
+    const category = urlParams.get("category") || null;
+    const minPrice = parseInt(urlParams.get("min_price") || min_price.toString());
+    const maxPrice = parseInt(urlParams.get("max_price") || max_price.toString());
 
+    setSearchQuery(search);
+    setCategoryId(category ? parseInt(category) : null);
+    setPriceRange([minPrice, maxPrice]);
 
-  setSearchQuery(search);
-  setCategoryId(category ? parseInt(category) : null);
-  setPriceRange([minPrice, maxPrice]);
+    fetchFilteredProducts(search, category ? parseInt(category) : null, [minPrice, maxPrice]);
+  }, [location.search, min_price, max_price]);
 
-  fetchFilteredProducts(search, category ? parseInt(category) : null, [minPrice, maxPrice]);
-}, [location.search, min_price, max_price]);
-
-
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
+  
+  console.log("user_id is:", user_id);
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
@@ -83,7 +85,6 @@ useEffect(() => {
   const chunkedProducts = chunkArray(products, 3);
 
   if (error) return <h1>Error</h1>;
-  
 
   return (
     <div className="products">
@@ -92,7 +93,7 @@ useEffect(() => {
           <FilterBy/>
         </div>
       </div>
-      <NotificationWS/>
+      <NotificationWS user_id={user_id} />
       {loading ? (
         <h1 className="col-9 my-4 overflow-auto scrollable-products">
           Loading
