@@ -58,7 +58,8 @@ const Login: React.FC = () => {
 
   const handleLoginClick = async (event: React.FormEvent) => {
     event.preventDefault();
-    const newErrors: { username?: string; password?: string, form?: string } = {};
+    const newErrors: { username?: string; password?: string; form?: string } =
+      {};
     if (!username) newErrors.username = "Username is required";
     if (!password) newErrors.password = "Password is required";
 
@@ -69,9 +70,14 @@ const Login: React.FC = () => {
 
     try {
       await dispatch(login({ username, password })).unwrap();
+      const localStorageUser = localStorage.getItem("user");
+      const user = localStorageUser ? JSON.parse(localStorageUser) : null;
+      user.role === "admin" ? navigate("/dashboard") : navigate("/products");
     } catch (err: any) {
       // Assuming the error object has a response.data.detail structure
-      const errorMessage = err.response?.data?.detail || "Login failed. Please check your credentials and try again.";
+      const errorMessage =
+        err.response?.data?.detail ||
+        "Login failed. Please check your credentials and try again.";
       setErrors({ form: errorMessage });
       setUsername(""); // Clear username input
       setPassword(""); // Clear password input
