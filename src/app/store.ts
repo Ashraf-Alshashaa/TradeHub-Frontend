@@ -1,12 +1,15 @@
+// src/app/store.js
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
 import productReducer from '../features/products/productsSlice';
 import userReducer from '../features/users/userSlice';
-import bidReduser from '../features/bids/bidSlice'
-import addressReducer from '../features/addresses/addressSlice'
+import bidReducer from '../features/bids/bidSlice';
+import addressReducer from '../features/addresses/addressSlice';
 import priceRangeReducer from '../features/pricerange/priceRangeSlice';
 import categoryReducer from '../features/categories/categorySlice';
 import paymentReducer from '../features/payments/paymentSlice';
+import notificationReducer from '../features/notification/notificationSlice';
+import websocketMiddleware from '../features/websocket/websocket';
 import reportsReducer from "../features/reports/reportsSlice"
 
 const store = configureStore({
@@ -14,13 +17,15 @@ const store = configureStore({
     auth: authReducer,
     products: productReducer,
     users: userReducer,
-    bids: bidReduser,
+    bids: bidReducer,
     pricerange: priceRangeReducer,
     addresses: addressReducer,
     categories: categoryReducer,
     payments: paymentReducer,
+    notifications: notificationReducer,
     reports: reportsReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware),
 });
 
 export type AppDispatch = typeof store.dispatch;

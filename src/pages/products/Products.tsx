@@ -8,6 +8,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import { fetchCategories } from "../../features/categories/categorySlice";
 import { Product } from "../../features/products/types";
+import NotificationWS from "../../components/notification/NotificationContainer";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Test: FC = () => {
@@ -57,6 +58,9 @@ const Test: FC = () => {
       maxPrice,
     ]);
   }, [location.search]);
+  
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
@@ -79,6 +83,7 @@ const Test: FC = () => {
         </div>
       </div>
       <div className="prducts-cards">
+      <NotificationWS user_id={user_id} />
         {chunkedProducts.map((row: any, rowIndex: number) => (
           <div key={rowIndex} className="row">
             {row.map((product: Product) => (

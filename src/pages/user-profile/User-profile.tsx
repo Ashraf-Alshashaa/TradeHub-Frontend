@@ -2,14 +2,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../app/store";
 import { fetchUser } from "../../features/users/userSlice";
-import {
-  fetchAddressById,
-  fetchDefaultAddress,
-} from "../../features/addresses/addressSlice";
 import EditProfile from "../../modals/Edit-profile";
 import ProfileTab from "./Tab";
 import Avatar, { genConfig } from "react-nice-avatar";
 import ChangePassword from "../../modals/Change-password";
+import NotificationWS from "../../components/notification/NotificationContainer";
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,8 +29,12 @@ const UserProfile: React.FC = () => {
   if (loading) return <h1>Loading...</h1>;
   if (error) return <h1>Error: {error}</h1>;
 
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
+
   return (
     <div className="UserProfile">
+      <NotificationWS user_id={user_id} />
       <div className="row py-5  w-100">
         <div className="col-3 pt-5 px-5 ml-5">
           <Avatar

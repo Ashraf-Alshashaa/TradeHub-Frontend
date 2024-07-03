@@ -12,6 +12,7 @@ import { sendBidData, fetchAllBids } from "../../features/bids/bidSlice";
 import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
 import { ProductTypes } from "../../modals/types";
+import NotificationWS from "../../components/notification/NotificationContainer";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -80,8 +81,12 @@ const ProductPage = () => {
   }
   const isProductSold = product.sold;
 
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
+
   return (
     <div className="product-page-container">
+      <NotificationWS user_id={user_id}/>
       <div className="product-img-container">
         <CustomImage src={product.image} alt={product.name} />
       </div>
