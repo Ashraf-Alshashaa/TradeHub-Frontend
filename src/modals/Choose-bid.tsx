@@ -36,7 +36,12 @@ const ChooseBid: FC<ChooseBidProps> = ({ bidsData }) => {
 
   return (
     <>
-      <CustomButton text="Choose Bid" onClick={handleShow} buttonType="primary">
+      <CustomButton
+        text="Choose Bid"
+        onClick={handleShow}
+        buttonType="primary"
+        disabled={bids.length === 0}
+      >
         Choose Bid
       </CustomButton>
 
