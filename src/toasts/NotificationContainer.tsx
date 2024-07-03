@@ -1,22 +1,24 @@
-import Notification from './Notification';
+// src/components/NotificationWS.js
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useWebSocket from '../features/notification/useWebsocket';
-import { RootState } from '../app/store';
 import { useSelector, useDispatch } from 'react-redux';
 import { ToastContainer } from 'react-bootstrap';
-import { addNotification } from '../features/notification/notificationSlice'; // Adjust the import path as needed
+import { RootState } from '../app/store';
+import Notification from './Notification';
 
 function NotificationWS({ user_id }: { user_id: number }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initiatingConnection = useWebSocket(user_id);
   const { notifications } = useSelector((state: RootState) => state.notifications);
 
-  const receiveMessage = (messageData: { message: string; product_id: number | null }) => {
-    dispatch(addNotification(messageData));
-  };
+  useEffect(() => {
+    dispatch({ type: 'websocket/connect', payload: { userId: user_id } });
 
-  console.log(notifications)
+    return () => {
+      dispatch({ type: 'websocket/disconnect' });
+    };
+  }, [dispatch, user_id]);
+
   const notificationClick = (productId: number) => {
     navigate(`/product/${productId.toString()}`);
   };
