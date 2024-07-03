@@ -21,6 +21,7 @@ const UserProfile: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.users);
   const { address } = useSelector((state: RootState) => state.addresses);
 
+
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));

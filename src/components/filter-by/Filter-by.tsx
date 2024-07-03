@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import RadioButton from "../radio-button/Radio-button";
 import { useNavigate, useLocation } from "react-router-dom";
-import { fetchCategories } from "../../features/categories/categorySlice";
+
 
 const FilterBy: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,10 +22,6 @@ const FilterBy: FC = () => {
   // State to manage selectedCategoryId
   const [categoryId, setCategoryId] = useState<number | null>(null);
 
-  // Fetch categories on component mount
-  useEffect(() => {
-    dispatch(fetchCategories());
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchPriceRange());
