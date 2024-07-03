@@ -100,7 +100,7 @@ export const fetchSoldProducts = createAsyncThunk(
     try {
       const response = await axiosInstance.get('/products', {
         params: { seller_id , sold }} );
-      return response.data;
+      return { data: response.data, sold };
     } catch (error: any) {
       return rejectWithValue(error.response.data);
     }
@@ -193,10 +193,14 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchSoldProducts.fulfilled, (state, action) => {
-        state.soldProducts = action.payload.filter((product: any) => product.sold);
-        state.myListings = action.payload;
-        state.loading = false;
-      })
+        const { data, sold } = action.payload;
+      if (sold) {
+        state.soldProducts = data;
+      } else {
+        state.myListings = data;
+      }
+      state.loading = false;
+    })
       .addCase(fetchSoldProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
