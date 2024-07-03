@@ -21,20 +21,8 @@ const Test: FC = () => {
   const { min_price, max_price } = useSelector(
     (state: RootState) => state.pricerange
   );
-  const {categories} = useSelector(
-    (state: RootState) => state.categories
-  )
-
-  const [categoryId, setCategoryId] = useState<number | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number]>([min_price, max_price]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { categories } = useSelector((state: RootState) => state.categories);
   const location = useLocation();
-
-   // Fetch initial data on component mount
-   useEffect(() => {
-    dispatch(fetchPriceRange());
-    dispatch(fetchCategories())
-  }, [dispatch]);
 
   // Function to fetch filtered products
   const fetchFilteredProducts = (
@@ -52,23 +40,23 @@ const Test: FC = () => {
     );
   };
 
-// Fetch products based on URL parameters
-useEffect(() => {
-  const urlParams = new URLSearchParams(location.search);
-  const search = urlParams.get("search") || "";
-  const category = urlParams.get("category") || null;
-  const minPrice = parseInt(urlParams.get("min_price") || min_price.toString());
-  const maxPrice = parseInt(urlParams.get("max_price") || max_price.toString());
+  // Fetch products based on URL parameters
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const search = urlParams.get("search") || "";
+    const category = urlParams.get("category") || null;
+    const minPrice = parseInt(
+      urlParams.get("min_price") || min_price.toString()
+    );
+    const maxPrice = parseInt(
+      urlParams.get("max_price") || max_price.toString()
+    );
 
-
-  setSearchQuery(search);
-  setCategoryId(category ? parseInt(category) : null);
-  setPriceRange([minPrice, maxPrice]);
-
-  fetchFilteredProducts(search, category ? parseInt(category) : null, [minPrice, maxPrice]);
-}, [location.search, min_price, max_price]);
-
-
+    fetchFilteredProducts(search, category ? parseInt(category) : null, [
+      minPrice,
+      maxPrice,
+    ]);
+  }, [location.search]);
 
   const chunkArray = (arr: any[], size: number) => {
     return arr.reduce((acc, _, i) => {
@@ -82,38 +70,31 @@ useEffect(() => {
   const chunkedProducts = chunkArray(products, 3);
 
   if (error) return <h1>Error</h1>;
-  
 
   return (
     <div className="products">
       <div className="products-filter-by">
         <div className="products-filter-by-item">
-          <FilterBy/>
+          <FilterBy />
         </div>
       </div>
-      {loading ? (
-        <h1 className="col-9 my-4 overflow-auto scrollable-products">
-          Loading
-        </h1>
-      ) : (
-        <div className="prducts-cards">
-          {chunkedProducts.map((row: any, rowIndex: number) => (
-            <div key={rowIndex} className="row">
-              {row.map((product: Product) => (
-                <div key={product.id} className="col-4 mb-4">
-                  <ProductCard
-                    photo={product.image}
-                    name={product.name}
-                    price={product.price}
-                    location={"Amsterdam"}
-                    onClick={() => cardClicked(product.id)}
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="prducts-cards">
+        {chunkedProducts.map((row: any, rowIndex: number) => (
+          <div key={rowIndex} className="row">
+            {row.map((product: Product) => (
+              <div key={product.id} className="col-4 mb-4">
+                <ProductCard
+                  photo={product.image}
+                  name={product.name}
+                  price={product.price}
+                  seller_city={product.seller_city}
+                  onClick={() => cardClicked(product.id)}
+                />
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

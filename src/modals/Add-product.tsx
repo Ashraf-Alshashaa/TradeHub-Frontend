@@ -10,6 +10,7 @@ import { createProduct } from "../features/products/productsSlice.ts";
 import { fetchCategories } from "../features/categories/categorySlice"; // import your action
 import { AddProductProps, ProductCondition } from "./types.ts";
 import { DropdownItemProps } from "../components/dropdown/types.ts";
+import CloudinaryUploadWidget from "../components/cloudinary-upload-widget/CloudinaryUploadWidget.tsx";
 
 const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
   const [productName, setProductName] = useState("");
@@ -158,13 +159,7 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
             />
           </div>
           <div className="col-12 mt-2">
-            <TextInput
-              label="Product Image URL"
-              value={productImage}
-              onChange={(value) => handleProductImageChange(value as string)}
-              type="text"
-              required={true}
-            />
+          <CloudinaryUploadWidget onUpload={(url) => handleProductImageChange(url)}/>
           </div>
           <div className="col-12 mt-2">
             <Textarea

@@ -7,7 +7,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   photo,
   name,
   price,
-  location,
+  seller_city,
   onClick,
 }) => {
   return (
@@ -21,7 +21,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <ListGroup.Item className="text-success font-weight-bold">
             €{price}
           </ListGroup.Item>
-          <ListGroup.Item>{location}</ListGroup.Item>
+          <ListGroup.Item>{seller_city}</ListGroup.Item>
         </Card.Body>
       </Card>
     </div>
