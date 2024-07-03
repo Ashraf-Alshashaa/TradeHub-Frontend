@@ -4,4 +4,5 @@ export interface RadioButtonProps {
     bid : number | string;
     onClick: () => void;
     checked?: boolean;
+    fontSize?: "s"
   }

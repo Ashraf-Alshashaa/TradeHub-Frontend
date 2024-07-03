@@ -10,6 +10,7 @@ import categoryReducer from '../features/categories/categorySlice';
 import paymentReducer from '../features/payments/paymentSlice';
 import notificationReducer from '../features/notification/notificationSlice';
 import websocketMiddleware from '../features/websocket/websocket';
+import reportsReducer from "../features/reports/reportsSlice"
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     categories: categoryReducer,
     payments: paymentReducer,
     notifications: notificationReducer,
+    reports: reportsReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(websocketMiddleware),
 });

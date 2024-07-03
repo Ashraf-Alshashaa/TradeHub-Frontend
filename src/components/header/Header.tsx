@@ -14,17 +14,18 @@ import { fetchCategories } from "../../features/categories/categorySlice";
 import { useLocation } from "react-router-dom"; // Import useHistory and useLocation
 
 
-
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [categoryId, setCategoryId] = useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState<number | null | undefined>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   
-
   const { categories } = useSelector( (state: RootState) => state.categories)
+  const { min_price, max_price } = useSelector(
+    (state: RootState) => state.pricerange
+  );
   const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
@@ -32,7 +33,11 @@ const Header: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    // Update categoryId state when location.search changes
     const queryParams = new URLSearchParams(location.search);
+    const category = queryParams.get("category") || null;
+    setCategoryId(category ? parseInt(category) : null);
+
     const searchParam = queryParams.get("search") || "";
     setSearchQuery(searchParam);
   }, [location.search]);
@@ -52,10 +57,10 @@ const Header: FC = () => {
     } else {
       queryParams.delete("search");
     }
-    navigate(`/products?${queryParams.toString()}`);
+    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
   };
 
-  
+
   const handleCategoryChange = (categoryId: number | null) => {
     setCategoryId(categoryId);
     const queryParams = new URLSearchParams(location.search);
@@ -64,22 +69,14 @@ const Header: FC = () => {
     } else {
       queryParams.delete("category");
     }
-    navigate(`/products?${queryParams.toString()}`);
+    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
   };
   // Reset categoryId to null when navigating to the profile page
   useEffect(() => {
     if (location.pathname === "/profile") {
-      setCategoryId(null);
+      setCategoryId(undefined);
     }
   }, [location.pathname]);
-
-  useEffect(() => {
-    // Update categoryId state when location.search changes
-    const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get("category") || null;
-    setCategoryId(category ? parseInt(category) : null);
-  }, [location.search]);
-  
   
   
   const handleSellNowOnclick = () => {
@@ -96,10 +93,6 @@ const Header: FC = () => {
 
   const handleNotifications = () => {
     !user ? navigate("/login") : alert("notifications clicked");
-  };
-
-  const handleShoppingCart = () => {
-    !user ? navigate("/login") : alert("shopping cart clicked");
   };
 
   const nav = [
@@ -128,7 +121,7 @@ const Header: FC = () => {
   return (
     <header className="header">
       <div className="header-top-container">
-        <h1>Trade Hub</h1>
+        <h4>TradeHub</h4>
         <div className="header-search-container">
           <Form className="d-flex" onSubmit={handleSubmit}>
             <FormControl
@@ -147,25 +140,26 @@ const Header: FC = () => {
           </Form>
         </div>
         <div className="header-sell-now-btn-container">
-          <CustomButton
+        <CustomButton
             text="Sell Now"
             onClick={handleSellNowOnclick}
             buttonType="primary"
-          />
-          
-        </div>
+        />
+        {/* User dropdown */}
         {user?.username ? (
-          <div className="profile-select">
-            <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
-          </div>
+            <div className="profile-select">
+                <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
+            </div>
         ) : (
-          <CustomButton
-            text="Login"
-            buttonType="primary"
-            onClick={handleLogin}
-          />
+            <CustomButton
+                text="Login"
+                buttonType="primary"
+                onClick={handleLogin}
+            />
         )}
-      </div>
+    </div>
+</div>
+          
       <div className="header-bottom-container">
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
         <Button
@@ -199,7 +193,6 @@ const Header: FC = () => {
           ))}
         </ButtonGroup>
         <div className="header-cart-notifications-cont">
-          <Icon name="notifications" onclick={handleNotifications} />
           <Cart />
         </div>
       </div>

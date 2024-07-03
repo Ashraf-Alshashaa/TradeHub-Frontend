@@ -5,19 +5,43 @@
   padding: var(--spacing-xlarge) ;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-medium); /* Adds spacing between sections */
   overflow: auto;
+}
+
+.filter-by-title{
+  font-size: var(--font-size-meduim);
 }
 
 
 .price-filter {
   border-radius: var(--border-radius-small);
-  background-color: var(--secondary-color); /* Optional: for better visual separation */
+  background-color: var(--secondary-color);
+  margin-bottom: var(--spacing-large);
+}
+
+.price-slider {
+  margin-top: var(--spacing-large);
+}
+
+.filter-by-price-title{
+  font-size: var(--font-size-meduim);
 }
 
 .slider-values {
   display: flex;
   justify-content: space-between;
   font-size: var(--font-size-small);
-  margin-top: var(--spacing-medium); /* Add margin above the price values */
+  margin-top: var(--spacing-medium);
+}
+
+.price-filter,
+.category-filter {
+  border-radius: var(--border-radius-small);
+  background-color: var(--secondary-color);
+  padding: var(--spacing-medium);
+}
+
+.category-title > h5 {
+  margin-bottom: var(--spacing-xlarge);
+  font-size: var(--font-size-meduim);
 }

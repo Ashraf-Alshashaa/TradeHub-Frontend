@@ -10,11 +10,24 @@
 }
 
 .header-search-container{
-    width: 50%;
+    width: 60%;
 }
 
 .header-sell-now-btn{
     font-weight: 600 !important;
+}
+
+.header-sell-now-btn-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 20%;
+}
+
+.header-sell-now-btn-container > * {
+    flex: 1; /* Equal width for both items */
+    margin: 0 4px; /* Adjust margin as needed */
+    box-sizing: border-box;
 }
 
 .header-login-link{
@@ -30,6 +43,7 @@
     align-items: center;
     text-decoration: none;
     color: var(--primary-text-color);
+    font-size: var(--font-size-small);
 }
 .header-dropdown-item-text{
     margin-left: var(--spacing-small);
@@ -74,7 +88,7 @@
 
 
 .header-cart-notifications-cont{
-    width: 10%;
+    width: 6%;
     display: flex;
     justify-content: space-between;
     align-items: center;

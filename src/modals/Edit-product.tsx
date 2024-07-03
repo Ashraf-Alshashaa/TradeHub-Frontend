@@ -11,6 +11,7 @@ import { AppDispatch, RootState } from "../app/store";
 import { fetchCategories } from "../features/categories/categorySlice";
 import Textarea from "../components/textarea/Textarea";
 import { fetchProductById } from "../features/products/productsSlice";
+import CloudinaryUploadWidget from "../components/cloudinary-upload-widget/CloudinaryUploadWidget.tsx";
 
 const EditProduct: FC<EditProductProps> = ({ existingData }) => {
   const [show, setShow] = useState(false);
@@ -163,13 +164,7 @@ const EditProduct: FC<EditProductProps> = ({ existingData }) => {
               />
             </div>
             <div className="col-12 mt-2">
-              <TextInput
-                label="Product Image URL"
-                value={productImage}
-                onChange={(s) => handleProductImageChange(s as string)}
-                type="text"
-                required={true}
-              />
+            <CloudinaryUploadWidget onUpload={(url) => handleProductImageChange(url)}/>
             </div>
             <div className="col-12 mt-2">
               <Textarea
