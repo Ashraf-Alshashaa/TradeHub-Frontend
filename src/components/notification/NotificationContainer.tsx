@@ -22,17 +22,17 @@ function NotificationWS({ user_id }: { user_id: number }) {
   const notificationClick = (productId: number) => {
     navigate(`/product/${productId.toString()}`);
   };
-
   return (
     <>
       <ToastContainer position='bottom-end' className='position-fixed m-4' style={{ zIndex: 999999 }}>
         {notifications.map((notification, index) => (
+          (notification.user_id === user_id &&
           <Notification
             key={index}
             message={notification.message}
             onClick={() => notificationClick(notification.product_id)}
             show={true}
-          />
+          />)
         ))}
       </ToastContainer>
     </>

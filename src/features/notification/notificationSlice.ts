@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface NotificationState {
-  notifications: { message: string; product_id: number | null }[];
+  notifications: { message: string; product_id: number | null, user_id: number | string | null }[];
 }
 
 const initialState: NotificationState = {
@@ -12,10 +12,11 @@ const notificationSlice = createSlice({
   name: 'notifications',
   initialState,
   reducers: {
-    addNotification: (state, action: PayloadAction<{ message: string; productId: number | null }>) => {
+    addNotification: (state, action: PayloadAction<{ message: string; productId: number | null, userId: number | string | null }>) => {
       state.notifications.push({
         message: action.payload.message,
         product_id: action.payload.productId,
+        user_id: action.payload.userId,
       });
     },
   },
