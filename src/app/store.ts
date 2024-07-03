@@ -7,6 +7,7 @@ import addressReducer from '../features/addresses/addressSlice'
 import priceRangeReducer from '../features/pricerange/priceRangeSlice';
 import categoryReducer from '../features/categories/categorySlice';
 import paymentReducer from '../features/payments/paymentSlice';
+import notificationReducer from '../features/notification/notificationSlice'
 
 const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ const store = configureStore({
     addresses: addressReducer,
     categories: categoryReducer,
     payments: paymentReducer,
+    notifications: notificationReducer,
   },
 });
 
