@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useState, useRef } from "react";
 import { Range, getTrackBackground } from "react-range";
 import "./filter-by.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,6 @@ import { AppDispatch, RootState } from "../../app/store";
 import { fetchPriceRange } from "../../features/pricerange/priceRangeSlice";
 import RadioButton from "../radio-button/Radio-button";
 import { useNavigate, useLocation } from "react-router-dom";
-
 
 const FilterBy: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,9 +18,11 @@ const FilterBy: FC = () => {
     min_price,
     max_price,
   ]);
-  // State to manage selectedCategoryId
   const [categoryId, setCategoryId] = useState<number | null>(null);
+  const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     dispatch(fetchPriceRange());
@@ -29,7 +30,14 @@ const FilterBy: FC = () => {
 
   const handlePriceChange = (values: number[]) => {
     setPriceRange([values[0], values[1]]);
-    updateURL(searchQuery, categoryId, values[0], values[1]);
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      updateURL(searchQuery, categoryId, values[0], values[1]);
+    }, 500);
   };
 
   const handleCategoryChange = (categoryId: number | null) => {
@@ -60,9 +68,6 @@ const FilterBy: FC = () => {
     queryParams.set("max_price", maxPrice.toString());
     navigate(`/products?${queryParams.toString()}`);
   };
-
-  const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState<string>("");
 
   // Handle URL changes to update local state
   useEffect(() => {
