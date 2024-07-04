@@ -21,8 +21,8 @@ const Payment = () => {
         await dispatch(fetchMyCart(user_id));
       }
       setTimeout(() => {
-        navigate('/products');
-      }, 5000);
+        navigate('/profile');
+      }, 2000);
     };
   
     handlePaymentStatus();

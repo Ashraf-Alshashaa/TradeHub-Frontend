@@ -73,7 +73,7 @@ useEffect(() => {
           user_id: authUser.user_id,
         };
   
-        const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
+        const randomStatus = Math.random() < 0.8 ? "succeeded" : "failed";
         if (randomStatus === 'succeeded') {
           dispatch(initiatePayment(paymentRequest));
         }
