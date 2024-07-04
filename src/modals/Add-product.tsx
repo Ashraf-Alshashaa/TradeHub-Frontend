@@ -40,8 +40,8 @@ const AddProduct: React.FC<AddProductProps> = ({ show, handleClose, user }) => {
 
   const checkFormValidity = () => {
     if (
-      productName !== null &&
-      productPrice !== null &&
+      productName &&
+      productPrice !== undefined &&
       productImage &&
       selectedCategory !== null
     ) {
