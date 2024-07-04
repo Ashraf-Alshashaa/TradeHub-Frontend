@@ -10,6 +10,7 @@ import { fetchCategories } from "../../features/categories/categorySlice";
 import { Product } from "../../features/products/types";
 import NotificationWS from "../../components/notification/NotificationContainer";
 import { useLocation, useNavigate } from "react-router-dom";
+import ErrorComponent from "../../components/error/Error";
 
 const Test: FC = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const Test: FC = () => {
 
   const chunkedProducts = chunkArray(products, 3);
 
-  if (error) return <h1>Error</h1>;
+  if (error) return <ErrorComponent msg={error.detail} />;
 
   return (
     <div className="products">

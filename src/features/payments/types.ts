@@ -8,5 +8,5 @@ export interface Payment {
     payment: Payment | null;
     paymentId: string | null;
     loading: boolean;
-    error: string | null;
+    error: {detail: string} | null;
   }

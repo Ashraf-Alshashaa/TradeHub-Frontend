@@ -9,7 +9,7 @@ export interface User {
 export interface UserState {
   user: User | null;
   loading: boolean;
-  error: string | null;
+  error: {detail: string} | null;
 }
   
 export  interface UserBase {
