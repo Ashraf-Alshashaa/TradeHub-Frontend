@@ -1,14 +1,17 @@
 import { addNotification } from "../notification/notificationSlice";
+import { MiddlewareAPI, Dispatch, AnyAction } from 'redux';
 
-const websocketMiddleware = storeAPI => {
-  let socket = null;
+
+type StoreAPI = MiddlewareAPI<Dispatch<AnyAction>, RootState>;
+
+type MiddlewareFunction = (storeAPI: StoreAPI) => (next: Dispatch<AnyAction>) => (action) => any;
+
+const websocketMiddleware: MiddlewareFunction = storeAPI => {
+  let socket : WebSocket|null = null;
 
   return next => action => {
     switch (action.type) {
       case 'websocket/connect':
-        if (socket !== null) {
-          socket.close();
-        }
 
         socket = new WebSocket(`ws://localhost:8000/ws/${action.payload.userId}`);
 
@@ -22,9 +25,6 @@ const websocketMiddleware = storeAPI => {
 
         socket.onerror = (error) => {
           console.error('WebSocket error', error);
-        };
-
-        socket.onclose = () => {
         };
 
         break;
