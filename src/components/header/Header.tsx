@@ -1,67 +1,97 @@
 import "./styles.css";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ButtonGroup, Form, FormControl, Button } from "react-bootstrap";
 import Icon from "../icon/Icon";
-import { Category } from "./types";
 import CustomButton from "../button/Button";
 import DropdownMenu from "../dropdown/Dropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
+import { AppDispatch, RootState } from "../../app/store";
+import Cart from "../../modals/Cart";
+import AddProduct from "../../modals/Add-product";
+import { fetchCategories } from "../../features/categories/categorySlice";
 
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-
+  const [categoryId, setCategoryId] = useState<number | null | undefined>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const user = {
-    username: "Ashraf",
+  const { categories } = useSelector((state: RootState) => state.categories);
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const category = queryParams.get("category");
+    setCategoryId(category ? parseInt(category) : null);
+
+    const searchParam = queryParams.get("search") || "";
+    setSearchQuery(searchParam);
+  }, [location.search]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchQuery = event.target.value;
+    setSearchQuery(searchQuery);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const queryParams = new URLSearchParams(location.search);
+
+    if (searchQuery.trim() !== "") {
+      queryParams.set("search", searchQuery.trim());
+    } else {
+      queryParams.delete("search");
+    }
+
+    if (categoryId) {
+      queryParams.set("category", categoryId.toString());
+    }
+
+    navigate(`/products?${queryParams.toString()}`);
+  };
+
+  const handleCategoryChange = (categoryId: number | null) => {
+    setCategoryId(categoryId);
+    const queryParams = new URLSearchParams(location.search);
+
+    if (categoryId !== null) {
+      queryParams.set("category", categoryId.toString());
+    } else {
+      queryParams.delete("category");
+    }
+
+    if (searchQuery.trim() !== "") {
+      queryParams.set("search", searchQuery.trim());
+    }
+
+    navigate(`/products?${queryParams.toString()}`);
   };
 
   useEffect(() => {
-    setCategories([
-      { id: 1, name: "Electronics" },
-      { id: 2, name: "Furniture" },
-      { id: 3, name: "Clothing" },
-      { id: 4, name: "Auto and Parts" },
-      { id: 5, name: "Electronics" },
-      { id: 6, name: "Furniture" },
-      { id: 7, name: "Clothing" },
-      { id: 8, name: "Auto and Parts" },
-    ]);
-  }, []);
-
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    alert(searchQuery);
-  };
+    if (location.pathname === "/profile") {
+      setCategoryId(undefined);
+    }
+  }, [location.pathname]);
 
   const handleSellNowOnclick = () => {
-    !user ? navigate("/login") : alert("Sell Now clicked");
+    !user ? navigate("/login") : setShowAddProductModal(true);
   };
 
   const handleLogin = () => {
     navigate("/login");
   };
-  const handleLogoutSelect = (srt: string) => {
-    alert(srt);
-  };
 
-  const handleCategorySelect = (categoryId: number) => {
-    console.log(categoryId);
-    setActiveCategory(categoryId);
-  };
-
-  const handleNotifications = () => {
-    !user ? navigate("/login") : alert("notifications clicked");
-  };
-
-  const handleShoppingCart = () => {
-    !user ? navigate("/login") : alert("shopping cart clicked");
+  const handleLogoutSelect = () => {
+    dispatch(logout());
+    navigate("/login");
   };
 
   const nav = [
@@ -77,7 +107,7 @@ const Header: FC = () => {
     },
     {
       id: "3",
-      onClick: () => handleLogoutSelect("loged out"),
+      onClick: () => handleLogoutSelect(),
       content: (
         <div className="header-dropdown-item">
           <Icon name="logout" />
@@ -90,9 +120,9 @@ const Header: FC = () => {
   return (
     <header className="header">
       <div className="header-top-container">
-        <h1>Trade Hub</h1>
+        <h4>TradeHub</h4>
         <div className="header-search-container">
-          <Form className="d-flex" onSubmit={handleSearchSubmit}>
+          <Form className="d-flex" onSubmit={handleSubmit}>
             <FormControl
               type="text"
               placeholder="Search products..."
@@ -104,7 +134,7 @@ const Header: FC = () => {
               text={<Icon name="search" />}
               type="submit"
               buttonType="secondary"
-              onClick={() => console.log("")}
+              onClick={() => {}}
             />
           </Form>
         </div>
@@ -114,45 +144,63 @@ const Header: FC = () => {
             onClick={handleSellNowOnclick}
             buttonType="primary"
           />
+          {user?.username ? (
+            <div className="profile-select">
+              <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
+            </div>
+          ) : (
+            <CustomButton
+              text="Login"
+              buttonType="primary"
+              onClick={handleLogin}
+            />
+          )}
         </div>
-        {user?.username ? (
-          <div className="profile-select">
-            <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
-          </div>
-        ) : (
-          <CustomButton
-            text="Login"
-            buttonType="primary"
-            onClick={handleLogin}
-          />
-        )}
       </div>
+
       <div className="header-bottom-container">
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
+          <Button
+            className={`mx-1 rounded-1 ${
+              categoryId === null
+                ? "header-catygory-btn-active"
+                : "header-catygory-btn"
+            }`}
+            variant={
+              categoryId === null ? "secondary header-catygory-btn" : "light"
+            }
+            onClick={() => handleCategoryChange(null)}
+          >
+            All Products
+          </Button>
           {categories.map((category) => (
             <Button
               className={`mx-1 rounded-1 ${
-                activeCategory === category.id
+                categoryId === category.id
                   ? "header-catygory-btn-active"
                   : "header-catygory-btn"
               }`}
               key={"header-category-" + category.id}
               variant={
-                activeCategory === category.id
+                categoryId === category.id
                   ? "secondary header-catygory-btn"
                   : "light"
               }
-              onClick={() => handleCategorySelect(category.id)}
+              onClick={() => handleCategoryChange(category.id)}
             >
               {category.name}
             </Button>
           ))}
         </ButtonGroup>
         <div className="header-cart-notifications-cont">
-          <Icon name="notifications" onclick={handleNotifications} />
-          <Icon name="shopping_cart" onclick={handleShoppingCart} />
+          <Cart />
         </div>
       </div>
+      <AddProduct
+        user={user}
+        show={showAddProductModal}
+        handleClose={() => setShowAddProductModal(false)}
+      />
     </header>
   );
 };

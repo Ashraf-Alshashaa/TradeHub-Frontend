@@ -1,0 +1,12 @@
+.form-check-input:checked {
+  background-color: var(--bs-success);
+  border-color: var(--bs-success);
+}
+
+.radio-label:hover, .form-check-input:hover {
+  cursor: pointer;
+}
+
+.font-small{
+  font-size: var(--font-size-small);
+}
