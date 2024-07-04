@@ -12,6 +12,7 @@ import { sendBidData, fetchAllBids } from "../../features/bids/bidSlice";
 import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
 import { ProductTypes } from "../../modals/types";
+import ErrorComponent from "../../components/error/Error";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -72,7 +73,7 @@ const ProductPage = () => {
 
   if (error) {
     const errorObj: any = error;
-    return <div>Error: {errorObj.detail}</div>;
+    return <ErrorComponent msg={errorObj.detail} />;
   }
 
   if (!product) {
@@ -94,7 +95,10 @@ const ProductPage = () => {
           )}
         </div>
         <div className="product-info-container">
-          <p className="product-page-product-condition"> Condition: {product.condition}</p>
+          <p className="product-page-product-condition">
+            {" "}
+            Condition: {product.condition}
+          </p>
           <p>Price: €{product.price}</p>
           <p className="product-page-product-description">
             {product.description}
