@@ -7,5 +7,5 @@ export interface PriceRange {
     min_price: number;
     max_price : number;
     loading: boolean;
-    error: string | null;
+    error: {detail: string} | null;
   }

@@ -13,5 +13,5 @@ export interface AddressState {
     all_addresses: Address [];
     address: Address | null;
     loading: boolean;
-    error: string | null;
+    error: {detail: string} | null;
   }

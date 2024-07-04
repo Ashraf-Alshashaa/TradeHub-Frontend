@@ -1,6 +1,6 @@
 import "./styles.css";
 import { FC, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ButtonGroup, Form, FormControl, Button } from "react-bootstrap";
 import Icon from "../icon/Icon";
 import CustomButton from "../button/Button";
@@ -11,8 +11,6 @@ import { AppDispatch, RootState } from "../../app/store";
 import Cart from "../../modals/Cart";
 import AddProduct from "../../modals/Add-product";
 import { fetchCategories } from "../../features/categories/categorySlice";
-import { useLocation } from "react-router-dom"; // Import useHistory and useLocation
-
 
 const Header: FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -21,28 +19,22 @@ const Header: FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  const { categories } = useSelector( (state: RootState) => state.categories)
-  const { min_price, max_price } = useSelector(
-    (state: RootState) => state.pricerange
-  );
+
+  const { categories } = useSelector((state: RootState) => state.categories);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   useEffect(() => {
-    // Update categoryId state when location.search changes
     const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get("category") || null;
+    const category = queryParams.get("category");
     setCategoryId(category ? parseInt(category) : null);
 
     const searchParam = queryParams.get("search") || "";
     setSearchQuery(searchParam);
   }, [location.search]);
-
-
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchQuery = event.target.value;
@@ -52,33 +44,43 @@ const Header: FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const queryParams = new URLSearchParams(location.search);
+
     if (searchQuery.trim() !== "") {
       queryParams.set("search", searchQuery.trim());
     } else {
       queryParams.delete("search");
     }
-    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
-  };
 
+    if (categoryId) {
+      queryParams.set("category", categoryId.toString());
+    }
+
+    navigate(`/products?${queryParams.toString()}`);
+  };
 
   const handleCategoryChange = (categoryId: number | null) => {
     setCategoryId(categoryId);
     const queryParams = new URLSearchParams(location.search);
+
     if (categoryId !== null) {
       queryParams.set("category", categoryId.toString());
     } else {
       queryParams.delete("category");
     }
-    navigate(`/products?${queryParams.toString()}?min_price=${min_price}?max_price=${max_price}`);
+
+    if (searchQuery.trim() !== "") {
+      queryParams.set("search", searchQuery.trim());
+    }
+
+    navigate(`/products?${queryParams.toString()}`);
   };
-  // Reset categoryId to null when navigating to the profile page
+
   useEffect(() => {
     if (location.pathname === "/profile") {
       setCategoryId(undefined);
     }
   }, [location.pathname]);
-  
-  
+
   const handleSellNowOnclick = () => {
     !user ? navigate("/login") : setShowAddProductModal(true);
   };
@@ -86,13 +88,10 @@ const Header: FC = () => {
   const handleLogin = () => {
     navigate("/login");
   };
+
   const handleLogoutSelect = () => {
     dispatch(logout());
     navigate("/login");
-  };
-
-  const handleNotifications = () => {
-    !user ? navigate("/login") : alert("notifications clicked");
   };
 
   const nav = [
@@ -135,40 +134,41 @@ const Header: FC = () => {
               text={<Icon name="search" />}
               type="submit"
               buttonType="secondary"
-              onClick={handleSubmit}
+              onClick={() => {}}
             />
           </Form>
         </div>
         <div className="header-sell-now-btn-container">
-        <CustomButton
+          <CustomButton
             text="Sell Now"
             onClick={handleSellNowOnclick}
             buttonType="primary"
-        />
-        {/* User dropdown */}
-        {user?.username ? (
+          />
+          {user?.username ? (
             <div className="profile-select">
-                <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
+              <DropdownMenu title={`Hi, ${user.username}`} data={nav} />
             </div>
-        ) : (
+          ) : (
             <CustomButton
-                text="Login"
-                buttonType="primary"
-                onClick={handleLogin}
+              text="Login"
+              buttonType="primary"
+              onClick={handleLogin}
             />
-        )}
-    </div>
-</div>
-          
+          )}
+        </div>
+      </div>
+
       <div className="header-bottom-container">
         <ButtonGroup className="px-1 py-2 bg-light rounded-1 asd">
-        <Button
+          <Button
             className={`mx-1 rounded-1 ${
               categoryId === null
                 ? "header-catygory-btn-active"
                 : "header-catygory-btn"
             }`}
-            variant={categoryId === null ? "secondary header-catygory-btn" : "light"}
+            variant={
+              categoryId === null ? "secondary header-catygory-btn" : "light"
+            }
             onClick={() => handleCategoryChange(null)}
           >
             All Products
@@ -196,12 +196,13 @@ const Header: FC = () => {
           <Cart />
         </div>
       </div>
-      {/* Render AddProductModal based on showAddProductModal state */}
-    <AddProduct  user={user} show={showAddProductModal} handleClose={() => setShowAddProductModal(false)}  />
+      <AddProduct
+        user={user}
+        show={showAddProductModal}
+        handleClose={() => setShowAddProductModal(false)}
+      />
     </header>
   );
 };
 
 export default Header;
-
-

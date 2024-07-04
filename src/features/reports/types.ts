@@ -31,5 +31,5 @@ export interface ReportsState {
   salesPerformance: SalesPerformanceReport | null;
   bidsPerformance: BidsPerformanceReport | null;
   loading: boolean;
-  error: string | null;
+  error: {detail: string} | null;
 }

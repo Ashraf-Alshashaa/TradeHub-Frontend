@@ -12,6 +12,7 @@ import { sendBidData, fetchAllBids } from "../../features/bids/bidSlice";
 import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
 import { ProductTypes } from "../../modals/types";
+import ErrorComponent from "../../components/error/Error";
 import NotificationWS from "../../components/notification/NotificationContainer";
 
 const ProductPage = () => {
@@ -73,7 +74,7 @@ const ProductPage = () => {
 
   if (error) {
     const errorObj: any = error;
-    return <div>Error: {errorObj.detail}</div>;
+    return <ErrorComponent msg={errorObj.detail} />;
   }
 
   if (!product) {
@@ -82,11 +83,13 @@ const ProductPage = () => {
   const isProductSold = product.sold;
 
   const localStorageUser = localStorage.getItem("user");
-  const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
+  const user_id = localStorageUser
+    ? JSON.parse(localStorageUser).user_id
+    : null;
 
   return (
     <div className="product-page-container">
-      <NotificationWS user_id={user_id}/>
+      <NotificationWS user_id={user_id} />
       <div className="product-img-container">
         <CustomImage src={product.image} alt={product.name} />
       </div>
@@ -100,6 +103,10 @@ const ProductPage = () => {
           )}
         </div>
         <div className="product-info-container">
+          <p className="product-page-product-condition">
+            {" "}
+            Condition: {product.condition}
+          </p>
           <p>Price: €{product.price}</p>
           <p className="product-page-product-description">
             {product.description}
@@ -108,7 +115,9 @@ const ProductPage = () => {
             <h2>Product is sold</h2>
           ) : (
             <>
-              <p className="product-page-product-condition">Condition: {product.condition}</p>
+              <p className="product-page-product-condition">
+                Condition: {product.condition}
+              </p>
               {product.seller_id === user?.user_id ? (
                 <ChooseBid bidsData={bids} />
               ) : (
@@ -117,7 +126,9 @@ const ProductPage = () => {
                     <TextInput
                       label=""
                       type="price"
-                      onChange={(value) => handleBidPriceChange(value as number)}
+                      onChange={(value) =>
+                        handleBidPriceChange(value as number)
+                      }
                       value={bidPrice as number}
                     />
                     <div className="submit-bid-btn">

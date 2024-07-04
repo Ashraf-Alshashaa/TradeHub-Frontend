@@ -59,35 +59,45 @@ useEffect(() => {
     return 'No content'; }
 
 
-  useEffect(() => {
-    if (authUser?.user_id) {
-      dispatch(fetchUser(authUser.user_id));
-      dispatch(fetchMyCart(authUser.user_id));
-    }
-  }, [dispatch, authUser]);
-
-  const handlePay = (productIds: number[]) => {
-    if (productIds.length > 0)
-    {
-      const paymentRequest = {
-        product_ids: productIds,
-        currency: 'eur',
-        user_id: authUser.user_id,
-    };
-
-    const randomStatus = Math.random() < 0.5 ? "succeeded" : "failed";
-    if ( randomStatus === 'succeeded'){
-      dispatch(initiatePayment(paymentRequest));
-    }
-      navigate('/payment', {state: { paymentResult: randomStatus }});
-    }  
-        handleClose();
+    useEffect(() => {
+      if (!show && authUser?.user_id) {
+        dispatch(fetchMyCart(authUser.user_id));
+      }
+    }, [show, dispatch, authUser]);
+  
+    const handlePay = (productIds: number[]) => {
+      if (productIds.length > 0) {
+        const paymentRequest = {
+          product_ids: productIds,
+          currency: 'eur',
+          user_id: authUser.user_id,
+        };
+  
+        const randomStatus = Math.random() < 0.8 ? "succeeded" : "failed";
+        if (randomStatus === 'succeeded') {
+          dispatch(initiatePayment(paymentRequest));
+        }
+        navigate('/payment', { state: { paymentResult: randomStatus } });
+      }  
+      handleClose();
     };
 
 
   return (
     <>
+    
+    <div style={{position: 'relative',display: 'inline-block'}}>
       <Icon name="shopping_cart" onclick={handleShow} />
+      {myCart.length > 0 && <div style={{
+    position: 'absolute',
+    top: '-5px',
+    right: '-5px',
+    width: '10px',
+    height: '10px',
+    backgroundColor: 'red',
+    borderRadius: '50%'
+  }}></div>}
+      </div>
 
       <Modal
         size="lg"
