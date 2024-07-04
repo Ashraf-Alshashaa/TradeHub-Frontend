@@ -13,6 +13,7 @@ import EditProduct from "../../modals/Edit-product";
 import "./styles.css";
 import { ProductTypes } from "../../modals/types";
 import ErrorComponent from "../../components/error/Error";
+import NotificationWS from "../../components/notification/NotificationContainer";
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -79,16 +80,23 @@ const ProductPage = () => {
   if (!product) {
     return <div>No product found</div>;
   }
+  const isProductSold = product.sold;
+
+  const localStorageUser = localStorage.getItem("user");
+  const user_id = localStorageUser
+    ? JSON.parse(localStorageUser).user_id
+    : null;
 
   return (
     <div className="product-page-container">
+      <NotificationWS user_id={user_id} />
       <div className="product-img-container">
         <CustomImage src={product.image} alt={product.name} />
       </div>
       <div className="product-content-container">
         <div className="product-title-container">
           <p className="product-page-product-name">{product.name}</p>
-          {product.seller_id === user?.user_id && (
+          {!isProductSold && product.seller_id === user?.user_id && (
             <div className="product-edit-btn">
               <EditProduct existingData={product as ProductTypes} />
             </div>
@@ -103,64 +111,75 @@ const ProductPage = () => {
           <p className="product-page-product-description">
             {product.description}
           </p>
-          {product.seller_id === user?.user_id ? (
-            <ChooseBid bidsData={bids} />
+          {isProductSold ? (
+            <h2>Product is sold</h2>
           ) : (
-            <div className="product-add-bid-form">
-              <Form className="d-flex mt-3" onSubmit={handleSubmit}>
-                <TextInput
-                  label=""
-                  type="price"
-                  onChange={(value) => handleBidPriceChange(value as number)}
-                  value={bidPrice as number}
-                />
-                <div className="submit-bid-btn">
-                  <CustomButton
-                    className="h-1"
-                    text="Add Bid"
-                    type="submit"
-                    buttonType="primary"
-                    onClick={handleSubmit}
-                  />
+            <>
+              <p className="product-page-product-condition">
+                Condition: {product.condition}
+              </p>
+              {product.seller_id === user?.user_id ? (
+                <ChooseBid bidsData={bids} />
+              ) : (
+                <div className="product-add-bid-form">
+                  <Form className="d-flex mt-3" onSubmit={handleSubmit}>
+                    <TextInput
+                      label=""
+                      type="price"
+                      onChange={(value) =>
+                        handleBidPriceChange(value as number)
+                      }
+                      value={bidPrice as number}
+                    />
+                    <div className="submit-bid-btn">
+                      <CustomButton
+                        className="h-1"
+                        text="Add Bid"
+                        type="submit"
+                        buttonType="primary"
+                        onClick={handleSubmit}
+                      />
+                    </div>
+                  </Form>
+                  {bidsError && (
+                    <span className="product-bid-error-msg">
+                      {bidsError?.detail}
+                    </span>
+                  )}
                 </div>
-              </Form>
-              {bidsError && (
-                <span className="product-bid-error-msg">
-                  {bidsError?.detail}
-                </span>
               )}
-            </div>
-          )}
-          {bidsLoading ? (
-            <div>Loading...</div>
-          ) : bids.length === 0 ? (
-            <div className="empty-bids-msg">
-              There are no bids for this product yet
-            </div>
-          ) : (
-            <table className="product-page-bids-container">
-              <tbody className="product-page-bid-container">
-                {bids.map((bid) => (
-                  <tr key={"bid-" + bid.id}>
-                    <td>
-                      <span className="product-page-bidder-name">
-                        {bid.username}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="product-page-bid-price">
-                        €{bid.price}
-                      </span>
-                    </td>
-                    <td>
-                      <span className="product-page-bid-date">
-                        {new Date(bid.date).toLocaleDateString()}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+              {bidsLoading ? (
+                <div>Loading...</div>
+              ) : bids.length === 0 ? (
+                <div className="empty-bids-msg">
+                  There are no bids for this product yet
+                </div>
+              ) : (
+                <table className="product-page-bids-container">
+                  <tbody className="product-page-bid-container">
+                    {bids.map((bid) => (
+                      <tr key={"bid-" + bid.id}>
+                        <td>
+                          <span className="product-page-bidder-name">
+                            {bid.username}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="product-page-bid-price">
+                            €{bid.price}
+                          </span>
+                        </td>
+                        <td>
+                          <span className="product-page-bid-date">
+                            {new Date(bid.date).toLocaleDateString()}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </>
           )}
         </div>
       </div>
