@@ -15,13 +15,17 @@ const Payment = () => {
   const user_id = localStorageUser ? JSON.parse(localStorageUser).user_id : null;
 
   useEffect(() => {
-    if (paymentId && paymentResult === 'succeeded') {
-      dispatch(paymentStatus({ id: paymentId, status: paymentResult }));
-      dispatch(fetchMyCart(user_id));
-    }
-    setTimeout(() => {
+    const handlePaymentStatus = async () => {
+      if (paymentId && paymentResult === 'succeeded') {
+        await dispatch(paymentStatus({ id: paymentId, status: paymentResult }));
+        await dispatch(fetchMyCart(user_id));
+      }
+      setTimeout(() => {
         navigate('/products');
-      }, 2000);
+      }, 5000);
+    };
+  
+    handlePaymentStatus();
   }, [dispatch, navigate, paymentId, paymentResult, user_id]);
 
   return (
