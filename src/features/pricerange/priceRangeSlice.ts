@@ -4,7 +4,7 @@ import { PriceRangeState } from './types';
 
 const initialState: PriceRangeState = {
   min_price: 0,
-  max_price: 100,
+  max_price: 4000,
   loading: false,
   error: null,
   
