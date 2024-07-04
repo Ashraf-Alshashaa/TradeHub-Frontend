@@ -106,14 +106,18 @@ const TextInput: React.FC<TextInputProps> = ({
       } else {
         setError(null);
       }
-    } else if (type === "housenumber") {
+    }
+  }, [required, touched, type]);
+
+  useEffect(() => {
+    if (type === "housenumber") {
       validateHouseNumber(`${value}`);
     } else if (type === "postcode") {
       validatePostcode(`${value}`);
     } else {
       setError(null);
     }
-  }, [value, label, required, touched, type]);
+  }, [value, label]);
 
   return (
     <Form.Group controlId={`formBasic${label}`} className={className}>
