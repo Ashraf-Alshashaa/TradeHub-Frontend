@@ -6,6 +6,7 @@ import { Bar, Doughnut } from "react-chartjs-2";
 import "chart.js/auto";
 import "./styles.css";
 import { ReportsComponentProps } from "./types";
+import ErrorComponent from "../../components/error/Error";
 
 const BidsReports: React.FC<ReportsComponentProps> = ({ timePeriod }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -72,7 +73,7 @@ const BidsReports: React.FC<ReportsComponentProps> = ({ timePeriod }) => {
   };
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <ErrorComponent msg={error.detail} />;
 
   return (
     <div>
