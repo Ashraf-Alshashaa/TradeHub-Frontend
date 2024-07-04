@@ -1,13 +1,17 @@
 import { FC, useState } from 'react';
 import Toast from 'react-bootstrap/Toast';
+import { useDispatch } from 'react-redux';
+import { removeNotification } from '../../features/notification/notificationSlice';
 
 type NotificationProps = {
     message: string;
     onClick: () => void;
     show: boolean;
+    index: number; // Add index prop to identify which notification to remove
 };
 
-const Notification: FC<NotificationProps> = ({ message, onClick, show }) => {
+const Notification: FC<NotificationProps> = ({ message, onClick, show, index }) => {
+    const dispatch = useDispatch();
 
     function timeAgo(pastDate: Date): string {
         const now = new Date();
@@ -37,13 +41,14 @@ const Notification: FC<NotificationProps> = ({ message, onClick, show }) => {
 
     const toggleShow = () => {
         setShowToast(!showToast);
+        dispatch(removeNotification(index));
     };
 
     return (
         <Toast show={showToast} onClose={toggleShow}>
             <Toast.Header>
                 <strong className="me-auto">Notification</strong>
-                <small>{timeAgo(date)}</small>
+                {/* <small>{timeAgo(date)}</small> */}
             </Toast.Header>
             <Toast.Body style={{ cursor: 'pointer' }} onClick={onClick}>
                 {message}
