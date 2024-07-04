@@ -19,8 +19,11 @@ const notificationSlice = createSlice({
         user_id: action.payload.userId,
       });
     },
+    removeNotification: (state, action: PayloadAction<number>) => {
+      state.notifications.splice(action.payload, 1);
+    },
   },
 });
 
-export const { addNotification } = notificationSlice.actions;
+export const { addNotification, removeNotification } = notificationSlice.actions;
 export default notificationSlice.reducer;
