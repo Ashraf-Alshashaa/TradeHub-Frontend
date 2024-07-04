@@ -22,5 +22,5 @@ export interface ProductsState {
   myListings: Product[];
   product: Product | null;
   loading: boolean;
-  error: string | null;
+  error: {detail: string} | null;
 }

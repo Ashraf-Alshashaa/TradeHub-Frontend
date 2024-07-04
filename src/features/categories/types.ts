@@ -8,5 +8,5 @@ export interface CategoryState {
     categories: Category [];
     category: Category | null;
     loading: boolean;
-    error: string | null;
+    error: {detail: string} | null;
 }
