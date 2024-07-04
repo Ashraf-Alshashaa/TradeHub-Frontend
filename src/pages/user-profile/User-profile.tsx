@@ -10,6 +10,7 @@ import EditProfile from "../../modals/Edit-profile";
 import ProfileTab from "./Tab";
 import Avatar, { genConfig } from "react-nice-avatar";
 import ChangePassword from "../../modals/Change-password";
+import ErrorComponent from "../../components/error/Error";
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -21,7 +22,6 @@ const UserProfile: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.users);
   const { address } = useSelector((state: RootState) => state.addresses);
 
-
   useEffect(() => {
     if (authUser?.user_id) {
       dispatch(fetchUser(authUser.user_id));
@@ -30,7 +30,7 @@ const UserProfile: React.FC = () => {
 
   const config = user ? genConfig(user.username) : genConfig("default");
   if (loading) return <h1>Loading...</h1>;
-  if (error) return <h1>Error: {error}</h1>;
+  if (error) return <ErrorComponent msg={error.detail} />;
 
   return (
     <div className="UserProfile">
@@ -44,10 +44,17 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="col-5 pt-5 text-start">
           <div className="row">
-            <p> <strong>Username:</strong> {user?.username || "Loading..."} </p>
+            <p>
+              {" "}
+              <strong>Username:</strong> {user?.username || "Loading..."}{" "}
+            </p>
           </div>
           <div className="row">
-            <p> <strong>Email: </strong>{user?.email || "Loading..."} </p>
+            <p>
+              {" "}
+              <strong>Email: </strong>
+              {user?.email || "Loading..."}{" "}
+            </p>
           </div>
           {user?.address ? (
             <div className="row">
@@ -62,7 +69,10 @@ const UserProfile: React.FC = () => {
             </div>
           ) : (
             <div className="row">
-              <p style={{ color: 'red' }}> No address provided. Please add an address in "Edit Profile".</p>
+              <p style={{ color: "red" }}>
+                {" "}
+                No address provided. Please add an address in "Edit Profile".
+              </p>
             </div>
           )}
         </div>
