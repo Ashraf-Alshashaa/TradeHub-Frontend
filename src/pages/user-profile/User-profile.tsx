@@ -26,8 +26,8 @@ const UserProfile: React.FC = () => {
   }, [dispatch, address, authUser]);
 
   const config = user ? genConfig(user.username) : genConfig("default");
-  if (loading) return <h1>Loading...</h1>;
-  if (error) return <ErrorComponent msg={error.detail} />;
+  if (loading || !user) return <h1 className="m-4">Loading...</h1>;
+  if (error || !authUser) return <ErrorComponent msg={error?.detail || 'Please Login.'} />;
 
   const localStorageUser = localStorage.getItem("user");
   const user_id = localStorageUser
